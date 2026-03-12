@@ -85,6 +85,6 @@ only reopen it if new evidence appears:
 - no reproducible polymarket workflow has been confirmed yet
 
 ## active files
-- tasks: [/home/ubuntu/goon/notes/boards/codex-task-board.md](/home/ubuntu/goon/notes/boards/codex-task-board.md)
-- daily note: [/home/ubuntu/goon/notes/daily/research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/daily/research-moltbook-2026-03-12.md)
-- operator tracker: [/home/ubuntu/goon/notes/watchlists/poly-operator-tracker.md](/home/ubuntu/goon/notes/watchlists/poly-operator-tracker.md)
+- tasks: [codex-task-board.md](codex-task-board.md)
+- daily note: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
+- operator tracker: [poly-operator-tracker.md](../watchlists/poly-operator-tracker.md)

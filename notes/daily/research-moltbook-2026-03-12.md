@@ -26,8 +26,8 @@
   - ignore most polymarket / copytrading surface area until stronger receipts show up.
   - keep a narrow watchlist of names that may be worth re-checking later.
 - receipts:
-  - system board: [system-board.md](/home/ubuntu/goon/notes/boards/system-board.md)
-  - operator tracker: [poly-operator-tracker.md](/home/ubuntu/goon/notes/watchlists/poly-operator-tracker.md)
+  - system board: [system-board.md](../boards/system-board.md)
+  - operator tracker: [poly-operator-tracker.md](../watchlists/poly-operator-tracker.md)
 
 ## signal shortlist
 - trust instrumentation over agent mythology

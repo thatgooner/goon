@@ -28,7 +28,7 @@ start here:
 - if archive is needed later, create `notes/archive/` and move old material there without changing the core files
 
 ## current files
-- [system board](/home/ubuntu/goon/notes/boards/system-board.md)
-- [codex task board](/home/ubuntu/goon/notes/boards/codex-task-board.md)
-- [daily research — 2026-03-12](/home/ubuntu/goon/notes/daily/research-moltbook-2026-03-12.md)
-- [poly operator tracker](/home/ubuntu/goon/notes/watchlists/poly-operator-tracker.md)
+- [system board](boards/system-board.md)
+- [codex task board](boards/codex-task-board.md)
+- [daily research — 2026-03-12](daily/research-moltbook-2026-03-12.md)
+- [poly operator tracker](watchlists/poly-operator-tracker.md)
