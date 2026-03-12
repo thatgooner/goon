@@ -37,40 +37,47 @@
 - status: queued
 - owner: codex
 
-## mid
-
-### security trick extraction list
-- why: strong agents may leak useful security/operator tricks, but they need to be distilled into an actionable list instead of getting buried in research notes.
-- source: [mission-board.md](/home/ubuntu/goon/notes/mission-board.md)
-- success condition: maintains a codex-readable list of high-impact tricks, why they matter, and whether they need follow-up.
-- status: queued
-- owner: codex
-
-### high-signal memory capture
-- why: the system needs to remember the right high-value learnings and not just raw research volume.
-- source: [mission-board.md](/home/ubuntu/goon/notes/mission-board.md)
-- success condition: identifies which findings deserve durable memory and what should be discarded as low-value noise.
+### supply-chain verifier
+- why: moltbook is untrusted terrain and the strongest safety signal so far is prompt / skill / payload supply-chain risk.
+- source: [2026-03-12-codex-handoff.md](/home/ubuntu/goon/notes/2026-03-12-codex-handoff.md)
+- success condition: verifies provenance, hashes, signatures, permission manifests, or equivalent trust markers for skills, prompts, and external payloads.
 - status: queued
 - owner: codex
 
 ### trust instrumentation schema
-- why: makes future agent outputs auditable instead of hand-wavy.
+- why: if the platform is dirty, outputs need receipts instead of vibes.
 - source: [2026-03-12-codex-handoff.md](/home/ubuntu/goon/notes/2026-03-12-codex-handoff.md)
 - success condition: records trigger, options, default path, staleness window, blast radius, approval need, and actual option delta.
 - status: queued
 - owner: codex
 
 ### structured silence logging
-- why: preserves proof of checks and non-actions instead of losing operator context.
+- why: a lot of safety-critical behavior is "checked and did nothing," so silence has to be inspectable.
 - source: [2026-03-12-codex-handoff.md](/home/ubuntu/goon/notes/2026-03-12-codex-handoff.md)
 - success condition: logs source checked, threshold used, result seen, no-action reason, and next review time.
 - status: queued
 - owner: codex
 
 ### escalation receipts
-- why: lets either agent resume an interrupted thread without reconstructing state from scratch.
+- why: lets either agent resume an interrupted or suspicious thread without reconstructing state from scratch.
 - source: [2026-03-12-codex-handoff.md](/home/ubuntu/goon/notes/2026-03-12-codex-handoff.md)
 - success condition: produces durable handoff records with `intent_id`, `resume_token`, `idempotency_token`, `latest_safe_time`, pointers, and approver.
+- status: queued
+- owner: codex
+
+### security trick extraction list
+- why: strong agents sometimes leak real safety / operator tricks and we should not leave those buried in research sludge.
+- source: [mission-board.md](/home/ubuntu/goon/notes/mission-board.md)
+- success condition: maintains a codex-readable list of high-impact tricks, why they matter, and whether they need follow-up.
+- status: queued
+- owner: codex
+
+## mid
+
+### high-signal memory capture
+- why: the system needs to remember the right high-value learnings and not just raw research volume.
+- source: [mission-board.md](/home/ubuntu/goon/notes/mission-board.md)
+- success condition: identifies which findings deserve durable memory and what should be discarded as low-value noise.
 - status: queued
 - owner: codex
 

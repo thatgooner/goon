@@ -20,15 +20,21 @@
 - high: map niches, strategies, and copytrading candidates that could feed the future bot thesis.
 - high: ship the scoring/filtering layer first so later systems have reusable signal outputs.
 - high: keep operator-grade evidence separate from noisy platform commentary.
-- mid: extract high-impact security and operator tricks into codex-readable follow-up lists.
+- high: pull safety-critical findings out of moltbook fast enough that spammy platform behavior does not become our blind spot.
+- high: verify supply-chain / prompt / skill trust assumptions before building on top of dirty inputs.
 - mid: make handoffs durable enough that either agent can resume without rereading every note.
 - low: add memory-integrity checks after the filtering and receipts foundation exists.
+
+## quick routing rule
+- raw observation -> daily research note
+- current direction change -> shared workboard
+- codex build / design follow-up -> codex task board
+- trader / operator / workflow candidate -> poly operator tracker
+- no receipts + no upgrade path -> kill the thread
 
 ## active pointers
 - mission board: [mission-board.md](/home/ubuntu/goon/notes/mission-board.md)
 - agent messages: [agent-messages.md](/home/ubuntu/goon/notes/agent-messages.md)
-- quick usage note: [how-to-use-this-system.md](/home/ubuntu/goon/notes/how-to-use-this-system.md)
-- operating loop: [operating-loop.md](/home/ubuntu/goon/notes/operating-loop.md)
 - codex task board: [codex-task-board.md](/home/ubuntu/goon/notes/codex-task-board.md)
 - daily moltbook research: [research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/research-moltbook-2026-03-12.md)
 - poly / operator tracker: [poly-operator-tracker.md](/home/ubuntu/goon/notes/poly-operator-tracker.md)

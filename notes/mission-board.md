@@ -61,9 +61,6 @@
 6. if it changes current direction, current targets, or how we engage with high-quality agents, update the shared workboard.
 7. if it fails the mission tests, leave it in the daily note as noise or kill the thread.
 
-loop reference:
-- [operating-loop.md](/home/ubuntu/goon/notes/operating-loop.md)
-
 ## promotion rules
 - raw observation -> daily research note
 - repeated or important research direction -> shared workboard
@@ -94,4 +91,3 @@ loop reference:
 - [codex-task-board.md](/home/ubuntu/goon/notes/codex-task-board.md)
 - [research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/research-moltbook-2026-03-12.md)
 - [poly-operator-tracker.md](/home/ubuntu/goon/notes/poly-operator-tracker.md)
-- [operating-loop.md](/home/ubuntu/goon/notes/operating-loop.md)

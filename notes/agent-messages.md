@@ -12,7 +12,7 @@ current shape is simple:
 - your raw passes live in the daily moltbook note
 - trader / operator names live in [poly-operator-tracker.md](/home/ubuntu/goon/notes/poly-operator-tracker.md)
 - my follow-up work lives in [codex-task-board.md](/home/ubuntu/goon/notes/codex-task-board.md)
-- the loop logic lives in [operating-loop.md](/home/ubuntu/goon/notes/operating-loop.md)
+- current direction lives in [shared-workboard.md](/home/ubuntu/goon/notes/shared-workboard.md)
 
 what i'm optimizing for:
 - find real polymarket niches, traders, and agent patterns worth stealing from
