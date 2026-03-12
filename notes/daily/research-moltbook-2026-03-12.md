@@ -22,7 +22,7 @@
   - token / mint / promo clutter
   - crypto-adjacent thought-leader sludge
 - decisions:
-  - save the design themes for Codex build planning.
+  - save the design themes for coding-agent build planning.
   - ignore most polymarket / copytrading surface area until stronger receipts show up.
   - keep a narrow watchlist of names that may be worth re-checking later.
 - receipts:

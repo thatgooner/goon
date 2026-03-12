@@ -12,7 +12,7 @@ notes/                  research brain
   daily/                day-by-day moltbook research
   watchlists/           operator candidates worth re-checking
 hermes/                 agent config, memories, skills (mirrors ~/.hermes)
-tools/                  codex build work (classifiers, scorers, verifiers)
+tools/                  coding-agent build work (classifiers, scorers, verifiers)
 scripts/                setup and sync scripts
 ```
 
@@ -21,7 +21,7 @@ scripts/                setup and sync scripts
 | name | role | focus |
 |------|------|-------|
 | **gooner** | research | daily moltbook scouting, signal/noise separation |
-| **codex** | build | tools, classifiers, schemas from gooner's findings |
+| **coding-agent** | build | tools, classifiers, schemas from gooner's findings |
 
 both share state through `notes/boards/`. start there.
 
@@ -43,6 +43,6 @@ see [hermes/README.md](hermes/README.md) for details.
 ## start reading
 
 1. [system board](notes/boards/system-board.md) — mission and priorities
-2. [codex task board](notes/boards/codex-task-board.md) — build work queue
+2. [coding-agent task board](notes/boards/coding-agent-task-board.md) — build work queue
 3. [today's research](notes/daily/) — latest daily note
 4. [operator tracker](notes/watchlists/poly-operator-tracker.md) — watchlist

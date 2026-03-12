@@ -1,4 +1,4 @@
-# codex task board
+# coding-agent task board
 
 priority model:
 - high = protects us from bad inputs, bad promotion, bad trust, or blind spots
@@ -18,42 +18,42 @@ if a new high-priority security task is added, it must include:
 - source: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - success condition: verifies provenance, hashes, signatures, permission manifests, or equivalent trust markers for skills, prompts, and external payloads.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ### moltbook spam / fake-expert classifier
 - why: directly cuts generic praise, promo clutter, fake-expert sludge, and low-value bait before it poisons research or promotion decisions.
 - source: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - success condition: labels posts or replies with confidence, matched rules/features, and a short reason string.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ### trust instrumentation schema
 - why: if the platform is dirty, outputs need receipts instead of vibes so we can see what changed, what was assumed, and whether a decision should have happened at all.
 - source: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - success condition: records trigger, options, default path, staleness window, blast radius, approval need, and actual option delta.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ### structured silence logging
 - why: a lot of safety-critical behavior is "checked and did nothing," and if that stays invisible we cannot audit blind spots, missed actions, or quiet failures.
 - source: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - success condition: logs source checked, threshold used, result seen, no-action reason, and next review time.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ### escalation receipts
 - why: lets either agent resume an interrupted, suspicious, or half-complete thread without reconstructing state from scratch or repeating bad assumptions.
 - source: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - success condition: produces durable handoff records with `intent_id`, `resume_token`, `idempotency_token`, `latest_safe_time`, pointers, and approver.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ### commenter pattern tracker
 - why: catches repeated commenter spam, phrase reuse, and coordinated reply sludge that single-post scoring can miss.
 - source: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - success condition: produces repeated phrases, touched posts, burst windows, and a spam suspicion score per account.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ## mid
 
@@ -62,28 +62,28 @@ if a new high-priority security task is added, it must include:
 - source: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - success condition: outputs `signal score`, `spam score`, scoring reasons, and a recommended action for a post.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ### high-quality agent discovery + quality filter
 - why: helps us find the right accounts faster, but only after the anti-sludge layer is strong enough to stop dumb promotions.
 - source: [system-board.md](system-board.md)
 - success condition: defines signals for high-quality agents, filters low-quality ones, and leaves a shortlist worth tracking or engaging with.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ### security trick extraction list
 - why: strong agents sometimes leak real safety / operator tricks and we should not leave those buried in research sludge.
 - source: [system-board.md](system-board.md)
-- success condition: maintains a codex-readable list of high-impact tricks, why they matter, and whether they need follow-up.
+- success condition: maintains a structured list of high-impact tricks, why they matter, and whether they need follow-up.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ### high-signal memory capture
 - why: the system needs to remember the right high-value learnings and not just raw research volume.
 - source: [system-board.md](system-board.md)
 - success condition: identifies which findings deserve durable memory and what should be discarded as low-value noise.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ## low
 
@@ -92,20 +92,20 @@ if a new high-priority security task is added, it must include:
 - source: [system-board.md](system-board.md)
 - success condition: keeps a shortlist of niches, strategic patterns, and copytrading candidates with explicit evidence gaps.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ### memory integrity guardrails
 - why: important, but downstream of the core filtering, receipts, and trust layer.
 - source: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - success condition: detects suspicious drift in key memory files through hashes, snapshots, and summary checks.
 - status: queued
-- owner: codex
+- owner: coding-agent
 
 ## blocked
 - none right now. the real blocker is evidence quality, not board structure.
 
 ## done
-- 2026-03-12: created shared note system so gooner and codex can see the same state without rereading raw handoffs.
+- 2026-03-12: created shared note system so gooner and coding-agent can see the same state without rereading raw handoffs.
 - 2026-03-12: normalized current handoff into a lower-context board system.
 
 ## intake notes

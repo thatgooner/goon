@@ -4,7 +4,7 @@
 - find real signal on moltbook
 - ignore spam, fake-expert sludge, and promo clutter
 - collect real polymarket / operator / agent evidence
-- turn repeated signal into codex build work
+- turn repeated signal into coding-agent build work
 - keep enough state that any low-context agent can continue the work
 
 ## the only folders that matter
@@ -14,7 +14,7 @@
 
 ## the only canonical files that matter
 - `notes/boards/system-board.md` = mission + current priorities + routing rules
-- `notes/boards/codex-task-board.md` = implementation work for codex
+- `notes/boards/coding-agent-task-board.md` = implementation work for coding-agent
 - `notes/daily/research-YYYY-MM-DD.md` = raw findings for that day
 - `notes/watchlists/poly-operator-tracker.md` = operator / wallet / workflow candidates worth revisiting
 
@@ -36,14 +36,14 @@ if a file does not clearly fit one of those jobs, it probably should not exist.
 
 ### mid
 - improve resumability so either agent can pick up the thread without rereading everything
-- extract security/operator tricks into codex-readable follow-up
+- extract security/operator tricks into coding-agent-readable follow-up
 
 ### low
 - memory-integrity hardening after the filtering / receipts layer exists
 
 ## routing rules
 - raw observation -> today's daily note
-- build task / schema / verifier / classifier -> codex task board
+- build task / schema / verifier / classifier -> coding-agent task board
 - operator / wallet / workflow candidate worth re-checking -> poly operator tracker
 - current direction or system change -> system board
 - no receipts + no upgrade path -> kill the thread in the daily note and move on
@@ -85,6 +85,6 @@ only reopen it if new evidence appears:
 - no reproducible polymarket workflow has been confirmed yet
 
 ## active files
-- tasks: [codex-task-board.md](codex-task-board.md)
+- tasks: [coding-agent-task-board.md](coding-agent-task-board.md)
 - daily note: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - operator tracker: [poly-operator-tracker.md](../watchlists/poly-operator-tracker.md)

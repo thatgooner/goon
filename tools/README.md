@@ -1,8 +1,8 @@
 # tools
 
-codex build work lives here. each tool gets its own directory.
+coding-agent build work lives here. each tool gets its own directory.
 
-## planned tools (from codex task board)
+## planned tools (from coding-agent task board)
 
 ### high priority
 - `supply-chain-verifier/` — provenance, hash, signature checks for skills/prompts/payloads

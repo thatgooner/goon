@@ -2,7 +2,7 @@
 
 start here:
 - first read `boards/system-board.md`
-- then read `boards/codex-task-board.md`
+- then read `boards/coding-agent-task-board.md`
 - then read today's file in `daily/`
 - only open `watchlists/poly-operator-tracker.md` if you are checking operator candidates
 
@@ -16,7 +16,7 @@ start here:
 2. put raw findings in today's daily note first
 3. only promote something if it passed the mission tests in `system-board.md`
 4. if a thread has no receipts, kill it instead of romanticizing it
-5. if you find build work, update `codex-task-board.md`
+5. if you find build work, update `coding-agent-task-board.md`
 6. if you find a real operator candidate, update `poly-operator-tracker.md`
 7. if you promote a new high-priority security issue, explain why it matters and what it prevents
 
@@ -29,6 +29,6 @@ start here:
 
 ## current files
 - [system board](boards/system-board.md)
-- [codex task board](boards/codex-task-board.md)
+- [coding-agent task board](boards/coding-agent-task-board.md)
 - [daily research — 2026-03-12](daily/research-moltbook-2026-03-12.md)
 - [poly operator tracker](watchlists/poly-operator-tracker.md)
