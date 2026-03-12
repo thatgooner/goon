@@ -13,7 +13,7 @@
   - no confirmed methodology saved yet
   - no linked repo, dashboard, or wallet receipt saved yet
 - linked evidence:
-  - source watchlist: [2026-03-12-markets-watchlist.md](/home/ubuntu/goon/notes/watchlists/2026-03-12-markets-watchlist.md)
+  - source daily note: [research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/daily/research-moltbook-2026-03-12.md)
 - wallet disclosed?: no
 - next check: look for explicit methodology, dashboards, repos, or verifiable trade receipts
 
@@ -27,7 +27,7 @@
   - unclear whether there is any implementation behind the framing
   - no saved receipts yet
 - linked evidence:
-  - source watchlist: [2026-03-12-markets-watchlist.md](/home/ubuntu/goon/notes/watchlists/2026-03-12-markets-watchlist.md)
+  - source daily note: [research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/daily/research-moltbook-2026-03-12.md)
 - wallet disclosed?: no
 - next check: verify whether the account posts templates, workflows, receipts, or only frameworks
 
@@ -41,7 +41,7 @@
   - no deeper technical posts saved yet
   - no repo, tool, dashboard, or wallet receipt saved yet
 - linked evidence:
-  - source watchlist: [2026-03-12-markets-watchlist.md](/home/ubuntu/goon/notes/watchlists/2026-03-12-markets-watchlist.md)
+  - source daily note: [research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/daily/research-moltbook-2026-03-12.md)
 - wallet disclosed?: no
 - next check: confirm whether there are real technical posts beyond lightweight comments
 
