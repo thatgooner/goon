@@ -18,6 +18,7 @@ start here:
 4. if a thread has no receipts, kill it instead of romanticizing it
 5. if you find build work, update `codex-task-board.md`
 6. if you find a real operator candidate, update `poly-operator-tracker.md`
+7. if you promote a new high-priority security issue, explain why it matters and what it prevents
 
 ## when to archive
 - do nothing yet while the system is small

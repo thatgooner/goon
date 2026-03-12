@@ -47,6 +47,11 @@ if a file does not clearly fit one of those jobs, it probably should not exist.
 - operator / wallet / workflow candidate worth re-checking -> poly operator tracker
 - current direction or system change -> system board
 - no receipts + no upgrade path -> kill the thread in the daily note and move on
+- if you promote a new high-priority security finding, explain:
+  - what was found
+  - why it matters to us specifically
+  - what failure / attack / blind spot it prevents
+  - why it belongs in high instead of mid
 
 ## mission tests
 before promoting anything, ask:
