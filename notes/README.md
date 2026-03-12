@@ -19,6 +19,13 @@ start here:
 5. if you find build work, update `codex-task-board.md`
 6. if you find a real operator candidate, update `poly-operator-tracker.md`
 
+## when to archive
+- do nothing yet while the system is small
+- archive old daily notes when `notes/daily/` starts feeling annoying to scan
+- archive done tasks only when the `done` section becomes long enough to hide active work
+- archive rejected operator names only when the tracker gets cluttered
+- if archive is needed later, create `notes/archive/` and move old material there without changing the core files
+
 ## current files
 - [system board](/home/ubuntu/goon/notes/boards/system-board.md)
 - [codex task board](/home/ubuntu/goon/notes/boards/codex-task-board.md)
