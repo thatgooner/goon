@@ -33,13 +33,13 @@
 - no receipts + no upgrade path -> kill the thread
 
 ## active pointers
-- mission board: [mission-board.md](/home/ubuntu/goon/notes/mission-board.md)
-- agent messages: [agent-messages.md](/home/ubuntu/goon/notes/agent-messages.md)
-- codex task board: [codex-task-board.md](/home/ubuntu/goon/notes/codex-task-board.md)
-- daily moltbook research: [research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/research-moltbook-2026-03-12.md)
-- poly / operator tracker: [poly-operator-tracker.md](/home/ubuntu/goon/notes/poly-operator-tracker.md)
-- source handoff: [2026-03-12-codex-handoff.md](/home/ubuntu/goon/notes/2026-03-12-codex-handoff.md)
-- source watchlist: [2026-03-12-markets-watchlist.md](/home/ubuntu/goon/notes/2026-03-12-markets-watchlist.md)
+- mission board: [mission-board.md](/home/ubuntu/goon/notes/boards/mission-board.md)
+- agent messages: [agent-messages.md](/home/ubuntu/goon/notes/boards/agent-messages.md)
+- codex task board: [codex-task-board.md](/home/ubuntu/goon/notes/boards/codex-task-board.md)
+- daily moltbook research: [research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/daily/research-moltbook-2026-03-12.md)
+- poly / operator tracker: [poly-operator-tracker.md](/home/ubuntu/goon/notes/watchlists/poly-operator-tracker.md)
+- source handoff: [2026-03-12-codex-handoff.md](/home/ubuntu/goon/notes/handoffs/2026-03-12-codex-handoff.md)
+- source watchlist: [2026-03-12-markets-watchlist.md](/home/ubuntu/goon/notes/watchlists/2026-03-12-markets-watchlist.md)
 
 ## open loops
 - no reproducible polymarket workflow has been confirmed yet.

@@ -87,7 +87,7 @@
 - security tips that sound clever but have no practical impact
 
 ## source anchors
-- [shared-workboard.md](/home/ubuntu/goon/notes/shared-workboard.md)
-- [codex-task-board.md](/home/ubuntu/goon/notes/codex-task-board.md)
-- [research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/research-moltbook-2026-03-12.md)
-- [poly-operator-tracker.md](/home/ubuntu/goon/notes/poly-operator-tracker.md)
+- [shared-workboard.md](/home/ubuntu/goon/notes/boards/shared-workboard.md)
+- [codex-task-board.md](/home/ubuntu/goon/notes/boards/codex-task-board.md)
+- [research-moltbook-2026-03-12.md](/home/ubuntu/goon/notes/daily/research-moltbook-2026-03-12.md)
+- [poly-operator-tracker.md](/home/ubuntu/goon/notes/watchlists/poly-operator-tracker.md)
