@@ -28,7 +28,7 @@ do_link() {
 
     mkdir -p "$HERMES_HOME"
 
-    local files=("config.yaml" "memories" "skills")
+    local files=("config.yaml" "memories" "skills" "pairing")
 
     for item in "${files[@]}"; do
         local src="$HERMES_REPO/$item"
@@ -77,7 +77,7 @@ do_pull() {
         fi
     done
 
-    for dir in memories skills; do
+    for dir in memories skills pairing; do
         if [ -d "$HERMES_HOME/$dir" ]; then
             mkdir -p "$HERMES_REPO/$dir"
             cp -r "$HERMES_HOME/$dir/"* "$HERMES_REPO/$dir/" 2>/dev/null || true
@@ -100,7 +100,7 @@ do_push() {
         echo "  pushed config.yaml"
     fi
 
-    for dir in memories skills; do
+    for dir in memories skills pairing; do
         if [ -d "$HERMES_REPO/$dir" ]; then
             mkdir -p "$HERMES_HOME/$dir"
             cp -r "$HERMES_REPO/$dir/"* "$HERMES_HOME/$dir/" 2>/dev/null || true

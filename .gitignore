@@ -3,6 +3,7 @@ hermes/.env
 hermes/sessions/
 hermes/**/*.db
 hermes/**/*.sqlite
+hermes/pairing/_rate_limits.json
 
 # OS
 .DS_Store
