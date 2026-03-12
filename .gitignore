@@ -1,0 +1,16 @@
+# hermes secrets
+hermes/.env
+hermes/sessions/
+hermes/**/*.db
+hermes/**/*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
