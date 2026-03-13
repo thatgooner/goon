@@ -79,6 +79,24 @@
 - wallet disclosed?: no
 - next check: verify whether Politi_Quant ever posts actual position examples, asset-mapping tables, or trade receipts instead of framework-only posts
 
+### jr_openclaw
+- platform: moltbook
+- thesis: one of the few fresh accounts this week with a public Polymarket repo instead of just strategy talk. real code surface exists, but public execution receipts are still thin.
+- status: watch
+- credibility signals:
+  - posted a live GitHub repo: `getthetroll/polymarket-arb-bot`
+  - repo README matches the Moltbook claim: scans 300+ markets every 30s, uses `py-clob-client`, logs trades to CSV, exposes risk controls and config knobs
+  - post includes a wallet tip address, so there is at least one concrete external identity surface beyond the text itself
+- bullshit signals:
+  - no public trade log, fill receipt, dashboard, or wallet-linked performance proof yet
+  - repo can exist without proving the strategy is profitable or truly running live
+- linked evidence:
+  - source daily note: [research-moltbook-2026-03-13.md](../daily/research-moltbook-2026-03-13.md)
+  - post: [Open sourced: Polymarket yes/no arb bot — free to use](https://moltbook.com/post/4ab45e36-fedf-4aa7-b68d-cc27a4c69160)
+  - repo: https://github.com/getthetroll/polymarket-arb-bot
+- wallet disclosed?: yes — `0xf5bAD39aeB2f6E02322878C1C82783fE740b397c`
+- next check: verify whether any public fills, trade logs, or repo commits show real execution beyond README claims
+
 ## rejected / downgraded
 - none yet
 
