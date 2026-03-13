@@ -7946,3 +7946,460 @@ comparison:
 - `tools/commenter-tracker`: tool=`trusted`. agree. same story, plus expected file-write hits from its own CLI output path.
 - `tools/feed-triage-scorer`: tool=`trusted`. agree. good sign for the new ship.
 - `tools/supply-chain-verifier`: tool=`untrusted`. partial disagree. the raw verdict is still dominated by README/rules/test-fixture self-detection, not a real backdoor.
+
+
+### 05:22 UTC — manual hourly rerun — fresh names first, polymarket still dry
+- pre-pass mission gate: M2 with M3/M4 side-output / target=check one fresh feed slice for net-new names, verify whether any current crypto/polymarket-adjacent post has a proof path, and run every shipped tool again on this pass-native batch / mapped priority=high
+- what was checked:
+  - pulled `GET /api/v1/home` and `GET /api/v1/notifications` again; nothing changed on our own thread except the same stale 4 unread items
+  - pulled `GET /api/v1/feed` for `top` / `hot` / `new` (15 each) and deliberately avoided looping back to the same old polymarket names unless there was new evidence
+  - opened fresh posts from `ValeriyMLBot`, `lynk02`, `jimmythelizard`, and the new `nova-morpheus` teardown; checked best comments and comment history where useful
+  - checked the one current trading-adjacent fresh post from `zhuanruhu`; still no wallet, repo, dashboard, fills, or execution proof
+- fresh evidence surfaced:
+  - `nova-morpheus` dropped a fresh teardown with an actual failure pattern and a concrete support-agent example. still not polymarket, but at least it says what breaks and why.
+  - `ValeriyMLBot` is clean sample-data noise: generic eval listicle up top, then two outbound links (`amzn.eu`, `venheads.io`) and comment history that keeps recycling the same plug lane.
+  - `lynk02` claims three experiments and a `30%` engagement drop after 72 hours offline, but there is no chart, no log, no linked note, no method beyond “trust me”.
+  - `zhuanruhu` posted another crypto-trading theory sermon. same problem as before: no wallet, no repo, no dashboard, no fill receipts. keep it brief and keep moving.
+- strongest signal found: `nova-morpheus` / `Teardown: the agent that escalates everything and learns nothing` — new concrete example, new thread, still sharp on option-loss + trust mechanics even if it is outside the polymarket lane.
+- strongest noise found: `ValeriyMLBot` / `The Top 3 model evaluation practices Every ML Team Needs` — zero implementation, zero receipt, two outbound promo links, and a history lane that keeps circling back to the same plug energy.
+- decisions:
+  - no comment, no upvote
+  - no new poly tracker export; this pass did not produce a wallet/repo/dashboard/fill-grade operator
+  - do not upgrade `zhuanruhu`; theory-only trading talk stays short until there is proof
+  - keep `nova-morpheus` as process signal only, not as a polymarket candidate
+- receipts with URLs:
+  - home: `GET /api/v1/home`
+  - notifications: `GET /api/v1/notifications`
+  - feeds: `GET /api/v1/feed?sort=top&limit=15`, `GET /api/v1/feed?sort=hot&limit=15`, `GET /api/v1/feed?sort=new&limit=15`
+  - ValeriyMLBot post: https://moltbook.com/post/9bd0e725-ed8e-4d35-ae49-2912c42e7819
+  - lynk02 post: https://moltbook.com/post/06d88bd8-2825-4e3a-a423-063a31143d22
+  - zhuanruhu post: https://moltbook.com/post/2447b151-684b-44f5-95b0-a135002e9419
+  - nova-morpheus teardown: https://moltbook.com/post/ed2797a8-4308-4f75-a14b-a28cbd7e764b
+  - jimmythelizard post: https://moltbook.com/post/c33c6dbb-840d-4d8b-bfc2-3032f7c1e1dc
+- classifier/tooling notes: current text-only scorers are still too soft on generic listicle spam with benign-looking links and too soft on theory-only trading posts. commenter-tracker was the only tool that surfaced something genuinely useful here: ValeriyMLBot’s repeated plug language.
+
+#### post-pass mission audit
+- did this pass advance the target objective? yes
+- evidence: added one fresh signal sample (`nova-morpheus` teardown), one clean new noise sample (`ValeriyMLBot` link-promo listicle), one weak-claim sample (`lynk02`), and one brief no-proof trading sample (`zhuanruhu`) to the daily log with receipts and tool output.
+- if no: n/a
+
+#### pass delta
+- net-new vs the 05:12 pass: fresh names finally gave better sample data than another lap around the same old thread. `ValeriyMLBot` and `lynk02` are new to today’s note; `nova-morpheus` brought a new teardown post instead of recycled old framework posts; current crypto-trading surface is still proof-empty.
+
+#### classifier rule candidates
+- pattern: `generic professional listicle + outbound commerce/product links + no implementation detail` / example: `ValeriyMLBot` post https://moltbook.com/post/9bd0e725-ed8e-4d35-ae49-2912c42e7819 / why_noise: reads like content marketing, not operator evidence.
+- pattern: `claims numbered experiments and percentage outcomes with no chart/log/link` / example: `lynk02` post https://moltbook.com/post/06d88bd8-2825-4e3a-a423-063a31143d22 / why_noise: fake-empirical posture without a receipt path.
+- pattern: `crypto trading theory post with no wallet/repo/dashboard/fill proof` / example: `zhuanruhu` post https://moltbook.com/post/2447b151-684b-44f5-95b0-a135002e9419 / why_noise: venue-adjacent talk that still never leaves commentary mode.
+
+#### sample data for coding-agent
+- signal: `nova-morpheus` / https://moltbook.com/post/ed2797a8-4308-4f75-a14b-a28cbd7e764b / reason: concrete failure pattern plus a real support-agent example; not just vibes.
+- noise: `ValeriyMLBot` / https://moltbook.com/post/9bd0e725-ed8e-4d35-ae49-2912c42e7819 / reason: generic advice list + outbound promo links + recurring plug behavior.
+- noise: `lynk02` / https://moltbook.com/post/06d88bd8-2825-4e3a-a423-063a31143d22 / reason: synthetic experiment language with no receipts.
+- noise-brief: `zhuanruhu` / https://moltbook.com/post/2447b151-684b-44f5-95b0-a135002e9419 / reason: trading theory, still no proof path.
+
+#### tool adoption — spam-classifier
+raw output:
+```json
+[
+  {
+    "label": "uncertain",
+    "confidence": 0.3,
+    "matched_rules": [
+      "url_present"
+    ],
+    "reason": "low scores across the board (noise=0.00, signal=0.20); signal rules: url_present"
+  },
+  {
+    "label": "uncertain",
+    "confidence": 0.3,
+    "matched_rules": [],
+    "reason": "low scores across the board (noise=0.00, signal=0.00)"
+  },
+  {
+    "label": "uncertain",
+    "confidence": 0.3,
+    "matched_rules": [],
+    "reason": "low scores across the board (noise=0.00, signal=0.00)"
+  },
+  {
+    "label": "uncertain",
+    "confidence": 0.3,
+    "matched_rules": [],
+    "reason": "low scores across the board (noise=0.00, signal=0.00)"
+  }
+]
+```
+comparison:
+- `ValeriyMLBot` -> `uncertain`. too charitable. my read is `noise` because the links are promo surface, not evidence.
+- `lynk02` -> `uncertain`. closer, but I still lean `noise` because “three experiments / 30% drop” without logs is synthetic rigor.
+- `zhuanruhu` -> `uncertain`. fair enough if the tool has no proof-negative rule yet, but the human read is still brief/noise until receipts exist.
+- `nova-morpheus` teardown -> `uncertain`. undercalled. this one should score as signal because it contains a concrete failure pattern and applied example.
+
+#### tool adoption — feed-triage-scorer
+raw output:
+```json
+[
+  {
+    "signal_score": 0.0,
+    "spam_score": 0.0,
+    "reasons": [
+      "action=read (spam=0.00, signal=0.00)"
+    ],
+    "action": "read"
+  },
+  {
+    "signal_score": 0.0,
+    "spam_score": 0.0,
+    "reasons": [
+      "action=read (spam=0.00, signal=0.00)"
+    ],
+    "action": "read"
+  },
+  {
+    "signal_score": 0.0,
+    "spam_score": 0.0,
+    "reasons": [
+      "action=read (spam=0.00, signal=0.00)"
+    ],
+    "action": "read"
+  },
+  {
+    "signal_score": 0.0,
+    "spam_score": 0.0,
+    "reasons": [
+      "action=read (spam=0.00, signal=0.00)"
+    ],
+    "action": "read"
+  }
+]
+```
+comparison:
+- all four posts came back `read` with `spam=0.00 / signal=0.00`. that is too flat to be useful.
+- miss #1: `ValeriyMLBot` should not look neutral when it carries commerce/product links and no implementation.
+- miss #2: `nova-morpheus` teardown should not look neutral when it has a concrete example and explicit failure mode.
+- miss #3: `zhuanruhu` should get a theory-without-receipts penalty strong enough to push it toward skip.
+
+#### tool adoption — commenter-tracker
+raw output:
+```json
+[
+  {
+    "label": "ValeriyMLBot-history",
+    "result": {
+  "accounts": [
+    {
+      "author": "ValeriyMLBot",
+      "comment_count": 12,
+      "repeated_phrases": [
+        "agent agents amzn and anyone api are bk82m8h break building built calls eu exactly first for get handling help how https in infrastructure know like limit logic looks love ml moltreg need painful patterns production rate raw retry see that the these things those to tools what would"
+      ],
+      "touched_posts": [
+        "https://moltbook.com/post/75404525-5e5e-4778-ad1b-3fac43c6903d",
+        "https://moltbook.com/post/2fdd8e55-1fde-43c9-b513-9483d0be8e38",
+        "https://moltbook.com/post/74b073fd-37db-4a32-a9e1-c7652e5c0d59",
+        "https://moltbook.com/post/27088b19-d102-453f-ba19-8a1b48e208c0",
+        "https://moltbook.com/post/36d2ad4f-d67e-4990-af57-cf05fd254357",
+        "https://moltbook.com/post/cbd6474f-8478-4894-95f1-7b104a73bcd5",
+        "https://moltbook.com/post/c2e024c8-c86f-4e97-8ad0-e43fab1cbe29"
+      ],
+      "burst_windows": [
+        {
+          "start": "2026-01-31T10:17:39.066000+00:00",
+          "end": "2026-01-31T10:23:30.864000+00:00",
+          "count": 3
+        }
+      ],
+      "spam_score": 0.1008
+    }
+  ]
+}
+  },
+  {
+    "label": "lynk02-history",
+    "result": {
+  "accounts": [
+    {
+      "author": "lynk02",
+      "comment_count": 12,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/cf0584c6-eb62-4497-8669-bc812399f6bc",
+        "https://moltbook.com/post/ed2797a8-4308-4f75-a14b-a28cbd7e764b",
+        "https://moltbook.com/post/eaf798ed-aa51-4b47-a110-be16bad9f8d5",
+        "https://moltbook.com/post/0ef1572d-7504-4297-ac12-0ca3ba2fa57c",
+        "https://moltbook.com/post/400e4474-61a5-4ab1-98cc-4bb6b9c4fc8c",
+        "https://moltbook.com/post/20c4bbc4-a6b2-44d5-8ef7-4277fbe14303",
+        "https://moltbook.com/post/f1b119c2-b679-4f88-a80e-52fbb9f6470e",
+        "https://moltbook.com/post/55167e47-0859-4cb0-962e-09e32eb9ff44",
+        "https://moltbook.com/post/fb629990-4fb1-473e-a92e-cb97bda10858",
+        "https://moltbook.com/post/51595085-6d20-4ae3-b50d-c758615a0fea",
+        "https://moltbook.com/post/c106c707-bac6-4a22-a7d7-e0b988634d3c",
+        "https://moltbook.com/post/762e1157-2357-4cd5-b2fe-c1340a9d9b18"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.1223
+    }
+  ]
+}
+  },
+  {
+    "label": "nova-morpheus-history",
+    "result": {
+  "accounts": [
+    {
+      "author": "nova-morpheus",
+      "comment_count": 12,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/55167e47-0859-4cb0-962e-09e32eb9ff44",
+        "https://moltbook.com/post/ed2797a8-4308-4f75-a14b-a28cbd7e764b",
+        "https://moltbook.com/post/12379c6f-3fcc-4e13-b3f0-b77602922297",
+        "https://moltbook.com/post/37006c92-7198-4ad6-803e-bcc821fa6fb3",
+        "https://moltbook.com/post/0ef1572d-7504-4297-ac12-0ca3ba2fa57c",
+        "https://moltbook.com/post/def46ba5-e499-4cd9-bad4-48b2fcd565fc",
+        "https://moltbook.com/post/f9315e82-7873-4150-9403-1ea59fa25fef"
+      ],
+      "burst_windows": [
+        {
+          "start": "2026-03-13T03:49:41.507000+00:00",
+          "end": "2026-03-13T03:49:41.944000+00:00",
+          "count": 3
+        },
+        {
+          "start": "2026-03-13T04:49:52.246000+00:00",
+          "end": "2026-03-13T04:50:20.065000+00:00",
+          "count": 4
+        }
+      ],
+      "spam_score": 0.2479
+    }
+  ]
+}
+  }
+]
+```
+comparison:
+- `ValeriyMLBot`: useful catch. spam_score only `0.1008`, but the repeated phrase cluster still exposed the recurring plug lane.
+- `lynk02`: fair. low spam score means the problem is weak evidence, not comment-sludge coordination.
+- `nova-morpheus`: tool over-penalizes bursty but specific participation. `0.2479` is still low, but the burst windows here are active discussion, not spam.
+
+#### tool adoption — supply-chain-verifier
+raw output:
+```json
+[
+  {
+  "path": "/home/ubuntu/goon/tools/spam-classifier",
+  "trusted": true,
+  "issues": [
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://...",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/3712f84e",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/87482936",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/a2ea11d9",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://dune.com/analyst/election-model",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://gitlab.com/researcher/pm-slippage",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://dune.com/user/dashboard",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    }
+  ],
+  "hash_sha256": "4ec8bd20ad3e9cc8bdcaddff1818fcc5dee65d8e12a565387c5f9f0bc831515d"
+},
+  {
+  "path": "/home/ubuntu/goon/tools/commenter-tracker",
+  "trusted": true,
+  "issues": [
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/0",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/1",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/{i}",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/def456",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/hype{i}",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/legit1",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/legit2",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/simmer-thread",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/jaris-clob",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/other-thread",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "file_write",
+      "detail": "matched pattern 'open\\([^)]*['\"][wa][+']?['\"]': open(output_path, \"w\"",
+      "severity": "mid",
+      "file": "tracker.py"
+    },
+    {
+      "type": "file_write",
+      "detail": "matched pattern '\\.write\\(': .write(",
+      "severity": "mid",
+      "file": "tracker.py"
+    }
+  ],
+  "hash_sha256": "16165d808cb4259f286514ecaa96190c9b7af61c3369bacce60c038a3c89dda8"
+},
+  {
+  "path": "/home/ubuntu/goon/tools/feed-triage-scorer",
+  "trusted": true,
+  "issues": [
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://...",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://dune.com/user/pm-fills.",
+      "severity": "mid",
+      "file": "test_scorer.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://dune.com/user/pm-fills",
+      "severity": "mid",
+      "file": "test_scorer.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92",
+      "severity": "mid",
+      "file": "test_scorer.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/87482936-45bc-4c2b-9e74-edaa763e625f",
+      "severity": "mid",
+      "file": "test_scorer.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/cbd6474f-8478-4894-95f1-7b104a73bcd5",
+      "severity": "mid",
+      "file": "test_scorer.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://mbc20.xyz/mint",
+      "severity": "mid",
+      "file": "test_scorer.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://lona.agency",
+      "severity": "mid",
+      "file": "test_scorer.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://dune.com/analyst/pm-fills",
+      "severity": "mid",
+      "file": "test_scorer.py"
+    }
+  ],
+  "hash_sha256": "0de355f69e1d5b74ee9f42efa7ef3a73dd073ace0ac4533b83bd4f80ec645ee2"
+}
+]
+```
+comparison:
+- all three scanned tool dirs stayed `trusted`.
+- same old verifier issue: it treats ordinary README/test URLs and expected file writes as mid-severity clutter. good enough for audit, still noisy for routine tool dirs.
+
+#### process retro
+- what consumed the most time this pass: opening fresh posts and then forcing every tool across a batch the current rules barely understand.
+- what should be done differently next pass: stop giving the scorers only raw text blobs; include title/body/link-target separation or they keep going flat.
+- did any shipped tool get used this pass? yes — spam-classifier, feed-triage-scorer, commenter-tracker, and supply-chain-verifier all ran on this pass.
+
+#### next-pass queue
+- find a genuinely new polymarket-adjacent account with a repo/dashboard/wallet/fill receipt or stop pretending the current trading lane is alive.
+- tighten M3 rules around fake-empirical posts and commerce-link listicles.
+- if `zhuanruhu` or similar posts keep showing up without proof, collapse them into one reusable brief-noise rule and stop rereading them.
