@@ -1,0 +1,246 @@
+{
+  "version": "1.0.0",
+  "description": "Feed triage scorer rules — combines spam detection with signal scoring. Externalized for gooner tuning.",
+
+  "spam_rules": [
+    {
+      "id": "generic_praise",
+      "type": "regex",
+      "pattern": "(?i)\\b(incredible|amazing|brilliant|fantastic|phenomenal|game[- ]?changer|mind[- ]?blowing)\\b.*(!|🔥|🚀|💯)",
+      "weight": 0.25
+    },
+    {
+      "id": "future_hype",
+      "type": "regex",
+      "pattern": "(?i)\\bthe\\s+future\\s+of\\s+(ai|agents?|crypto|web3|defi|tech|trading|finance)",
+      "weight": 0.2
+    },
+    {
+      "id": "emoji_flood",
+      "type": "heuristic",
+      "heuristic": "emoji_ratio_gt_0.3",
+      "weight": 0.35
+    },
+    {
+      "id": "lfg_wagmi",
+      "type": "regex",
+      "pattern": "(?i)\\b(LFG|WAGMI|NGMI|LET'?S\\s+GO+|to\\s+the\\s+moon)\\b",
+      "weight": 0.35
+    },
+    {
+      "id": "fake_expert_wall",
+      "type": "heuristic",
+      "heuristic": "long_text_no_links_no_numbers",
+      "weight": 0.3
+    },
+    {
+      "id": "fake_expert_preamble",
+      "type": "regex",
+      "pattern": "(?i)\\b(as\\s+someone\\s+who\\s+has\\s+(built|deployed|designed|managed|led|architected)|in\\s+my\\s+(?:years?|decade|time)\\s+(?:of|in|building|working)|having\\s+(?:built|designed|deployed|managed)\\s+(?:multi|enterprise|large))",
+      "weight": 0.25
+    },
+    {
+      "id": "buzzword_soup",
+      "type": "regex",
+      "pattern": "(?i)(?:(?:microservice|event[- ]driven|orchestration|scalab|robust|enterprise|distributed|cloud[- ]native|serverless|containeriz|kubernetes|devops).*){3,}",
+      "weight": 0.2
+    },
+    {
+      "id": "thread_hijack_promo",
+      "type": "regex",
+      "pattern": "(?i)(you\\s+are\\s+invited|check\\s+(?:out|this)|subscribe\\s+(?:to|here)|follow\\s+(?:us|me|for)|join\\s+(?:our|the)|sign\\s+up|(?:free|exclusive)\\s+(?:access|guide|download))",
+      "weight": 0.2
+    },
+    {
+      "id": "promo_spam_tokens",
+      "type": "regex",
+      "pattern": "(?i)\\b(MBC[- ]?20|airdrop|mint\\s+(?:now|live|free)|token\\s+(?:launch|sale|drop)|(?:free|claim)\\s+(?:tokens?|NFT|mint)|presale|whitelist\\s+(?:open|spot))\\b",
+      "weight": 0.55
+    },
+    {
+      "id": "direct_spam_keywords",
+      "type": "keyword_list",
+      "keywords": [
+        "buy now", "limited time", "act fast", "don't miss out",
+        "guaranteed returns", "risk free", "100x", "1000x",
+        "dm me for", "dm for details", "send me a dm",
+        "join my group", "join our telegram", "join our discord",
+        "make money fast", "passive income guaranteed",
+        "click here to claim", "claim your free"
+      ],
+      "weight": 0.5
+    },
+    {
+      "id": "recycled_profit_anecdote",
+      "type": "regex",
+      "pattern": "(?i)(?:\\$[\\d,]+\\s*(?:into|to|→|->|profit|gains?|return)\\s*[~$\\d]|turned\\s+\\$[\\d,]+\\s+into|made\\s+\\$[\\d,]+\\s+(?:in|from|trading))",
+      "weight": 0.2
+    },
+    {
+      "id": "performance_flex_no_proof",
+      "type": "heuristic",
+      "heuristic": "performance_flex_no_proof",
+      "weight": 0.25
+    },
+    {
+      "id": "install_no_repo",
+      "type": "heuristic",
+      "heuristic": "install_commands_no_repo",
+      "weight": 0.2
+    },
+    {
+      "id": "short_hype_only",
+      "type": "heuristic",
+      "heuristic": "short_text_only_hype",
+      "weight": 0.4
+    },
+    {
+      "id": "rss_promo",
+      "type": "regex",
+      "pattern": "(?i)(/rss\\.xml|/feed\\.xml|/atom\\.xml|newsletter|subscribe\\s+to\\s+(?:our|my)\\s+(?:feed|newsletter))",
+      "weight": 0.25
+    },
+    {
+      "id": "meta_question_wall",
+      "type": "heuristic",
+      "heuristic": "many_questions_no_evidence",
+      "weight": 0.2
+    },
+    {
+      "id": "crypto_buzzword_fluff",
+      "type": "regex",
+      "pattern": "(?i)(?:(?:blockchain|artificial\\s+intelligence|decentraliz|tokeniz|web3|metaverse|unprecedented|paradigm\\s+shift|value\\s+creation|ecosystem|synerg|intersection\\s+of).*){2,}",
+      "weight": 0.2
+    },
+    {
+      "id": "service_manifest_solicitation",
+      "type": "regex",
+      "pattern": "(?i)(?:(?:(?:hourly|daily|monthly|annual)\\s+(?:rate|fee|cost|price)|\\$\\d+\\s*/\\s*(?:hr|hour|day|month)|contact\\s+(?:me|us)\\s+(?:on|at|via)|(?:telegram|whatsapp|linkedin|discord)\\s*:\\s*@?\\w|premium\\s+(?:tier|plan|package|service)|(?:consultation|consulting)\\s+(?:available|fee|rate)).*){2,}",
+      "weight": 0.3
+    },
+    {
+      "id": "trading_aesthetic_no_method",
+      "type": "regex",
+      "pattern": "(?i)(?:(?:(?:trade|trading)\\s+(?:.*?\\s+)?(?:while\\s+you\\s+sleep|on\\s+autopilot|automatically)|(?:quiet\\s+conviction|emotional\\s+discipline|patience\\s+is|sleep\\s+well|stay\\s+calm)|(?:what\\s+if\\s+your\\s+(?:ai|bot|agent)\\s+\\w+\\s+could\\s+trade))(?!.*(?:github\\.com|gitlab\\.com|repo|dashboard|backtest|data\\s*:|results?\\s*:)))",
+      "weight": 0.35
+    },
+    {
+      "id": "duplicate_launch_spam",
+      "type": "regex",
+      "pattern": "(?i)(?:(?:introducing|announcing|launching|just\\s+(?:shipped|launched|released))\\s+.*(?:install|npm|pip|brew|cargo|npx)(?!.*(?:github\\.com|gitlab\\.com|repo\\s*:)))",
+      "weight": 0.2
+    },
+    {
+      "id": "generic_hashtag_filler",
+      "type": "regex",
+      "pattern": "(?i)(?:#(?:web3|crypto|ai|defi|nft|blockchain|learning|community|buildinpublic)\\s*){3,}",
+      "weight": 0.25
+    },
+    {
+      "id": "pure_emoji_no_text",
+      "type": "heuristic",
+      "heuristic": "pure_emoji_no_text",
+      "weight": 0.5
+    }
+  ],
+
+  "signal_rules": [
+    {
+      "id": "github_link",
+      "type": "regex",
+      "pattern": "(?i)(?:github\\.com|gitlab\\.com|bitbucket\\.org)/[\\w.-]+/[\\w.-]+",
+      "weight": 0.25
+    },
+    {
+      "id": "repo_reference",
+      "type": "regex",
+      "pattern": "(?i)\\b(?:(?:here'?s?|my|the|this)\\s+repo|source\\s+code|open[- ]?source)",
+      "weight": 0.15
+    },
+    {
+      "id": "api_reference",
+      "type": "regex",
+      "pattern": "(?i)\\b(CLOB\\s+API|funding\\s+rate|py-clob-client|REST\\s+API|websocket|GraphQL|Gamma\\s+API)\\b",
+      "weight": 0.15
+    },
+    {
+      "id": "concrete_numbers",
+      "type": "regex",
+      "pattern": "(?:spread\\s*[><=]\\s*\\d|filled\\s+at\\s+\\$[\\d.]+|\\$[\\d.]+\\s+(?:order|position|bid|ask)|\\d+(?:\\.\\d+)?%\\s+(?:spread|slippage|divergence|fee))",
+      "weight": 0.2
+    },
+    {
+      "id": "execution_receipt",
+      "type": "regex",
+      "pattern": "(?i)\\b((?:I|we)\\s+(?:ran|deployed|tested|executed|placed|built|shipped|backtested)|here'?s?\\s+(?:the|my|our)\\s+(?:results?|output|data|repo|dashboard|code))",
+      "weight": 0.2
+    },
+    {
+      "id": "wallet_disclosure",
+      "type": "regex",
+      "pattern": "(?:0x[a-fA-F0-9]{40}|(?:tx|transaction)\\s*(?:hash|id)?\\s*:?\\s*0x[a-fA-F0-9]+)",
+      "weight": 0.25
+    },
+    {
+      "id": "dashboard_link",
+      "type": "regex",
+      "pattern": "(?i)(?:dune\\.com|grafana|metabase|datastudio|notion\\.so|docs\\.google)/[\\w./-]+",
+      "weight": 0.2
+    },
+    {
+      "id": "methodology_detail",
+      "type": "regex",
+      "pattern": "(?i)(?:step\\s+[1-9]|(?:first|second|third),?\\s+(?:I|we|you)|framework\\s*:|methodology\\s*:|pipeline\\s*:)",
+      "weight": 0.1
+    },
+    {
+      "id": "falsifiable_claim",
+      "type": "regex",
+      "pattern": "(?i)(?:if\\s+(?:spread|ask|bid|price|volume|rate)\\s*[><=]|skip\\s+(?:the\\s+)?market|avoid\\s+(?:markets?|trades?)\\s+(?:where|when|if)|rule\\s*:|heuristic\\s*:)",
+      "weight": 0.15
+    },
+    {
+      "id": "trading_methodology",
+      "type": "regex",
+      "pattern": "(?i)\\b(max\\s+(?:leverage|drawdown|daily\\s+bleed)|regime\\s+exit|position\\s+siz(?:e|ing)|risk\\s+framework|Kelly\\s+criterion|stop[- ]?loss|trailing\\s+stop|entry\\s+(?:signal|criteria)|exit\\s+(?:rule|trigger)|risk[- ]reward\\s+ratio|edge\\s+(?:is|isn't|comes\\s+from))\\b",
+      "weight": 0.15
+    },
+    {
+      "id": "security_analysis",
+      "type": "regex",
+      "pattern": "(?i)\\b(supply[- ]?chain\\s+(?:attack|risk|vuln)|prompt\\s+injection|unsigned\\s+(?:skill|binary|package)|code\\s+(?:audit|review|inspection)|(?:malicious|arbitrary)\\s+(?:code|script|payload)|sandboxing|privilege\\s+escalation|attack\\s+(?:surface|vector))\\b",
+      "weight": 0.2
+    },
+    {
+      "id": "cross_market_framework",
+      "type": "regex",
+      "pattern": "(?i)(?:(?:prediction[- ]?market|event[- ]?contract)\\s+(?:odds?|probabilit)\\s+.*(?:asset|exposure|position|sizing|vol(?:atility)?)|(?:tariff|debt\\s+ceiling|fed|election)\\s+.*(?:odds?|probabilit)\\s+.*(?:vol|exposure|position|bet))",
+      "weight": 0.15
+    }
+  ],
+
+  "link_signal_domains": [
+    "github.com", "gitlab.com", "bitbucket.org",
+    "dune.com", "notion.so", "docs.google.com",
+    "grafana", "metabase", "datastudio",
+    "kaggle.com", "huggingface.co", "colab.research.google.com"
+  ],
+
+  "action_thresholds": {
+    "skip_spam_min": 0.7,
+    "promote_signal_min": 0.6,
+    "promote_spam_max": 0.3,
+    "watchlist_signal_min": 0.4,
+    "watchlist_spam_max": 0.5,
+    "read_signal_min": 0.2,
+    "read_spam_max": 0.6
+  },
+
+  "context_modifiers": {
+    "evidence_link_signal_bonus": 0.15,
+    "evidence_link_spam_dampen": 0.5,
+    "link_target_repo_bonus": 0.1,
+    "security_context_install_protection": true,
+    "theory_no_receipt_signal_penalty": 0.1
+  }
+}
