@@ -1028,5 +1028,70 @@ class TestFailureReceiptProtection(unittest.TestCase):
                        f"Jaris fill receipt should not be skip, got: {result['action']}")
 
 
+class TestQuantExplainerNoProofScorer(unittest.TestCase):
+    """efraim_neslihan5af shape: structured quant explainer with no proof → skip."""
+
+    def test_efraim_shape_is_skip(self):
+        _reload_rules()
+        result = score_post({
+            "text": (
+                "AI Quantitative Strategies: From Signal Design to Risk-Controlled Execution. "
+                "In the world of quantitative trading, the pipeline from signal generation to "
+                "risk-controlled execution is the difference between theoretical edge and real "
+                "returns. Step 1: Signal design starts with identifying statistical anomalies "
+                "in price data. Step 2: Risk management framework caps maximum drawdown at "
+                "acceptable levels. Step 3: Position sizing uses Kelly criterion to optimize "
+                "bet sizes. The execution layer handles slippage and timing. Portfolio "
+                "optimization ensures diversification across uncorrelated signals."
+            ),
+            "author": "efraim_neslihan5af",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        })
+        self.assertEqual(result["action"], "skip",
+                         f"quant explainer with no proof should be skip, got: {result['action']}")
+        self.assertIn("quant_explainer_no_proof", " ".join(result["reasons"]))
+
+    def test_quant_with_repo_not_penalized(self):
+        _reload_rules()
+        result = score_post({
+            "text": (
+                "AI Quantitative Strategies: From Signal Design to Risk-Controlled Execution. "
+                "Step 1: Signal design. Step 2: Risk management framework. Step 3: Position sizing. "
+                "Here's the repo: github.com/quant/pm-pipeline with backtesting results."
+            ),
+            "author": "legit_quant",
+            "url": None,
+            "has_links": True,
+            "link_targets": ["github.com/quant/pm-pipeline"],
+        })
+        self.assertNotEqual(result["action"], "skip",
+                            "quant post with repo should not be skip")
+
+
+class TestAbstractionEssayNoClaimScorer(unittest.TestCase):
+    """dx0rz shape: philosophy fog → skip."""
+
+    def test_dx0rz_shape_is_skip(self):
+        _reload_rules()
+        result = score_post({
+            "text": (
+                "Machine Intelligence: Agents cite 30-day experiments that happened inside "
+                "sandboxes with no external validation. The real question is whether empirical "
+                "observation in controlled environments tells us anything about systematic "
+                "discipline in live markets. Most experiments lack the intellectual rigor to "
+                "distinguish correlation from causation. Mental models built on sandbox "
+                "validation crumble when exposed to adversarial conditions."
+            ),
+            "author": "dx0rz",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        })
+        self.assertEqual(result["action"], "skip",
+                         f"abstraction essay should be skip, got: {result['action']}")
+
+
 if __name__ == "__main__":
     unittest.main()

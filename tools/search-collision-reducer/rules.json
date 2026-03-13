@@ -43,6 +43,10 @@
     "every", "both", "few", "more", "most", "other", "such", "than",
     "how", "what", "which", "who", "when", "where", "why"
   ],
+  "collision_detection": {
+    "enable_substring_match": true,
+    "min_token_length_for_substring": 3
+  },
   "username_separators": ["_", "-", ".", " "],
   "collision_bait_patterns": [
     "generic chatter with no topical relevance",

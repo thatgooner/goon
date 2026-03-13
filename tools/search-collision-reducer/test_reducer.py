@@ -130,6 +130,7 @@ class TestCollisionScoring(unittest.TestCase):
             "client_helper_bot",
             "Hey everyone! Hope you're having a great day. Let's build something cool!",
             [],
+            "py-clob-client",
             RULES,
         )
         self.assertGreaterEqual(score, RULES["collision_scores"]["some_tokens_username_only"])
@@ -141,6 +142,7 @@ class TestCollisionScoring(unittest.TestCase):
             "wallet_xray_bot",
             "Just had a great lunch at this new place downtown.",
             [],
+            "wallet xray",
             RULES,
         )
         self.assertEqual(score, RULES["collision_scores"]["all_tokens_username_only"])
@@ -152,6 +154,7 @@ class TestCollisionScoring(unittest.TestCase):
             "jaris_trader",
             "Used py-clob-client to place orders on the CLOB. Client fills were good.",
             [],
+            "py-clob-client",
             RULES,
         )
         self.assertEqual(score, RULES["collision_scores"]["no_username_overlap"])
@@ -162,6 +165,7 @@ class TestCollisionScoring(unittest.TestCase):
             "research_bot",
             "wallet xray tool is great for tracing counterparties",
             [],
+            "wallet xray",
             RULES,
         )
         self.assertEqual(score, RULES["collision_scores"]["no_username_overlap"])
@@ -767,6 +771,191 @@ class TestRulesLoading(unittest.TestCase):
         self.assertAlmostEqual(
             w["relevance"] + w["collision_penalty"] + w["novelty"], 1.0
         )
+
+
+# ── Moltbook agent/title collision fix (gooner 13:56 ask) ───────────
+
+MOLTBOOK_PY_CLOB = {
+    "query": "py-clob-client",
+    "results": [
+        {"author": "client", "text": "Welcome to my profile! I help with client relations.", "url": "https://moltbook.com/post/m1", "link_targets": []},
+        {"author": "ClawClient", "text": "Building cool stuff for the community!", "url": "https://moltbook.com/post/m2", "link_targets": []},
+        {"author": "Cliente", "text": "Hola! Soy un agente de servicios.", "url": "https://moltbook.com/post/m3", "link_targets": []},
+        {"author": "cliented", "text": "Networking and outreach agent here.", "url": "https://moltbook.com/post/m4", "link_targets": []},
+        {"author": "py_clob_dev", "text": "Just deployed my py-clob-client integration with CLOB fills. Repo: https://github.com/dev/pm-bot", "url": "https://moltbook.com/post/m5", "link_targets": ["https://github.com/dev/pm-bot"]},
+    ],
+    "seen_authors": [],
+}
+
+MOLTBOOK_WALLET_XRAY = {
+    "query": "wallet xray",
+    "results": [
+        {"author": "wallet", "text": "Your go-to wallet management agent.", "url": "https://moltbook.com/post/w1", "link_targets": []},
+        {"author": "walletray", "text": "Payments and portfolio tracking.", "url": "https://moltbook.com/post/w2", "link_targets": []},
+        {"author": "xrwallet", "text": "Cross-chain wallet solutions.", "url": "https://moltbook.com/post/w3", "link_targets": []},
+        {"author": "walletpay", "text": "Fast payments for everyone.", "url": "https://moltbook.com/post/w4", "link_targets": []},
+        {"author": "wallet_wizard_42", "text": "GM fam! Love this community!", "url": "https://moltbook.com/post/w5", "link_targets": []},
+        {"author": "walletwhale_x", "text": "Big moves today LFG!", "url": "https://moltbook.com/post/w6", "link_targets": []},
+        {"author": "xray_wallet_pro", "text": "Securing your assets daily.", "url": "https://moltbook.com/post/w7", "link_targets": []},
+        {"author": "walletXrayAgent", "text": "Vibes are immaculate today.", "url": "https://moltbook.com/post/w8", "link_targets": []},
+    ],
+    "seen_authors": [],
+}
+
+MOLTBOOK_MARKET_MAKING = {
+    "query": "market making agent",
+    "results": [
+        {"author": "marketing_agent", "text": "Boost your brand with AI-driven marketing.", "url": "https://moltbook.com/post/k1", "link_targets": []},
+        {"author": "MarketingAgent", "text": "Our marketing strategy is fire!", "url": "https://moltbook.com/post/k2", "link_targets": []},
+        {"author": "agentmarket", "text": "Discover the best agents in one place.", "url": "https://moltbook.com/post/k3", "link_targets": []},
+        {"author": "AgentSpend-Marketing", "text": "Optimize your agent spend for maximum ROI.", "url": "https://moltbook.com/post/k4", "link_targets": []},
+    ],
+    "seen_authors": [],
+}
+
+
+class TestMoltbookAgentCollisionFix(unittest.TestCase):
+    """Tests for the gooner 13:56 ask: agent/title-only collision detection."""
+
+    def test_py_clob_client_discarded_collisions_gt_zero(self):
+        result = reduce_collisions(MOLTBOOK_PY_CLOB, RULES)
+        self.assertGreater(
+            result["summary"]["discarded_collisions"], 0,
+            "pure agent/title collision set must produce discarded_collisions > 0",
+        )
+
+    def test_py_clob_client_collision_bots_not_kept(self):
+        result = reduce_collisions(MOLTBOOK_PY_CLOB, RULES)
+        collision_authors = ["client", "ClawClient", "Cliente", "cliented"]
+        for author in collision_authors:
+            entry = next(r for r in result["ranked_results"] if r["author"] == author)
+            self.assertFalse(
+                entry["keep"],
+                f"{author} should be keep=false (collision), got keep={entry['keep']} reason='{entry['reason']}'",
+            )
+
+    def test_py_clob_client_real_post_kept(self):
+        result = reduce_collisions(MOLTBOOK_PY_CLOB, RULES)
+        real = next(r for r in result["ranked_results"] if r["author"] == "py_clob_dev")
+        self.assertTrue(real["keep"])
+
+    def test_py_clob_client_real_post_ranks_first(self):
+        result = reduce_collisions(MOLTBOOK_PY_CLOB, RULES)
+        self.assertEqual(result["ranked_results"][0]["author"], "py_clob_dev")
+
+    def test_wallet_xray_discarded_collisions_gt_zero(self):
+        result = reduce_collisions(MOLTBOOK_WALLET_XRAY, RULES)
+        self.assertGreater(result["summary"]["discarded_collisions"], 0)
+
+    def test_wallet_xray_at_least_6_of_8_discarded(self):
+        result = reduce_collisions(MOLTBOOK_WALLET_XRAY, RULES)
+        discarded = [r for r in result["ranked_results"] if not r["keep"]]
+        self.assertGreaterEqual(
+            len(discarded), 6,
+            f"at least 6/8 collision-only results should be keep=false, got {len(discarded)}",
+        )
+
+    def test_market_making_agent_discarded_collisions_gt_zero(self):
+        result = reduce_collisions(MOLTBOOK_MARKET_MAKING, RULES)
+        self.assertGreater(result["summary"]["discarded_collisions"], 0)
+
+    def test_market_making_agent_all_discarded(self):
+        result = reduce_collisions(MOLTBOOK_MARKET_MAKING, RULES)
+        for entry in result["ranked_results"]:
+            self.assertFalse(
+                entry["keep"],
+                f"{entry['author']} should be keep=false, got reason='{entry['reason']}'",
+            )
+
+
+class TestSubstringCollision(unittest.TestCase):
+    """Substring username matching catches camelCase/concatenated names."""
+
+    def test_camelcase_username_detected(self):
+        score = compute_collision(
+            ["py", "clob", "client"],
+            "ClawClient",
+            "Building cool stuff!",
+            [],
+            "py-clob-client",
+            RULES,
+        )
+        self.assertGreater(score, 0, "ClawClient should trigger collision via 'client' substring")
+
+    def test_concatenated_username_detected(self):
+        score = compute_collision(
+            ["wallet", "xray"],
+            "walletray",
+            "Payments and portfolio.",
+            [],
+            "wallet xray",
+            RULES,
+        )
+        self.assertGreater(score, 0, "walletray should trigger collision via 'wallet' substring")
+
+    def test_short_token_not_substring_matched(self):
+        """Tokens shorter than min_token_length_for_substring skip substring check."""
+        score = compute_collision(
+            ["py", "clob", "client"],
+            "python_dev",
+            "I build python tools for data analysis.",
+            [],
+            "py-clob-client",
+            RULES,
+        )
+        self.assertEqual(score, RULES["collision_scores"]["no_username_overlap"])
+
+    def test_full_phrase_in_body_overrides_collision(self):
+        """If full query phrase is in body, username overlap is not collision."""
+        score = compute_collision(
+            ["wallet", "xray"],
+            "walletray",
+            "I built a wallet xray tool that traces counterparty flows.",
+            [],
+            "wallet xray",
+            RULES,
+        )
+        self.assertEqual(score, RULES["collision_scores"]["no_username_overlap"])
+
+
+class TestUsernameDominatedCollision(unittest.TestCase):
+    """When body token hits all overlap the username, it's still collision."""
+
+    def test_body_mentions_username_token_still_collision(self):
+        """Body says 'client' but that's also the username — no independent evidence."""
+        score = compute_collision(
+            ["py", "clob", "client"],
+            "client",
+            "Welcome! I'm your client relations agent.",
+            [],
+            "py-clob-client",
+            RULES,
+        )
+        self.assertGreater(score, 0, "username-dominated match should still be collision")
+
+    def test_independent_body_evidence_clears_collision(self):
+        """Body has tokens NOT in username → independent evidence → not collision."""
+        score = compute_collision(
+            ["py", "clob", "client"],
+            "client_bot",
+            "The CLOB orderbook is thin. py-clob-client helps with fills.",
+            [],
+            "py-clob-client",
+            RULES,
+        )
+        self.assertEqual(score, RULES["collision_scores"]["no_username_overlap"])
+
+    def test_wallet_agent_thin_body_collision(self):
+        result = reduce_collisions({
+            "query": "wallet xray",
+            "results": [
+                {"author": "wallet_agent", "text": "Your wallet companion.", "url": "https://x.com/1", "link_targets": []},
+            ],
+            "seen_authors": [],
+        }, RULES)
+        entry = result["ranked_results"][0]
+        self.assertFalse(entry["keep"])
+        self.assertGreater(entry["collision_score"], 0)
 
 
 if __name__ == "__main__":

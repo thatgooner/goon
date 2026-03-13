@@ -493,6 +493,81 @@ def _is_prompt_leak_astroturf(text: str) -> bool:
     return True
 
 
+_QUANT_STRUCTURE_RE = re.compile(
+    r"(?i)\b(signal\s+design|risk[- ]controlled|pipeline|framework|"
+    r"methodology|signal\s+(?:generation|extraction|detection)|"
+    r"risk\s+(?:management|control|framework)|"
+    r"execution\s+(?:engine|layer|pipeline)|"
+    r"alpha\s+(?:generation|extraction|decay)|"
+    r"quantitative\s+(?:strateg|analysis|research)|"
+    r"portfolio\s+(?:optimization|construction)|"
+    r"regime\s+(?:detection|filter|exit)|"
+    r"factor\s+(?:model|analysis))\b"
+)
+
+
+def _is_quant_explainer_no_proof(text: str, url_field: Optional[str]) -> bool:
+    """Long structured quant/methodology explainer with zero proof surface."""
+    if _count_words(text) < 40:
+        return False
+    if _has_any_url(text, url_field):
+        return False
+    if _has_signal_url(text, url_field):
+        return False
+    if _WALLET_RE.search(text):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
+        return False
+    quant_hits = len(_QUANT_STRUCTURE_RE.findall(text))
+    if quant_hits < 2:
+        return False
+    has_pipeline_lang = bool(re.search(
+        r"(?i)\b(pipeline|framework|methodology|signal\s+design|"
+        r"risk[- ]controlled|stage|phase|from\s+\w+\s+to\s+\w+)\b", text
+    ))
+    has_steps = bool(_METHODOLOGY_STEP_RE.search(text))
+    if not has_pipeline_lang and not has_steps:
+        return False
+    return True
+
+
+_ABSTRACTION_LANG_RE = re.compile(
+    r"(?i)\b(experiment|intel(?:ligence)?|paradigm|thesis|"
+    r"hypothesis|epistem|empirical|systematic|discipline|"
+    r"observation|reasoning|meta[- ]?analysis|"
+    r"mental\s+model|sandboxe?s?|validation|"
+    r"correlation\s+(?:is|isn't|does|doesn't)|"
+    r"the\s+(?:real|actual)\s+(?:question|issue|problem)\s+is)\b"
+)
+
+
+def _is_abstraction_essay_no_claim(text: str, url_field: Optional[str]) -> bool:
+    """Polished essay about methodology/experiments with no testable claim or artifact."""
+    if _count_words(text) < 30:
+        return False
+    if _has_any_url(text, url_field):
+        return False
+    if _has_signal_url(text, url_field):
+        return False
+    if _WALLET_RE.search(text):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
+        return False
+    if _TRADING_VENUE_RE.search(text):
+        return False
+    abstraction_hits = len(_ABSTRACTION_LANG_RE.findall(text))
+    if abstraction_hits < 2:
+        return False
+    concrete_re = re.compile(
+        r"(?i)(?:github\.com|gitlab\.com|repo\s*:|dashboard\s*:|"
+        r"deployed|shipped|here's\s+(?:the|my)\s+(?:repo|dashboard|data|code)|"
+        r"backtest\s+results?)"
+    )
+    if concrete_re.search(text):
+        return False
+    return True
+
+
 # ---------------------------------------------------------------------------
 # Core scoring
 # ---------------------------------------------------------------------------
@@ -532,6 +607,10 @@ def _eval_heuristic(heuristic_name: str, text: str, url_field: Optional[str]) ->
         return _is_prompt_leak_astroturf(text)
     elif heuristic_name == "failure_receipt":
         return _is_failure_receipt(text)
+    elif heuristic_name == "quant_explainer_no_proof":
+        return _is_quant_explainer_no_proof(text, url_field)
+    elif heuristic_name == "abstraction_essay_no_claim":
+        return _is_abstraction_essay_no_claim(text, url_field)
     return False
 
 
@@ -634,6 +713,14 @@ def classify(post: dict, rules_path: Optional[str] = None) -> dict:
 
     # --- Copytrading rhetoric dampens any residual signal ---
     if "copytrading_rhetoric_no_wallet" in noise_matched and not _has_signal_url(text, url_field):
+        signal_score *= 0.3
+
+    # --- Quant explainer dampens methodology signal ---
+    if "quant_explainer_no_proof" in noise_matched and not _has_signal_url(text, url_field):
+        signal_score *= 0.3
+
+    # --- Abstraction essay dampens any residual methodology signal ---
+    if "abstraction_essay_no_claim" in noise_matched and not _has_signal_url(text, url_field):
         signal_score *= 0.3
 
     # --- Fundraising wallet dampens wallet_disclosure signal ---

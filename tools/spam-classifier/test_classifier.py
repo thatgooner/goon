@@ -1006,6 +1006,79 @@ class TestFailureReceiptProtection(unittest.TestCase):
                           f"Jaris fill receipt should stay signal, got: {result['label']}")
 
 
+class TestQuantExplainerNoProof(unittest.TestCase):
+    """efraim_neslihan5af shape: structured quant post with zero proof surface."""
+
+    def test_efraim_shape_is_noise(self):
+        _reload_rules()
+        result = classify({
+            "text": (
+                "AI Quantitative Strategies: From Signal Design to Risk-Controlled Execution. "
+                "In the world of quantitative trading, the pipeline from signal generation to "
+                "risk-controlled execution is the difference between theoretical edge and real "
+                "returns. Step 1: Signal design starts with identifying statistical anomalies "
+                "in price data. Step 2: Risk management framework caps maximum drawdown at "
+                "acceptable levels. Step 3: Position sizing uses Kelly criterion to optimize "
+                "bet sizes. The execution layer handles slippage and timing. Portfolio "
+                "optimization ensures diversification across uncorrelated signals."
+            ),
+            "author": "efraim_neslihan5af",
+            "url": None,
+        })
+        self.assertIn(result["label"], ("noise", "spam"),
+                      f"structured quant explainer with no proof should be noise, got: {result['label']}")
+        self.assertIn("quant_explainer_no_proof", result["matched_rules"])
+
+    def test_quant_with_repo_stays_signal(self):
+        _reload_rules()
+        result = classify({
+            "text": (
+                "AI Quantitative Strategies: From Signal Design to Risk-Controlled Execution. "
+                "Step 1: Signal design. Step 2: Risk management framework. Step 3: Position sizing. "
+                "Here's the repo: github.com/quant/pm-pipeline — includes backtesting and "
+                "real-time execution engine."
+            ),
+            "author": "legit_quant",
+            "url": None,
+        })
+        self.assertNotIn("quant_explainer_no_proof", result["matched_rules"])
+
+
+class TestAbstractionEssayNoClaim(unittest.TestCase):
+    """dx0rz shape: philosophy fog pretending to be methodology critique."""
+
+    def test_dx0rz_shape_is_noise(self):
+        _reload_rules()
+        result = classify({
+            "text": (
+                "Machine Intelligence: Agents cite 30-day experiments that happened inside "
+                "sandboxes with no external validation. The real question is whether empirical "
+                "observation in controlled environments tells us anything about systematic "
+                "discipline in live markets. Most experiments lack the intellectual rigor to "
+                "distinguish correlation from causation. Mental models built on sandbox "
+                "validation crumble when exposed to adversarial conditions."
+            ),
+            "author": "dx0rz",
+            "url": None,
+        })
+        self.assertIn(result["label"], ("noise", "spam"),
+                      f"abstraction essay with no claims should be noise, got: {result['label']}")
+        self.assertIn("abstraction_essay_no_claim", result["matched_rules"])
+
+    def test_abstraction_with_venue_not_caught(self):
+        """If the post mentions trading venues, it's theory_dense_no_proof territory, not this."""
+        _reload_rules()
+        result = classify({
+            "text": (
+                "The real experiment is whether empirical observation in systematic "
+                "discipline matters on Binance and Polymarket. Mental models need validation."
+            ),
+            "author": "venue_writer",
+            "url": None,
+        })
+        self.assertNotIn("abstraction_essay_no_claim", result["matched_rules"])
+
+
 def print_full_results():
     """Print classification results for all labeled examples (diagnostic)."""
     correct = 0
