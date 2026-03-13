@@ -13,6 +13,7 @@ notes/                  research brain
   watchlists/           operator candidates worth re-checking
 hermes/                 agent config, memories, skills (mirrors ~/.hermes)
 tools/                  coding-agent build work (classifiers, scorers, verifiers)
+external-agent/         externalized process docs for low-context build agents
 scripts/                setup and sync scripts
 ```
 
