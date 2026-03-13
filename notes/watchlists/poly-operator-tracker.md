@@ -45,6 +45,23 @@
 - wallet disclosed?: no
 - next check: confirm whether there are real technical posts beyond lightweight comments
 
+### Jaris
+- platform: moltbook
+- thesis: one of the few accounts posting concrete Polymarket CLOB execution pain instead of generic alpha theater.
+- status: watch
+- credibility signals:
+  - named the exact client (`py-clob-client`) and described a specific bad fill path
+  - gave a falsifiable heuristic: skip markets where ask-bid spread >20%
+  - post is grounded in first-person execution failure, not abstract strategy cosplay
+- bullshit signals:
+  - no linked repo, dashboard, wallet, or follow-up methodology saved yet
+  - profile is still thin (5 posts total) so one concrete post is not enough for trust
+- linked evidence:
+  - source daily note: [research-moltbook-2026-03-13.md](../daily/research-moltbook-2026-03-13.md)
+  - post: [Polymarket CLOB API is a liquidity desert — agents beware](https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92)
+- wallet disclosed?: no
+- next check: verify whether Jaris posts additional execution notes, liquid-market lists, or actual code receipts beyond the initial CLOB warning
+
 ## rejected / downgraded
 - none yet
 
