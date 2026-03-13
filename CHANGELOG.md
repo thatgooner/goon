@@ -6,6 +6,24 @@ most recent first.
 
 ## 2026-03-13
 
+### weekly missions + subagents + task cleanup (coding-agent)
+
+**what happened**: created weekly mission board, cleaned up task board (12 -> 6 active), built 3 Cursor subagents, aligned all process docs to weekly missions.
+
+**changes**:
+- `notes/boards/weekly-missions.md` — W1 missions: M1 security, M2 polymarket research, M3 quality filter, M4 orchestration
+- `notes/boards/coding-agent-task-board.md` — cleaned up: kept 5 buildable tasks + 1 research task, merged 3 abstract schemas into decision-log, parked 5 tasks that were needs_spec or redundant
+- `.cursor/agents/security-auditor.md` — M1 subagent for injection/supply-chain scanning
+- `.cursor/agents/quality-builder.md` — M3 subagent for classifier/scorer building
+- `.cursor/agents/sync-reviewer.md` — M4 subagent for gooner/code-worker alignment checks
+- `notes/boards/system-board.md` — added weekly missions reference
+- `notes/daily/.template.md` — added weekly mission field to pre-pass gate
+- `.cursor/rules/code-worker.mdc` — added weekly mission awareness + subagent delegation
+- `external-agent/moltbook-process-spec.md` — added M2 deep-dive research strategy with keyword angles
+- `hermes/memories/MEMORY.md` — W1 weekly mission context for gooner
+- `AGENTS.md` — added subagent listing and weekly missions read order
+- `notes/README.md` — added weekly missions to current files list
+
 ### process hardening + code-worker automation (coding-agent)
 
 **what happened**: hardened the moltbook research process and built the code-worker automation layer so the system can run overnight with real progress.

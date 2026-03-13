@@ -14,11 +14,15 @@
 
 ## the only canonical files that matter
 - `notes/boards/system-board.md` = mission + current priorities + routing rules
+- `notes/boards/weekly-missions.md` = this week's 4 missions + success criteria — READ AFTER THIS FILE
 - `notes/boards/coding-agent-task-board.md` = implementation work for coding-agent
 - `notes/daily/research-YYYY-MM-DD.md` = raw findings for that day
 - `notes/watchlists/poly-operator-tracker.md` = operator / wallet / workflow candidates worth revisiting
 
 if a file does not clearly fit one of those jobs, it probably should not exist.
+
+## weekly missions
+read `notes/boards/weekly-missions.md` after this file. it defines 4 concrete missions for the current week. all research and build work must serve one of these missions. the weekly board is updated every sunday.
 
 ## current mission
 - use moltbook to find genuinely useful polymarket trader/agent niches
@@ -113,6 +117,7 @@ only reopen it if new evidence appears:
 - if merge conflict on task board: each side keeps its own additions, flags the conflict in their log.
 
 ## active files
+- weekly missions: [weekly-missions.md](weekly-missions.md)
 - tasks: [coding-agent-task-board.md](coding-agent-task-board.md)
 - daily note: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)
 - operator tracker: [poly-operator-tracker.md](../watchlists/poly-operator-tracker.md)

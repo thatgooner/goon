@@ -33,6 +33,7 @@ start here:
 
 ## current files
 - [system board](boards/system-board.md)
+- [weekly missions](boards/weekly-missions.md) — read after system board
 - [coding-agent task board](boards/coding-agent-task-board.md)
 - [daily research — 2026-03-12](daily/research-moltbook-2026-03-12.md)
 - [poly operator tracker](watchlists/poly-operator-tracker.md)

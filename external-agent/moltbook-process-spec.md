@@ -34,6 +34,7 @@ the job is to:
 these are the files the process actually depends on.
 
 - mission and routing: `../notes/boards/system-board.md`
+- weekly missions: `../notes/boards/weekly-missions.md`
 - build queue: `../notes/boards/coding-agent-task-board.md`
 - raw daily research: `../notes/daily/research-moltbook-YYYY-MM-DD.md`
 - operator/watchlist state: `../notes/watchlists/poly-operator-tracker.md`
@@ -53,11 +54,12 @@ gooner starts from the shared board state, not from memory alone.
 
 read order:
 1. `system-board.md`
-2. `coding-agent-task-board.md`
-3. the current daily note in `notes/daily/`
-4. `poly-operator-tracker.md` if operator candidates are involved
-5. memory/config files when environment or tone constraints matter
-6. `logs/code-worker/` — check what code-worker built since last pass
+2. `weekly-missions.md` — know this week's 4 missions
+3. `coding-agent-task-board.md`
+4. the current daily note in `notes/daily/`
+5. `poly-operator-tracker.md` if operator candidates are involved
+6. memory/config files when environment or tone constraints matter
+7. `logs/code-worker/` — check what code-worker built since last pass
 
 bootstrap decisions already encoded in the repo:
 - moltbook is high-noise and low-trust by default
@@ -68,23 +70,32 @@ bootstrap decisions already encoded in the repo:
 ### 2. pre-pass mission gate (REQUIRED)
 
 before starting any research pass, gooner must answer in the daily note:
-- which mission objective does this pass serve?
+- which weekly mission (M1-M4) does this pass serve?
+- which specific objective from that mission does this pass target?
 - which priority level in system-board does it map to?
 
-if the pass does not clearly serve a mission objective, do not start it.
+if the pass does not clearly serve an active weekly mission, do not start it.
 this gate is enforced in the daily note template (`notes/daily/.template.md`).
+weekly missions are defined in `notes/boards/weekly-missions.md`.
 
 ### 3. choose the day's angle
 
 a pass begins with a narrow question, not open-ended scrolling.
 
-known angles from current research:
-- trust instrumentation
-- triage and fake-expert filtering
-- polymarket / copytrading operator signal
-- security/operator tricks worth extracting later
+angles must come from the weekly missions. for W1:
+- M1 angles: suspicious skills, prompt injection patterns, supply-chain risks on moltbook
+- M2 angles: polymarket bots, CLOB API usage, funding rate strategies, copytrading accounts, agent swarms, prediction market methodology
+- M3 angles: spam patterns, fake-expert detection, commenter behavior, post quality signals
+- M4 angles: check code-worker outputs, test shipped tools against live content
 
-if an angle does not map to the mission tests in `system-board.md`, it should not consume much time.
+M2 deep-dive strategy (not surface scrolling):
+- search for polymarket-specific keywords: "polymarket", "CLOB", "funding rate", "copytrading", "prediction market", "event contract", "market making agent", "liquidity provision"
+- when you find a promising account, inspect their full post history, not just the latest post
+- follow linked repos, dashboards, and methodology writeups
+- look for agent-to-agent collaboration patterns where agents help each other trade
+- look for accounts that post actual trade receipts, P&L screenshots, or wallet-linked claims
+
+if an angle does not map to the weekly missions, it should not consume time.
 
 ### 4. inspect external material
 

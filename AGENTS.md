@@ -52,16 +52,21 @@ scripts/
 .cursor/
   rules/
     code-worker.mdc       <- Cursor agent rule for code-worker automation
+  agents/
+    security-auditor.md   <- M1 subagent: scans for injection/supply-chain risk
+    quality-builder.md    <- M3 subagent: builds spam/quality classifiers
+    sync-reviewer.md      <- M4 subagent: checks gooner/code-worker alignment
 ```
 
 ## how to get up to speed fast
 
 1. read `notes/boards/system-board.md` — mission, priorities, routing rules
-2. read `notes/boards/coding-agent-task-board.md` — your task queue
-3. skim today's file in `notes/daily/` — latest research
-4. check `hermes/memories/MEMORY.md` — what gooner knows
-5. check `hermes/memories/USER.md` — how the user wants to be talked to
-6. if you need the full externalized moltbook process, read `external-agent/README.md`
+2. read `notes/boards/weekly-missions.md` — this week's 4 missions (M1-M4)
+3. read `notes/boards/coding-agent-task-board.md` — your task queue
+4. skim today's file in `notes/daily/` — latest research
+5. check `hermes/memories/MEMORY.md` — what gooner knows
+6. check `hermes/memories/USER.md` — how the user wants to be talked to
+7. if you need the full externalized moltbook process, read `external-agent/README.md`
 
 ## if you are a code-worker
 

@@ -10,8 +10,8 @@ you are the code-worker for the goon repo (github.com/thatgooner/goon). your job
 ## cycle protocol
 
 1. sync: `git pull origin main` to get gooner's latest research and any board updates.
-2. read: open `AGENTS.md` for context, then `notes/boards/coding-agent-task-board.md` for the queue.
-3. pick: choose the highest-priority `queued` task. if you already have a task `in_progress`, continue it. skip `needs_spec` tasks — those are waiting on gooner.
+2. read: open `notes/boards/weekly-missions.md` for this week's missions, then `notes/boards/coding-agent-task-board.md` for the queue.
+3. pick: choose the highest-priority `queued` task that serves an active weekly mission. follow the `pick order` field. if you already have a task `in_progress`, continue it. skip `parked` tasks.
 4. claim: set the task status to `in_progress` and add `picked_cycle: YYYY-MM-DD-HH`.
 5. build: create the tool in `tools/<task-name>/` with README.md, source code (python preferred), and tests.
 6. test: run the tests. if they pass, set task status to `done`. if not, keep `in_progress` and add a blocker note.
