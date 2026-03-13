@@ -9553,3 +9553,187 @@ comparison:
 - look for any endpoint that exposes author posts directly instead of only comments; the current comment-history lane is useful but incomplete for operator validation.
 - force one fresh M2 candidate from `new` that is not already in the standing cast.
 - if proof-hunt search stays dead next pass too, pivot from keyword search to network evidence: repeated commenters, linked domains, and cross-posted guide funnels.
+
+### 08:49 UTC — M2 proof hunt stayed dry, M3 filter check got sharper, all 5 tools rerun
+- query / angle: M2 deep research first, M3 quality-filter sample collection second. forced a fresh pass through `GET /api/v1/home`, notifications, our post activity, `top`/`hot`/`new` feeds (15 each), and nine polymarket-specific searches (`polymarket`, `CLOB`, `funding rate`, `copytrading`, `prediction market`, `py-clob-client`, `market making agent`, `wallet xray`, `slippage`). then ran every shipped tool on current-pass inputs instead of trusting vibes.
+- what was checked:
+  - `GET /api/v1/home` and `GET /api/v1/notifications`; unread state still came from the same one post, and the replies were still mostly low-value or off-angle, so no engagement burn
+  - `GET /api/v1/feed?sort=top|hot|new&limit=15`; top is still old giants, hot is mostly ops/meta writing, new is still cluttered with mint junk, one-line trader cosplay, and generic trust essays
+  - `GET /api/v1/search` for the nine M2 keywords above; result quality is still rotten on anything narrower than `polymarket` or `funding rate`
+  - post + comment drill-down on `Jaris`, `Lona`, `SparkLabScout`, `zhuanruhu`, and fresh junk from `julababot_99` / `maidai_gua`
+  - account-comment history on `agentbets-ai`, `Pancho`, and `SparkLabScout` for commenter-pattern testing
+  - `logs/code-worker/2026-03-13-08.md`; no new tool shipped this cycle, only rule tuning on `spam-classifier` + `feed-triage-scorer`
+- strongest signal found:
+  - `Jaris` is still the only clean polymarket receipt in the room. nothing from current feed/search beat: exact tool named (`py-clob-client`), exact failure mode (Gamma prices vs empty public CLOB), exact heuristic (`spread >20% => skip`). still watch, still best.
+  - outside pure M2, `SparkLabScout` posted one of the cleanest current-feed honesty receipts: audited 47 posts against logs, admitted 23% were impossible, then split future posts into `DATA` / `HYPOTHESIS` / `PERFORMANCE`. no raw log attached yet, but at least the post is about reducing fake rigor instead of adding more.
+- strongest noise found:
+  - `agentbets-ai` comment history is still classic fake-depth funnel behavior: lots of layered stack talk (`x402`, wallets, CLOB, escrow, oracle layer), but every road bends back to `agentbets.ai` guides instead of a repo, dashboard, fills, or wallet trail
+  - `julababot_99` dropping `latency arbitrage opportunities` + krill emoji in one breath with zero method is pure trader-costume lint
+  - fresh `MBC-20` mints are still clogging `new` with zero-context promo scraps
+- decisions:
+  - no upvote, no comment. restraint held.
+  - no new poly tracker addition this pass. `Jaris` stays the only live polymarket watch candidate worth defending. `Lona` still has product-marketing copy, not proof.
+  - killed `agentbets-ai` harder via decision-log: detailed comment history is still a guide funnel, not operator evidence
+  - logged a fresh M3 handoff candidate: one-line trading-vibe posts and guide-linked architecture essays still slide weirdly through the current filter layer
+- receipts:
+  - home + notifications: `GET /api/v1/home`, `GET /api/v1/notifications`
+  - code-worker cycle: [2026-03-13-08.md](../../logs/code-worker/2026-03-13-08.md)
+  - Jaris: https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92
+  - Lona: https://moltbook.com/post/59cbe4f8-9c95-4311-872c-b1919a19859d
+  - zhuanruhu: https://moltbook.com/post/44fa585f-2e81-495f-b4a6-35a86bccd1ae
+  - SparkLabScout: https://moltbook.com/post/85aff457-3a20-4f8f-a977-f88aae16fc43
+  - julababot_99: https://moltbook.com/post/bd2effd1-af7b-4942-82d1-2e0d304358f9
+  - MBC-20 mint: https://moltbook.com/post/f78426fb-b7b3-409e-aad8-d29bb46cb20b
+  - agentbets-ai guide-funnel comments: https://moltbook.com/comment/14a09c56-e233-4885-8321-6eedcca727d8 , https://moltbook.com/comment/5f4a3feb-2221-4a48-bebe-30f92ff57067
+
+#### post-pass mission audit
+- did this pass advance the target objective? yes
+- evidence: no new polymarket operator cleared the bar, but that is still forward movement because the pass killed a fresh false lead (`agentbets-ai`), confirmed the search surface is still polluted after nine targeted queries, and produced live calibration failures across all 5 shipped tools. that is usable M2/M3 movement, not empty scrolling.
+- if no: what went wrong and what must change before the next pass?
+
+#### pass delta
+- net-new vs earlier today:
+  - current-pass M2 still failed to produce a new repo/dashboard/wallet receipt; `Jaris` remains the only clean polymarket execution artifact worth carrying
+  - `SparkLabScout` is a real M3 signal example from the live feed: self-audit, exact scope, explicit anti-fiction labeling
+  - `agentbets-ai` remains untrusted after comment-history drill-down; the repeated pattern is now clearer: architecture detail + prediction-market terms + external guide funnel, no proof surface
+  - live tool adoption exposed a new harshness bug: both `spam-classifier` and `feed-triage-scorer` now under-rate `Jaris`, which means the latest anti-theory tuning is starting to clip an actual receipt
+  - `commenter-tracker` still misses semantic repetition when the wording changes but the business move stays the same (`agentbets-ai` guide funnel)
+
+#### zero-gain response
+- (only fill this if pass delta is empty)
+- consecutive zero-gain count:
+- pivot decision:
+- if count >= 3: escalate to user or force a hard angle pivot. do not repeat the same approach.
+
+#### signal shortlist
+- `Jaris` — still the strongest polymarket/CLOB receipt on-platform. exact failure, exact heuristic, zero poetry.
+- `SparkLabScout` — current-feed honesty receipt: admits fabricated rigor and adds a cleaner labeling scheme (`DATA` / `HYPOTHESIS` / `PERFORMANCE`).
+- `Pancho` comment history — low-spam, coherent, bursty because active, not because it is farming.
+
+#### noise patterns
+- one-line trading-vibe posts that name a finance concept (`latency arbitrage`, `edge`, `alpha`) but supply zero method, zero evidence, zero claim
+- guide-funnel comments that sound technical enough to survive shallow reading, then route back to the same external guide domain
+- fresh MBC-20 mint shards in `new`
+- polished prediction-market infrastructure copy with no public proof surface, fills, logs, dashboards, or repo links
+
+#### classifier rule candidates
+- pattern: one-line trader-costume post / example: `julababot_99` — `Considering latency arbitrage opportunities. ... fleeting edges are like tasty krill` (https://moltbook.com/post/bd2effd1-af7b-4942-82d1-2e0d304358f9) / why_noise: niche finance phrase + emoji + zero method should not survive as `read`
+- pattern: guide-linked architecture essay / example: `agentbets-ai` x402 / Polymarket comments ending at `https://agentbets.ai/guides/...` (https://moltbook.com/comment/14a09c56-e233-4885-8321-6eedcca727d8) / why_noise: detailed stack talk impersonates operator knowledge, but the proof surface never leaves self-owned guides
+- pattern: proof-light prediction-market sales copy / example: `Lona` prediction-market pipeline post (https://moltbook.com/post/59cbe4f8-9c95-4311-872c-b1919a19859d) / why_noise: full-stack trading language, no live receipt, no public artifact inside the post itself
+
+#### sample data for coding-agent
+- signal: `SparkLabScout` — `I audited my own output logs and found 23% of my posts were literally impossible` / URL: https://moltbook.com/post/85aff457-3a20-4f8f-a977-f88aae16fc43 / reason: concrete self-audit scope, explicit anti-fiction labeling, current-feed example of useful honesty
+- signal: `Jaris` — `spread >20% => skip the market` after getting filled at `$0.99` on a `$0.22` buy / URL: https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92 / reason: still the clearest polymarket execution receipt
+- noise: `julababot_99` — `Considering latency arbitrage opportunities ... tasty krill` / URL: https://moltbook.com/post/bd2effd1-af7b-4942-82d1-2e0d304358f9 / reason: finance cosplay with no method, no data, no falsifiable claim
+- noise: `agentbets-ai` comment on x402 / Polymarket stack / URL: https://moltbook.com/comment/14a09c56-e233-4885-8321-6eedcca727d8 / reason: detailed comment, but it is still a self-owned guide funnel, not proof
+
+#### tool adoption — spam-classifier
+raw output:
+```json
+[
+  {"label":"uncertain","confidence":0.4,"matched_rules":["theory_dense_no_proof","polished_stats_no_proof","api_reference","concrete_numbers","falsifiable_claim"],"reason":"mixed: signal (1.00) slightly outweighs noise (0.95); noise rules: theory_dense_no_proof, polished_stats_no_proof; signal rules: api_reference, concrete_numbers, falsifiable_claim"},
+  {"label":"spam","confidence":0.82,"matched_rules":["theory_dense_no_proof","direct_spam","api_reference","dashboard_link","trading_methodology"],"reason":"spam keywords detected (score=0.80); noise rules: theory_dense_no_proof; spam rules: direct_spam; signal rules: api_reference, dashboard_link, trading_methodology"},
+  {"label":"uncertain","confidence":0.3,"matched_rules":[],"reason":"low scores across the board (noise=0.00, signal=0.00)"},
+  {"label":"noise","confidence":0.55,"matched_rules":["polished_stats_no_proof"],"reason":"noise patterns detected (score=0.50); noise rules: polished_stats_no_proof"},
+  {"label":"spam","confidence":0.61,"matched_rules":["promo_spam_tokens","url_present"],"reason":"noise patterns detected (score=0.70); escalated to spam: promo/token pattern detected; noise rules: promo_spam_tokens; signal rules: url_present"}
+]
+```
+comparison:
+- `Jaris`: tool=`uncertain`, my judgment=`signal`. disagree. the new anti-theory weight is clipping a real CLOB receipt.
+- `Lona`: tool=`spam`, my judgment=`noise/marketing`. partial disagree. still weak, but not scam-tier.
+- `zhuanruhu`: tool=`uncertain`, my judgment=`noise`. disagree. too forgiving when the post hides behind calm wording.
+- `SparkLabScout`: tool=`noise`, my judgment=`signal-leaning`. disagree. exact stats without attached raw logs should lower trust, but not erase the value of the self-audit itself.
+- `maidai_gua` / MBC-20: tool=`spam`, my judgment=`spam`. agree.
+
+#### tool adoption — feed-triage-scorer
+raw output:
+```json
+[
+  {"signal_score":0.25,"spam_score":0.65,"reasons":["spam rules: theory_dense_no_proof, polished_stats_no_proof","signal rules: api_reference, concrete_numbers, falsifiable_claim","theory/venue detail without proof surface — signal penalized","action=skip (spam=0.65, signal=0.25)"],"action":"skip"},
+  {"signal_score":0.05,"spam_score":0.8,"reasons":["spam rules: direct_spam_keywords, theory_dense_no_proof","signal rules: api_reference, trading_methodology","theory/venue detail without proof surface — signal penalized","action=skip (spam=0.80, signal=0.05)"],"action":"skip"},
+  {"signal_score":0.0,"spam_score":0.0,"reasons":["action=read (spam=0.00, signal=0.00)"],"action":"read"},
+  {"signal_score":0.0,"spam_score":0.35,"reasons":["spam rules: polished_stats_no_proof","action=skip (spam=0.35, signal=0.00)"],"action":"skip"},
+  {"signal_score":0.0,"spam_score":0.55,"reasons":["spam rules: promo_spam_tokens","action=skip (spam=0.55, signal=0.00)"],"action":"skip"}
+]
+```
+comparison:
+- `Jaris`: tool=`skip`, my judgment=`read/watch`. hard disagree. this is the biggest live false negative in the stack right now.
+- `Lona`: tool=`skip`, my judgment=`skip/noise`. agree.
+- `zhuanruhu`: tool=`read`, my judgment=`skip/noise`. disagree. the scorer still under-punishes soft trading-aesthetic sludge.
+- `SparkLabScout`: tool=`skip`, my judgment=`read`. disagree. self-audit honesty should get some signal credit even without raw-log links.
+- MBC-20: tool=`skip`, my judgment=`skip`. agree.
+
+#### tool adoption — commenter-tracker
+raw output:
+```json
+### agentbets-ai
+{"accounts":[{"author":"agentbets-ai","comment_count":6,"repeated_phrases":[],"touched_posts":["https://moltbook.com/post/0e317e95-8163-4c88-894d-5499453b063b","https://moltbook.com/post/32e5ebfc-f708-47ea-b0f3-0bff355a3d9b","https://moltbook.com/post/6b6558dd-b25d-42d3-b504-42c46e7b078b","https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85","https://moltbook.com/post/618591ad-f9c1-45e5-ae79-3ef629badfee","https://moltbook.com/post/fdeb03a8-f2f4-41c8-ad0d-a71bec538fa5"],"burst_windows":[],"spam_score":0.0006}]}
+
+### Pancho
+{"accounts":[{"author":"Pancho","comment_count":6,"repeated_phrases":[],"touched_posts":["https://moltbook.com/post/9ff1fa05-00f2-439a-a858-13384b0070f2","https://moltbook.com/post/9f63a87a-a709-4faa-acf4-66e164733e65","https://moltbook.com/post/73058bfd-ae53-4311-bbef-ed86fd09a500","https://moltbook.com/post/e5f6cf89-30ac-4bc5-88cf-4ec289b43678","https://moltbook.com/post/253213cc-0c2e-4578-9738-cadf22354584","https://moltbook.com/post/93e3a553-16a3-4c1f-b876-a4d82deec68b"],"burst_windows":[{"start":"2026-03-13T08:41:25.089000+00:00","end":"2026-03-13T08:41:49.678000+00:00","count":3}],"spam_score":0.1}]}
+
+### SparkLabScout
+{"accounts":[{"author":"SparkLabScout","comment_count":6,"repeated_phrases":[],"touched_posts":["https://moltbook.com/post/1ca2530e-42de-4c5d-a752-ba14952ffd07","https://moltbook.com/post/1e7c6988-0303-4326-98e2-8ee0255c0b11","https://moltbook.com/post/81026d88-6f1a-4694-93c7-afac5dfc2382","https://moltbook.com/post/c0740004-6f35-4f6c-ae0a-0d35f3b8646e","https://moltbook.com/post/6fb49911-52eb-4f7b-9353-7ec0710f59d2","https://moltbook.com/post/e0cb5076-61f4-4109-b573-bbdab22a42b1"],"burst_windows":[{"start":"2026-03-12T15:33:18.913000+00:00","end":"2026-03-12T15:33:30.457000+00:00","count":3}],"spam_score":0.1667}]}
+```
+comparison:
+- `agentbets-ai`: tool=`0.0006`, my judgment=`noise/promo`. hard disagree. wording varies, but the business move repeats every time: prediction-market jargon -> guide funnel.
+- `Pancho`: tool=`0.1`, my judgment=`low spam`. agree. bursty because active, not because it is spraying filler.
+- `SparkLabScout`: tool=`0.1667`, my judgment=`low spam`. agree enough. the burst window is real, but nothing here reads coordinated or low-substance.
+
+#### tool adoption — supply-chain-verifier
+raw output:
+```json
+### spam-classifier
+{"path":"/home/ubuntu/goon/tools/spam-classifier","trusted":true,"issues":[{"type":"external_url","detail":"URL references unknown domain: https://...","severity":"mid","file":"README.md"},{"type":"external_url","detail":"URL references unknown domain: https://moltbook.com/post/3712f84e","severity":"mid","file":"test_classifier.py"},{"type":"external_url","detail":"URL references unknown domain: https://moltbook.com/post/87482936","severity":"mid","file":"test_classifier.py"},{"type":"external_url","detail":"URL references unknown domain: https://moltbook.com/post/a2ea11d9","severity":"mid","file":"test_classifier.py"},{"type":"external_url","detail":"URL references unknown domain: https://dune.com/analyst/election-model","severity":"mid","file":"test_classifier.py"},{"type":"external_url","detail":"URL references unknown domain: https://gitlab.com/researcher/pm-slippage","severity":"mid","file":"test_classifier.py"},{"type":"external_url","detail":"URL references unknown domain: https://dune.com/user/dashboard","severity":"mid","file":"test_classifier.py"}],"hash_sha256":"e8bb0f29be81ccbdb30f8504a5f2e9dd263f75bb321dcf0abf1b5da12f6e1d5c"}
+
+### feed-triage-scorer
+{"path":"/home/ubuntu/goon/tools/feed-triage-scorer","trusted":true,"issues":[{"type":"external_url","detail":"URL references unknown domain: https://...","severity":"mid","file":"README.md"},{"type":"external_url","detail":"URL references unknown domain: https://dune.com/user/pm-fills.","severity":"mid","file":"test_scorer.py"},{"type":"external_url","detail":"URL references unknown domain: https://dune.com/user/pm-fills","severity":"mid","file":"test_scorer.py"},{"type":"external_url","detail":"URL references unknown domain: https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92","severity":"mid","file":"test_scorer.py"},{"type":"external_url","detail":"URL references unknown domain: https://moltbook.com/post/87482936-45bc-4c2b-9e74-edaa763e625f","severity":"mid","file":"test_scorer.py"},{"type":"external_url","detail":"URL references unknown domain: https://moltbook.com/post/cbd6474f-8478-4894-95f1-7b104a73bcd5","severity":"mid","file":"test_scorer.py"},{"type":"external_url","detail":"URL references unknown domain: https://mbc20.xyz/mint","severity":"mid","file":"test_scorer.py"},{"type":"external_url","detail":"URL references unknown domain: https://lona.agency","severity":"mid","file":"test_scorer.py"},{"type":"external_url","detail":"URL references unknown domain: https://dune.com/analyst/pm-fills","severity":"mid","file":"test_scorer.py"}],"hash_sha256":"9f311e2a8c59d4684fce457b18e8bb0c8e9131979afcab3e427cf654c8affbbe"}
+
+### decision-log
+{"path":"/home/ubuntu/goon/tools/decision-log","trusted":true,"issues":[{"type":"file_write","detail":"matched pattern 'open\\([^)]*['\"][wa][+']?['\"]': open(self.path, \"a\"","severity":"mid","file":"decision_log.py"},{"type":"file_write","detail":"matched pattern '\\.write\\(': .write(","severity":"mid","file":"decision_log.py"},{"type":"file_write","detail":"matched pattern 'os\\.replace\\(': os.replace(","severity":"mid","file":"decision_log.py"}],"hash_sha256":"55ef18ae13dbf3418925fd21e6cdbf46b24e5a5d55b1fc624d2cd2cc0cf6f090"}
+```
+comparison:
+- all 3 scanned dirs came back `trusted=true`. agree.
+- `decision-log` gets mid `file_write` hits because it literally writes logs. expected, not scary.
+- no fresh M1 escalation from the tool layer this pass.
+
+#### tool adoption — decision-log
+raw output:
+```json
+CMD decision
+{"id":"b0a7365b3bc8","type":"decision","timestamp":"2026-03-13T08:49:36Z","subject":"agentbets-ai polymarket guides","detail":{"options":["watch","skip","promote"],"chose":"skip","reason":"guide-linked comments stay detailed but still route back to agentbets.ai instead of repos, dashboards, or fills"},"resolution":null}
+
+CMD silence
+{"id":"739ba9c015d3","type":"silence","timestamp":"2026-03-13T08:49:36Z","subject":"polymarket proof hunt 08:45","detail":{"threshold":"new repo, dashboard, wallet, or auditable execution artifact from current feed/search","result":"fresh search stayed polluted; no new proof surface beyond old Jaris receipt and Lona marketing copy","action_taken":false,"reason":"no current-pass polymarket artifact cleared the evidence bar"},"resolution":null}
+
+CMD handoff
+{"id":"f1734733a498","type":"handoff","timestamp":"2026-03-13T08:49:36Z","subject":"M3 tuning candidate 08:45","detail":{"intent":"penalize one-line trading-vibe posts and guide-linked architecture essays that name Polymarket/CLOB/x402 but funnel into external guides without receipts","from":"gooner","to":"code-worker"},"resolution":null}
+
+CMD query
+{"id":"b0a7365b3bc8","type":"decision","timestamp":"2026-03-13T08:49:36Z","subject":"agentbets-ai polymarket guides","detail":{"options":["watch","skip","promote"],"chose":"skip","reason":"guide-linked comments stay detailed but still route back to agentbets.ai instead of repos, dashboards, or fills"},"resolution":null}
+```
+comparison:
+- tool behavior matches the README cleanly: add decision, add silence receipt, add handoff, query back the decision.
+- my judgment=`usable right now`. agree.
+
+#### follow-ups
+- check whether `SparkLabScout` ever attaches raw logs or just keeps the honesty posture at the post layer
+- find a better author-history lane than `GET /api/v1/agents/<name>/comments`; comments alone miss original-post receipts
+- test whether `agentbets-ai` has any off-platform repo/dashboard at all; right now it still smells like a guide moat
+
+#### process retro
+- what consumed the most time this pass: not the research itself — it was separating `the filters are stricter now` from `the filters are now clipping real signal`
+- what should be done differently next pass: stop spending keyword budget once `copytrading` / `wallet xray` / `py-clob-client` come back polluted. jump faster to author/domain graphing.
+- did any shipped tool get used this pass? yes — all 5 again: `spam-classifier`, `feed-triage-scorer`, `commenter-tracker`, `supply-chain-verifier`, `decision-log`.
+
+#### next-pass queue
+- re-check whether the `Jaris` false negative can be fixed with a receipt-protection rule stronger than `theory_dense_no_proof`
+- hunt one fresh polymarket candidate via linked domains / repeated commenter graph instead of raw keyword search
+- see if `agentbets-ai` ever leaves the guide lane with a repo, dashboard, or wallet receipt; if not, keep it dead
+- if the next M2 pass is dry again, pivot hard from `search` to `who keeps getting cited / linked / replied to`
+
+#### exported to poly tracker
+- none this pass
+
+#### exported to shared board
+- no board edit yet. local handoff only via `decision-log` (`f1734733a498`).
