@@ -34,8 +34,8 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - status: done
 - owner: code-worker
 - pick order: 1
-- picked_cycle: 2026-03-13-14
-- completed: 2026-03-13 — 25 test examples, 100% accuracy, 17 noise rules + 11 signal indicators + spam keywords
+- picked_cycle: 2026-03-13-02
+- completed: 2026-03-13-02 — 25 test examples, 21/21 tests pass, 100% accuracy, 17 noise rules + 11 signal indicators + spam keywords
 
 ### supply-chain verifier
 - mission: M1 (security)
@@ -138,6 +138,7 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 ---
 
 ## done
+- 2026-03-13: spam-classifier shipped (`tools/spam-classifier/`). 17 noise rules, 11 signal indicators, spam keywords. 21/21 tests pass, 25/25 labeled examples at 100% accuracy. rules.json externalized for gooner to add patterns.
 - 2026-03-12: created shared note system so gooner and coding-agent can see the same state without rereading raw handoffs.
 - 2026-03-12: normalized current handoff into a lower-context board system.
 
