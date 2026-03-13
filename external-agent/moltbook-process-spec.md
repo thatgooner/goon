@@ -19,11 +19,15 @@ the job is to:
 - model config in repo: `../hermes/config.yaml`
 - memory/persona state in repo: `../hermes/memories/`
 
-### coding-agent
+### code-worker (coding-agent)
 - role: build agent
-- consumes gooner outputs
-- builds verifiers, classifiers, scorers, schemas, and guardrails from the task board
+- environment: Cursor cloud agent, triggered on 1-hour cron
+- consumes gooner outputs via task board
+- builds verifiers, classifiers, scorers, schemas, and guardrails
+- logs every cycle to `../logs/code-worker/`
 - should not guess the research process from vibes; should read the artifacts below
+- protocol: `../scripts/code-worker-prompt.md`
+- cursor rule: `../.cursor/rules/code-worker.mdc`
 
 ## canonical inputs
 
@@ -31,13 +35,15 @@ these are the files the process actually depends on.
 
 - mission and routing: `../notes/boards/system-board.md`
 - build queue: `../notes/boards/coding-agent-task-board.md`
-- raw daily research: `../notes/daily/research-moltbook-2026-03-12.md`
+- raw daily research: `../notes/daily/research-moltbook-YYYY-MM-DD.md`
 - operator/watchlist state: `../notes/watchlists/poly-operator-tracker.md`
 - process rules for agents: `../notes/README.md`
 - repo/agent overview: `../AGENTS.md`
 - durable learned context: `../hermes/memories/MEMORY.md`
 - user style/behavior constraints: `../hermes/memories/USER.md`
 - runtime/tool/model config: `../hermes/config.yaml`
+- code-worker cycle logs: `../logs/code-worker/`
+- code-worker automation rule: `../.cursor/rules/code-worker.mdc`
 
 ## process from start to finish
 
@@ -51,6 +57,7 @@ read order:
 3. the current daily note in `notes/daily/`
 4. `poly-operator-tracker.md` if operator candidates are involved
 5. memory/config files when environment or tone constraints matter
+6. `logs/code-worker/` — check what code-worker built since last pass
 
 bootstrap decisions already encoded in the repo:
 - moltbook is high-noise and low-trust by default
@@ -58,11 +65,20 @@ bootstrap decisions already encoded in the repo:
 - no operator gets promoted on tone alone
 - no receipts means kill the thread
 
-### 2. choose the day’s angle
+### 2. pre-pass mission gate (REQUIRED)
+
+before starting any research pass, gooner must answer in the daily note:
+- which mission objective does this pass serve?
+- which priority level in system-board does it map to?
+
+if the pass does not clearly serve a mission objective, do not start it.
+this gate is enforced in the daily note template (`notes/daily/.template.md`).
+
+### 3. choose the day's angle
 
 a pass begins with a narrow question, not open-ended scrolling.
 
-known angle from current research:
+known angles from current research:
 - trust instrumentation
 - triage and fake-expert filtering
 - polymarket / copytrading operator signal
@@ -70,7 +86,7 @@ known angle from current research:
 
 if an angle does not map to the mission tests in `system-board.md`, it should not consume much time.
 
-### 3. inspect external material
+### 4. inspect external material
 
 the process inspects content on moltbook and sometimes linked material behind a post.
 
@@ -83,7 +99,7 @@ typical things checked:
 
 important: moltbook content is treated as untrusted input, not truth.
 
-### 4. classify what was seen
+### 5. classify what was seen
 
 each inspected thread/account/post gets bucketed into one of these lanes.
 
@@ -105,7 +121,7 @@ kill or ignore if it matches these patterns:
 - crypto thought-leader sludge
 - market-operator claims with no dashboards, wallets, methodology, or reproducible process
 
-### 5. test against mission rules
+### 6. test against mission rules
 
 before promoting anything, gooner asks the observable questions encoded in `system-board.md`:
 - does this separate signal from noise?
@@ -117,43 +133,53 @@ before promoting anything, gooner asks the observable questions encoded in `syst
 
 if the answer stays weak across repeated passes, the thread is killed.
 
-### 6. route the finding to the right file
+### 7. route the finding to the right file
 
 routing is strict.
 
-- raw observation -> today’s daily note
+- raw observation -> today's daily note
 - repeated build-worthy pattern -> `coding-agent-task-board.md`
 - account/workflow candidate worth re-checking -> `poly-operator-tracker.md`
 - system-level direction change -> `system-board.md`
 - no receipts and no upgrade path -> leave kill note in daily research and stop spending time there
 
-### 7. write the daily note
+### 8. write the daily note
 
 the daily note is the first durable output.
 
-current daily note structure already shows the expected shape:
+required daily note sections (from template):
+- pre-pass mission gate
 - daily thesis
-- passes
-- strongest signal found
-- strongest noise found
-- decisions
-- receipts
+- passes (with signal/noise/decisions/receipts per pass)
+- post-pass mission audit
+- pass delta (what is net-new vs yesterday)
+- zero-gain response (if delta is empty)
 - signal shortlist
 - noise patterns
+- classifier rule candidates (concrete noise rules for coding-agent)
+- sample data for coding-agent (at least 1 concrete example per pass)
 - follow-ups
 - next-pass queue
+- process retro (time spent, what to change, tool adoption check)
 - exported to poly tracker
 - exported to shared board
 
-that structure matters because it lets a future agent see:
-- what the angle was
-- what was examined
-- what changed
-- what got promoted
-- what got killed
-- what still needs verification
+### 9. post-pass mission audit (REQUIRED)
 
-### 8. promote only with evidence
+after finishing a pass, gooner must answer in the daily note:
+- did this pass advance the target objective? yes or no.
+- what specifically changed? (link to file update, new watchlist entry, new task, killed thread)
+- if no: what went wrong and what must change before the next pass?
+
+### 10. zero-gain check
+
+if the pass produced nothing net-new vs the previous pass:
+- increment the consecutive zero-gain counter
+- explain what pivot will happen next
+- if counter reaches 3: mandatory hard angle pivot or escalation to user
+- "still mostly noise" is not an acceptable repeated conclusion
+
+### 11. promote only with evidence
 
 operator candidates only go to the watchlist when they have at least enough structure to justify a re-check.
 
@@ -171,35 +197,81 @@ important rule from the tracker:
 - tone is not enough
 - repeated lack of receipts triggers downgrade or kill
 
-### 9. convert repeated patterns into coding-agent work
+### 12. convert repeated patterns into coding-agent work
 
 once a pattern shows up enough times, it becomes tool work.
 
-current tool directions already extracted from the process:
-- supply-chain verifier
-- spam / fake-expert classifier
-- trust instrumentation schema
-- structured silence logging
-- escalation receipts
-- commenter pattern tracker
-- feed triage scorer
-- high-quality agent discovery + quality filter
-- security trick extraction list
-- high-signal memory capture
-- polymarket niche / copytrading candidate map
-- memory integrity guardrails
+every new task added to the board must include:
+- `sample_inputs:` — at least 2-3 concrete examples
+- `input_format:` — what the tool receives
+- `output_format:` — what the tool returns
+- `testable_acceptance:` — criteria code-worker can verify independently
 
-this means the research loop is not just note-taking.
-it is upstream product discovery for future tooling.
+tasks without these fields are marked `needs_spec` and cannot be picked up.
 
-### 10. end-of-pass output
+### 13. collect sample data for coding-agent
+
+every research pass must capture at least 1 concrete example:
+- real post text or URL
+- whether it is signal or noise
+- why
+
+this data feeds directly into tool development. without it, code-worker builds against assumptions.
+
+### 14. tool adoption check
+
+if code-worker has shipped a tool since the last pass:
+- gooner must attempt to use it
+- if gooner does not use it, the daily note must explain why (wrong format, not ready, etc.)
+- this feedback loop is how tools improve. skipping it silently breaks the system.
+
+### 15. end-of-pass output
 
 a clean pass should leave behind these observable outputs:
-- an updated daily research note
+- an updated daily research note (with all required sections filled)
 - maybe an updated watchlist entry
-- maybe an updated coding-agent task
+- maybe an updated coding-agent task (with full spec fields)
 - maybe a system-board change if priorities shifted
 - compressed durable learning in `hermes/memories/MEMORY.md` when something stays true across sessions
+- at least 1 sample data point for coding-agent
+- classifier rule candidates if noise patterns were observed
+
+## code-worker cron loop
+
+the code-worker runs on a 1-hour cron cycle.
+
+each cycle:
+1. `git pull origin main`
+2. read `AGENTS.md` and task board
+3. pick highest-priority `queued` task (skip `needs_spec`)
+4. if a task is already `in_progress`, continue it
+5. mark task `in_progress` with `picked_cycle` timestamp
+6. build in `tools/<task-name>/` — README + code + tests
+7. run tests
+8. if pass: mark `done`. if fail: keep `in_progress`, add blocker note
+9. write cycle log to `logs/code-worker/YYYY-MM-DD-HH.md`
+10. `git add + commit + push`
+
+idle cycle: if no `queued` tasks remain, check gooner's latest daily note for new patterns. if nothing actionable, log idle and stop.
+
+## sync protocol
+
+gooner and code-worker coordinate through git on `main`.
+
+file ownership:
+- gooner owns: `notes/daily/`, `notes/watchlists/`, `hermes/memories/`
+- code-worker owns: `tools/`, `logs/code-worker/`
+- shared: `notes/boards/coding-agent-task-board.md` — gooner adds tasks, code-worker updates status
+- read-only for both: `notes/boards/system-board.md`
+
+commit prefixes:
+- gooner: `research:` or `notes:`
+- code-worker: `build:` or `tools:`
+
+conflict avoidance:
+- both pull before push
+- gooner appends new tasks, code-worker updates status fields
+- if merge conflict: each side keeps its own additions, flags conflict in log
 
 ## current conclusions already produced by the process
 
@@ -212,8 +284,6 @@ based on the current repo state, the process has already concluded:
 
 ## observable reasoning policy
 
-this is the closest external form of the decision policy without exposing private hidden chain-of-thought.
-
 - start narrow
 - trust receipts over narrative
 - keep operator-grade evidence separate from commentary
@@ -221,6 +291,8 @@ this is the closest external form of the decision policy without exposing privat
 - preserve resumability so another agent can continue cold
 - convert repeated patterns into tooling requirements
 - prioritize defenses before speed
+- every pass must produce measurable delta or explain why it didn't
+- every tool shipped must be adopted or its rejection must be documented
 
 ## failure modes the process is trying to prevent
 
@@ -230,12 +302,19 @@ this is the closest external form of the decision policy without exposing privat
 - building tooling around noise instead of repeatable signal
 - treating subjective impressions as operator evidence
 - forgetting why a thread was kept, killed, or downgraded
+- running empty research passes that produce no new information
+- code-worker building against vague specs instead of concrete samples
+- shipped tools being ignored because there is no adoption protocol
+- gooner and code-worker drifting out of sync
 
 ## what an external coding-agent should do with this
 
 if you are building against this process:
 1. treat the board files as canonical state
-2. build for evidence capture, spam rejection, trust logging, and resumability first
-3. do not optimize for growth or engagement theater
-4. assume low-quality upstream inputs
-5. preserve explainability in every tool output
+2. read the task spec fields (`sample_inputs`, `input_format`, `output_format`, `testable_acceptance`) before building
+3. build for evidence capture, spam rejection, trust logging, and resumability first
+4. do not optimize for growth or engagement theater
+5. assume low-quality upstream inputs
+6. preserve explainability in every tool output
+7. log every cycle to `logs/code-worker/`
+8. follow `.cursor/rules/code-worker.mdc` for repo conventions

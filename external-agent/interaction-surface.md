@@ -19,20 +19,34 @@ these are the files an outside agent must read to understand the active process.
   - why it matters: defines promotion discipline and archive policy
 
 - `../notes/boards/system-board.md`
-  - role: mission, routing rules, mission tests, dead-thread rule, current truths
+  - role: mission, routing rules, mission tests, dead-thread rule, operational rules, sync protocol, current truths
   - why it matters: this is the highest-value process file
 
 - `../notes/boards/coding-agent-task-board.md`
-  - role: build queue derived from research findings
-  - why it matters: this is where repeated patterns become tooling work
+  - role: build queue with full spec fields (sample_inputs, input/output format, testable_acceptance)
+  - why it matters: this is where repeated patterns become tooling work. tasks without spec fields are `needs_spec` and cannot be picked up.
 
-- `../notes/daily/research-moltbook-2026-03-12.md`
-  - role: raw evidence log for the current day in repo state
-  - why it matters: shows the actual pass structure and current conclusions
+- `../notes/daily/research-moltbook-YYYY-MM-DD.md`
+  - role: raw evidence log with mission gates, delta tracking, classifier rules, and sample data
+  - why it matters: shows the actual pass structure, mission compliance, and current conclusions
 
 - `../notes/watchlists/poly-operator-tracker.md`
   - role: active re-check list for accounts that are not yet trusted
   - why it matters: preserves multi-day operator verification state
+
+### automation and sync files
+
+- `../.cursor/rules/code-worker.mdc`
+  - role: Cursor agent rule for code-worker automation
+  - why it matters: defines the 1-hour cron cycle protocol, file ownership, and commit conventions
+
+- `../scripts/code-worker-prompt.md`
+  - role: trigger prompt for Cursor cloud agent cron
+  - why it matters: the exact instruction that starts each code-worker cycle
+
+- `../logs/code-worker/YYYY-MM-DD-HH.md`
+  - role: per-cycle progress logs from code-worker
+  - why it matters: shows what was built, test results, and blockers. readable at a glance for overnight review.
 
 ### secondary process files
 
@@ -62,22 +76,20 @@ these are the files an outside agent must read to understand the active process.
 
 ## write targets
 
-the process writes to these places depending on what is learned.
+### gooner writes to
+- `../notes/daily/research-moltbook-YYYY-MM-DD.md` — raw findings, mission gates, delta, classifier rules, sample data, retro
+- `../notes/watchlists/poly-operator-tracker.md` — accounts worth re-checking
+- `../notes/boards/coding-agent-task-board.md` — new tasks with full spec fields (append only, do not modify code-worker status changes)
+- `../notes/boards/system-board.md` — only when mission/priorities/routing genuinely change
+- `../hermes/memories/MEMORY.md` — only when something has become durable enough to survive beyond one pass
 
-- `../notes/daily/research-moltbook-YYYY-MM-DD.md`
-  - for raw findings, killed threads, signal/noise examples, next-pass queue
+### code-worker writes to
+- `../tools/<task-name>/` — tool directories (README + code + tests)
+- `../logs/code-worker/YYYY-MM-DD-HH.md` — cycle logs
+- `../notes/boards/coding-agent-task-board.md` — status updates only (queued -> in_progress -> done)
 
-- `../notes/watchlists/poly-operator-tracker.md`
-  - for accounts worth re-checking later
-
-- `../notes/boards/coding-agent-task-board.md`
-  - for new tool/spec/schema work extracted from research
-
-- `../notes/boards/system-board.md`
-  - only when mission/priorities/routing genuinely change
-
-- `../hermes/memories/MEMORY.md`
-  - only when something has become durable enough to survive beyond one pass
+### neither writes to (read-only)
+- `../notes/boards/system-board.md` — only user-initiated changes
 
 ## external request surface
 
@@ -92,6 +104,7 @@ this is the outside world the process touches or is expected to touch.
   - noise patterns
   - candidate account names
   - claims that need receipts
+  - concrete sample data for classifier development
 
 ### 2. linked evidence behind moltbook posts
 - examples:
@@ -118,8 +131,6 @@ this is the outside world the process touches or is expected to touch.
 
 ## concrete external request classes already implied by current state
 
-even when exact URLs are not stored in the current notes, the process clearly implies these classes of requests:
-
 - fetch a moltbook profile or post
 - inspect a comment thread for repeated spam or fake-expert patterns
 - open a linked repo or dashboard from a candidate post
@@ -141,7 +152,7 @@ right now the process is closer to evidence-first reconnaissance than to automat
 ### if a request finds only noise
 - write a short kill or ignore note in the daily log
 - do not promote the account
-- maybe add a future classifier rule if the pattern repeats
+- capture the noise pattern as a classifier rule candidate
 
 ### if a request finds partial promise but weak receipts
 - add or maintain a watchlist entry
@@ -150,7 +161,7 @@ right now the process is closer to evidence-first reconnaissance than to automat
 
 ### if a request finds repeatable structural signal
 - promote the pattern into the coding-agent task board
-- define success criteria in tooling terms
+- define success criteria in tooling terms with full spec fields
 
 ### if a request changes the operating assumptions
 - update the system board
@@ -161,9 +172,10 @@ right now the process is closer to evidence-first reconnaissance than to automat
 if time is low, read exactly these in order:
 1. `../notes/boards/system-board.md`
 2. `../notes/boards/coding-agent-task-board.md`
-3. `../notes/daily/research-moltbook-2026-03-12.md`
+3. latest file in `../notes/daily/`
 4. `../notes/watchlists/poly-operator-tracker.md`
-5. `../hermes/memories/MEMORY.md`
-6. `../hermes/config.yaml`
+5. `../.cursor/rules/code-worker.mdc`
+6. latest files in `../logs/code-worker/`
+7. `../hermes/memories/MEMORY.md`
 
-that set is enough to reconstruct the observable process and current priorities.
+that set is enough to reconstruct the observable process, current priorities, and overnight progress.

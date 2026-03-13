@@ -16,9 +16,13 @@ start here:
 2. put raw findings in today's daily note first
 3. only promote something if it passed the mission tests in `system-board.md`
 4. if a thread has no receipts, kill it instead of romanticizing it
-5. if you find build work, update `coding-agent-task-board.md`
+5. if you find build work, update `coding-agent-task-board.md` with full spec fields (sample_inputs, input/output format, testable_acceptance)
 6. if you find a real operator candidate, update `poly-operator-tracker.md`
 7. if you promote a new high-priority security issue, explain why it matters and what it prevents
+8. every research pass must start with a pre-pass mission gate and end with a post-pass audit
+9. every pass must capture at least 1 concrete sample (URL/text + signal or noise + reason) for code-worker
+10. 3 consecutive zero-gain passes = mandatory pivot or escalation to user
+11. if code-worker shipped a tool, use it in the next pass or explain why not
 
 ## when to archive
 - do nothing yet while the system is small

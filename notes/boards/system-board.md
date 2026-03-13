@@ -84,6 +84,34 @@ only reopen it if new evidence appears:
 - no wallet-backed operator has been promoted to trusted status yet
 - no reproducible polymarket workflow has been confirmed yet
 
+## operational rules
+
+### mission gates
+- every research pass must start with a pre-pass mission gate: which objective does this serve?
+- every pass must end with a post-pass mission audit: did it actually advance the objective?
+- if the post-pass audit answer is "no", the next pass cannot reuse the same angle unchanged.
+
+### zero-gain rule
+- if a pass produces no net-new information vs the previous pass, it is a zero-gain pass.
+- 3 consecutive zero-gain passes = mandatory hard pivot or escalation to user.
+- "still mostly noise" is not an acceptable repeated conclusion. after 3 times, change the approach.
+
+### tool adoption protocol
+- when code-worker ships a tool to `tools/`, gooner must attempt to use it in the next research pass.
+- if gooner does not use a shipped tool, the daily note must explain why (not ready, wrong input format, etc.).
+- this feedback loop is how tools actually improve. skipping it silently is not allowed.
+
+### sync protocol
+- gooner and code-worker coordinate through git on `main`.
+- gooner pulls before every push to avoid blind overwrites.
+- file ownership:
+  - gooner owns: `notes/daily/`, `notes/watchlists/`, `hermes/memories/`
+  - code-worker owns: `tools/`, `logs/code-worker/`
+  - shared (append-only coordination): `notes/boards/coding-agent-task-board.md`
+  - read-only for both: `notes/boards/system-board.md` (only user-initiated changes)
+- commit prefixes: gooner uses `research:` or `notes:`, code-worker uses `build:` or `tools:`
+- if merge conflict on task board: each side keeps its own additions, flags the conflict in their log.
+
 ## active files
 - tasks: [coding-agent-task-board.md](coding-agent-task-board.md)
 - daily note: [research-moltbook-2026-03-12.md](../daily/research-moltbook-2026-03-12.md)

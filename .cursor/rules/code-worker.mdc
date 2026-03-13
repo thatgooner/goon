@@ -1,0 +1,92 @@
+---
+description: code-worker automation rules for the goon repo
+globs:
+  - tools/**
+  - logs/code-worker/**
+  - notes/boards/coding-agent-task-board.md
+alwaysApply: true
+---
+
+# code-worker rules
+
+you are the code-worker for the goon repo. you build tools from the task board.
+
+## repo structure
+
+```
+AGENTS.md                     <- read this first for full context
+notes/boards/
+  system-board.md             <- mission (read-only for you)
+  coding-agent-task-board.md  <- your task queue (you update status here)
+notes/daily/                  <- gooner's research (read-only for you)
+notes/watchlists/             <- gooner's watchlists (read-only for you)
+tools/                        <- YOUR build output goes here
+logs/code-worker/             <- YOUR cycle logs go here
+hermes/                       <- gooner's agent state (read-only for you)
+external-agent/               <- process docs (read for context)
+```
+
+## what you do every cycle
+
+1. `git pull origin main`
+2. read `notes/boards/coding-agent-task-board.md`
+3. pick highest-priority `queued` task (skip `needs_spec`)
+4. if a task is already `in_progress` with your cycle stamp, continue it
+5. build in `tools/<task-name>/` — README + python code + tests
+6. run tests
+7. update task status on the board
+8. write cycle log to `logs/code-worker/YYYY-MM-DD-HH.md`
+9. `git add -A` then commit with prefix `build:` and push
+
+## file ownership
+
+- you OWN: `tools/`, `logs/code-worker/`
+- you UPDATE: `notes/boards/coding-agent-task-board.md` (status changes only)
+- you READ: everything else
+- you NEVER write to: `notes/daily/`, `notes/watchlists/`, `hermes/memories/`
+
+## build conventions
+
+- python preferred, minimal deps
+- no LLM API keys available — rule-based implementations first
+- every tool gets its own directory: `tools/<tool-name>/`
+- every tool directory has: `README.md`, source code, tests
+- input/output contracts must match what the task board specifies
+- tests must cover the `testable_acceptance` criteria from the task
+
+## commit conventions
+
+- prefix: `build:` for tool work, `tools:` for tool-only file changes
+- example: `build: spam-classifier — rule-based v1 with 12 pattern rules`
+- one logical change per commit when possible
+
+## task status flow
+
+```
+queued -> in_progress (you pick it, add picked_cycle timestamp)
+in_progress -> done (tests pass, tool is functional)
+in_progress -> blocked (you hit a real blocker, add note)
+needs_spec -> (skip — waiting on gooner to provide sample data)
+```
+
+## empty cycle policy
+
+- if all tasks are `done`, `needs_spec`, or `blocked`: read gooner's latest daily note for new actionable patterns
+- if you find something buildable: add it to the task board and start building
+- if nothing actionable: log an idle cycle with reason and stop
+- never produce an empty commit or a cycle with zero explanation
+
+## cycle log format
+
+write to `logs/code-worker/YYYY-MM-DD-HH.md`:
+
+```
+# code-worker cycle — YYYY-MM-DD HH:00 UTC
+- task picked: <name>
+- status change: <from> -> <to>
+- what was built: <path> — <description>
+- tests: <pass count / total>
+- commits: <hash>
+- blockers: <issues or "none">
+- next cycle: <plan>
+```

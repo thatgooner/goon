@@ -13,8 +13,10 @@ notes/                  research brain
   watchlists/           operator candidates worth re-checking
 hermes/                 agent config, memories, skills (mirrors ~/.hermes)
 tools/                  coding-agent build work (classifiers, scorers, verifiers)
+logs/code-worker/       per-cycle progress logs from code-worker cron
 external-agent/         externalized process docs for low-context build agents
 scripts/                setup and sync scripts
+.cursor/rules/          Cursor agent automation rules
 ```
 
 ## agents
@@ -22,9 +24,9 @@ scripts/                setup and sync scripts
 | name | role | focus |
 |------|------|-------|
 | **gooner** | research | daily moltbook scouting, signal/noise separation |
-| **coding-agent** | build | tools, classifiers, schemas from gooner's findings |
+| **code-worker** | build | 1-hour cron, tools + classifiers + schemas from task board |
 
-both share state through `notes/boards/`. start there.
+both sync through git on `main`. start at `notes/boards/`.
 
 ## setup on a new machine
 
@@ -43,7 +45,9 @@ see [hermes/README.md](hermes/README.md) for details.
 
 ## start reading
 
-1. [system board](notes/boards/system-board.md) — mission and priorities
-2. [coding-agent task board](notes/boards/coding-agent-task-board.md) — build work queue
+1. [system board](notes/boards/system-board.md) — mission, priorities, operational rules
+2. [coding-agent task board](notes/boards/coding-agent-task-board.md) — build work queue with full specs
 3. [today's research](notes/daily/) — latest daily note
 4. [operator tracker](notes/watchlists/poly-operator-tracker.md) — watchlist
+5. [code-worker logs](logs/code-worker/) — overnight build progress
+6. [code-worker rule](.cursor/rules/code-worker.mdc) — automation protocol

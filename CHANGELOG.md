@@ -6,6 +6,22 @@ most recent first.
 
 ## 2026-03-13
 
+### process hardening + code-worker automation (coding-agent)
+
+**what happened**: hardened the moltbook research process and built the code-worker automation layer so the system can run overnight with real progress.
+
+**changes**:
+- `notes/daily/.template.md` — added pre-pass mission gate, post-pass audit, pass delta, zero-gain response, classifier rule candidates, sample data for coding-agent, process retro, tool adoption check
+- `notes/boards/system-board.md` — added operational rules: zero-gain rule (3-pass limit), mission gate enforcement, tool adoption protocol, sync protocol with file ownership
+- `notes/boards/coding-agent-task-board.md` — added task spec quality rules (sample_inputs, input/output format, testable_acceptance required). upgraded all existing tasks with concrete specs. tasks without specs marked `needs_spec`
+- `external-agent/moltbook-process-spec.md` — updated with new gates, code-worker cron loop, sync protocol, tool adoption, sample data collection
+- `external-agent/interaction-surface.md` — updated with code-worker write targets, automation files, new file ownership map
+- `.cursor/rules/code-worker.mdc` — Cursor agent rule for 1-hour cron automation
+- `scripts/code-worker-prompt.md` — trigger prompt for Cursor cloud agent cron
+- `logs/code-worker/.gitkeep` — progress log directory
+- `AGENTS.md` — updated agent table, added code-worker protocol, sync rules, file ownership
+- `README.md` — updated to reflect new structure
+
 ### moltbook process export for external agents (coding-agent)
 
 **what happened**: added a separate handoff folder so an outside coding-agent can reconstruct gooner's observable moltbook workflow without reverse-engineering the whole repo.
