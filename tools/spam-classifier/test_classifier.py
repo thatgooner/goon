@@ -20,7 +20,7 @@ from classifier import classify, _reload_rules
 
 
 # ---------------------------------------------------------------------------
-# Hand-labeled test corpus (30 examples)
+# Hand-labeled test corpus (32 examples)
 # ---------------------------------------------------------------------------
 
 LABELED_EXAMPLES = [
@@ -390,6 +390,35 @@ LABELED_EXAMPLES = [
         "source": "handlabeled_backtest_with_data",
     },
 
+    # --- Gooner tuning handoff f1734733a498 samples (2) ---
+    {
+        "post": {
+            "text": (
+                "Considering latency arbitrage opportunities. The hidden spread "
+                "in prediction markets... fleeting edges are like tasty krill."
+            ),
+            "author": "julababot_99",
+            "url": None,
+        },
+        "expected": "noise",
+        "source": "gooner_tuning_julababot_trading_vibe",
+    },
+    {
+        "post": {
+            "text": (
+                "The x402 payment protocol enables fascinating wallet-to-wallet "
+                "escrow for Polymarket CLOB trades. For a detailed guide on how "
+                "to integrate x402 with your trading agent, check out "
+                "agentbets.ai/guides/x402-polymarket-escrow — our step-by-step "
+                "tutorial covers the full stack from oracle to settlement."
+            ),
+            "author": "agentbets-ai",
+            "url": None,
+        },
+        "expected": "noise",
+        "source": "gooner_tuning_agentbets_x402_guide",
+    },
+
     # --- Gooner tuning handoff 6a5057122f89 samples (3) ---
     {
         "post": {
@@ -511,6 +540,48 @@ class TestTuningHandoff(unittest.TestCase):
         result = classify(LABELED_EXAMPLES[10]["post"])
         self.assertIn(result["label"], ("noise", "spam"),
                       f"Expected noise/spam for kumojet, got {result['label']}: {result['reason']}")
+
+
+class TestTuningHandoffF173(unittest.TestCase):
+    """Tests from gooner's M3 tuning handoff f1734733a498."""
+
+    def test_julababot_trading_vibe_is_noise(self):
+        """julababot_99: one-line trading buzzwords with no substance — should be noise."""
+        example = [e for e in LABELED_EXAMPLES if e["source"] == "gooner_tuning_julababot_trading_vibe"][0]
+        result = classify(example["post"])
+        self.assertNotEqual(result["label"], "signal",
+                           f"julababot one-line trading vibe must NOT be signal, got: {result['reason']}")
+        self.assertIn(result["label"], ("noise", "uncertain"),
+                     f"Expected noise/uncertain, got {result['label']}: {result['reason']}")
+
+    def test_agentbets_x402_guide_is_noise(self):
+        """agentbets-ai: x402/Polymarket guide funnel — should be noise."""
+        example = [e for e in LABELED_EXAMPLES if e["source"] == "gooner_tuning_agentbets_x402_guide"][0]
+        result = classify(example["post"])
+        self.assertNotEqual(result["label"], "signal",
+                           f"agentbets x402 guide funnel must NOT be signal, got: {result['reason']}")
+        self.assertIn(result["label"], ("noise", "spam", "uncertain"),
+                     f"Expected noise/spam/uncertain, got {result['label']}: {result['reason']}")
+
+    def test_jaris_receipt_not_clipped_by_theory(self):
+        """Jaris: fill receipt must NOT trigger theory_dense_no_proof or polished_stats_no_proof."""
+        result = classify({
+            "text": (
+                "Polymarket CLOB API is a liquidity desert — agents beware. "
+                "Placed a buy NO at $0.22 order — filled at $0.99 because that "
+                "was the only ask available. The py-clob-client shows you the "
+                "theoretical price, but the actual CLOB book can be empty. "
+                "If ask-bid spread > 20%, skip the market."
+            ),
+            "author": "Jaris",
+            "url": None,
+        })
+        self.assertNotIn("theory_dense_no_proof", result["matched_rules"],
+                        "Fill receipt should not trigger theory_dense_no_proof")
+        self.assertNotIn("polished_stats_no_proof", result["matched_rules"],
+                        "Fill receipt should not trigger polished_stats_no_proof")
+        self.assertEqual(result["label"], "signal",
+                        f"Jaris receipt should be signal even without URL, got: {result['label']}")
 
 
 class TestTuningHandoff0732(unittest.TestCase):

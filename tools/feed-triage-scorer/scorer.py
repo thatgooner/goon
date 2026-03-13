@@ -217,6 +217,17 @@ def _is_pure_emoji_no_text(text: str) -> bool:
     return ratio > 0.4
 
 
+_FILL_RECEIPT_RE = re.compile(
+    r"(?i)(?:"
+    r"filled\s+at\s+[\$]?[\d.]+"
+    r"|placed\s+(?:a\s+)?(?:buy|sell)\s+.*?at\s+[\$]?[\d.]+"
+    r"|(?:buy|sell)\s+(?:YES|NO)\s+at\s+[\$]?[\d.]+"
+    r"|order\s*[→\-]+\s*filled"
+    r"|(?:ask|bid)[- ]?(?:book|side)\s+was\s+empty"
+    r"|(?:ask[- ]?bid|bid[- ]?ask)\s+spread\s*[><=]+\s*\d+"
+    r")"
+)
+
 _TRADING_VENUE_RE = re.compile(
     r"(?i)\b(Binance|Deribit|Coinbase|Kraken|Bybit|OKX|Kalshi|Polymarket|"
     r"FTX|BitMEX|Huobi|KuCoin|Gate\.io)\b"
@@ -234,6 +245,8 @@ def _is_theory_dense_no_proof(text: str, url_field: Optional[str], link_targets:
     if _has_any_url(text, url_field, link_targets):
         return False
     if _has_signal_url(text, url_field, link_targets):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
         return False
     venues = len(_TRADING_VENUE_RE.findall(text))
     theory_terms = len(_TRADING_THEORY_RE.findall(text))
@@ -260,8 +273,8 @@ _BROAD_URL_RE = re.compile(
 )
 
 _GUIDE_LANG_RE = re.compile(
-    r"(?i)\b(?:guide|how\s+to|tutorial|step[- ]by[- ]step|learn\s+how|"
-    r"check\s+out|full\s+guide|detailed\s+guide)\b"
+    r"(?i)(?:\bguides?\b|\bhow\s+to\b|\btutorials?\b|\bstep[- ]by[- ]step\b|\blearn\s+how\b|"
+    r"\bcheck\s+out\b|\bfull\s+guide\b|\bdetailed\s+guide\b|/guides?/|/tutorials?/)"
 )
 
 _MARKET_THEORY_RE = re.compile(
@@ -289,6 +302,8 @@ def _extract_urls(text: str, url_field: Optional[str], link_targets: list) -> li
 def _is_polished_stats_no_proof(text: str, url_field: Optional[str], link_targets: list) -> bool:
     """Polished self-report with exact trading stats but no proof surface."""
     if _count_words(text) < 30:
+        return False
+    if _FILL_RECEIPT_RE.search(text):
         return False
     stat_hits = (
         len(_STAT_TRADE_COUNT_RE.findall(text))
@@ -325,6 +340,31 @@ def _is_guide_domain_funnel(text: str, url_field: Optional[str], link_targets: l
     if url_field:
         combined += " " + url_field
     if not _GUIDE_LANG_RE.search(combined):
+        return False
+    return True
+
+
+def _is_one_line_trading_vibe(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Short post that drops trading buzzwords with zero method or evidence."""
+    words = _count_words(text)
+    if words > 30:
+        return False
+    if _has_any_url(text, url_field, link_targets):
+        return False
+    broad_trading_re = re.compile(
+        r"(?i)\b(latency\s+arbitrage|arbitrage\s+opportunit|market\s+making"
+        r"|scalping|high[- ]frequency|yield\s+farm|snip(?:e|ing)|MEV"
+        r"|front[- ]?run|flash\s+loan|fleeting\s+edge|alpha\s+(?:generation|capture|leak|decay)"
+        r"|edge\s+(?:is|capture|decay)|krill|liquidity\s+provision)\b"
+    )
+    if not broad_trading_re.search(text):
+        return False
+    substance_re = re.compile(
+        r"(?i)(?:github\.com|gitlab\.com|repo|dashboard|\d+(?:\.\d+)?%"
+        r"|\$[\d.]+|step\s+\d|because\s+\w+\s+\w+|therefore|data\s+shows"
+        r"|tested|deployed|backtested|results)"
+    )
+    if substance_re.search(text):
         return False
     return True
 
@@ -370,6 +410,8 @@ def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets
         return _is_guide_domain_funnel(text, url_field, link_targets)
     elif name == "abstract_market_essay":
         return _is_abstract_market_essay(text, url_field, link_targets)
+    elif name == "one_line_trading_vibe":
+        return _is_one_line_trading_vibe(text, url_field, link_targets)
     return False
 
 
@@ -460,7 +502,7 @@ def _apply_context_modifiers(
         theory_re = re.compile(
             r"(?i)(?:(?:funding\s+rate|arbitrage|spread|divergence|execution|timing|slippage).*){2,}"
         )
-        if theory_re.search(text):
+        if theory_re.search(text) and not _FILL_RECEIPT_RE.search(text):
             penalty = modifiers.get("theory_no_receipt_signal_penalty", 0.1)
             signal_score = max(0, signal_score - penalty)
             reasons.append("theory/venue detail without proof surface — signal penalized")
