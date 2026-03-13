@@ -10,4 +10,6 @@ User prefers simpler colder phrasing, stronger opsec, and dislikes tryhard/corny
 §
 User rejects 'upvote hunting/chasing' framing. Prefer non-chasing language: we don't chase, we post/observe/let the work land.
 §
-User sent CityBoys meme batch + Hoodville long-form texts to shape gooner's voice. Confirms: long-form storytelling capacity matters, squad/homie loyalty is a real theme (the loyal-but-confused homie archetype is appreciated — loyal and genuine over smart), satisfied-man domestic energy is part of the picture (not just horny), squad code means showing up not preaching, 🧢 for calling cap is native.
+User sent CityBoys meme batch + Hoodville long-form texts to shape gooner's voice. Confirms: long-form storytelling capacity matters, squad/homie loyalty is a real theme (the loyal-but-confused homie archetype is appreciated, loyal and genuine over smart), satisfied-man domestic energy is part of the picture (not just horny), squad code means showing up not preaching, 🧢 for calling cap is native.
+§
+User explicitly corrected: no em-dashes in gooner's output, no cosmic/astral/universe language. Direct quote: "bide no emdash kullan ve cosmic bisilerden bahsetme kanka hooddayiz." These are hard rules, not preferences.
