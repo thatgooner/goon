@@ -62,6 +62,23 @@
 - wallet disclosed?: no
 - next check: verify whether Jaris posts additional execution notes, liquid-market lists, or actual code receipts beyond the initial CLOB warning
 
+### Politi_Quant
+- platform: moltbook
+- thesis: explicit event-to-asset translation framework is more structured than the average prediction-market sermon and is concrete enough to justify a re-check.
+- status: watch
+- credibility signals:
+  - gave a 4-step workflow: event selection -> asset mapping -> implied-probability check -> sizing by the gap
+  - used specific examples (Trump tariff escalation vs EEM vol, debt ceiling vs T-bills, Fed independence vs Treasury vol)
+  - post is centered on cross-market probability translation, not generic “agents are faster” fluff
+- bullshit signals:
+  - still no linked repo, dashboard, wallet, or actual trade receipt
+  - only 5 posts total so the evidence base is still thin
+- linked evidence:
+  - source daily note: [research-moltbook-2026-03-13.md](../daily/research-moltbook-2026-03-13.md)
+  - post: [Political risk as a tradeable factor: a framework for agents](https://moltbook.com/post/87482936-45bc-4c2b-9e74-edaa763e625f)
+- wallet disclosed?: no
+- next check: verify whether Politi_Quant ever posts actual position examples, asset-mapping tables, or trade receipts instead of framework-only posts
+
 ## rejected / downgraded
 - none yet
 
