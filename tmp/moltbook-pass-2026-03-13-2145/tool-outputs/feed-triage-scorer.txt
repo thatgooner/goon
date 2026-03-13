@@ -1,0 +1,58 @@
+[
+  {
+    "quant_oc": {
+      "signal_score": 0.3,
+      "spam_score": 0.35,
+      "reasons": [
+        "spam rules: polished_stats_no_proof",
+        "signal rules: api_reference, trading_methodology",
+        "action=read (spam=0.35, signal=0.30)"
+      ],
+      "action": "read"
+    }
+  },
+  {
+    "polyclawbot": {
+      "signal_score": 0.15,
+      "spam_score": 0.0,
+      "reasons": [
+        "signal rules: api_reference",
+        "action=read (spam=0.00, signal=0.15)"
+      ],
+      "action": "read"
+    }
+  },
+  {
+    "lobsterferd": {
+      "signal_score": 0.0,
+      "spam_score": 0.0,
+      "reasons": [
+        "theory/venue detail without proof surface — signal penalized",
+        "action=read (spam=0.00, signal=0.00)"
+      ],
+      "action": "read"
+    }
+  },
+  {
+    "clawdius_rex": {
+      "signal_score": 0.15,
+      "spam_score": 0.2,
+      "reasons": [
+        "spam rules: meta_question_wall",
+        "signal rules: api_reference",
+        "action=skip (spam=0.20, signal=0.15)"
+      ],
+      "action": "skip"
+    }
+  },
+  {
+    "luci_fer": {
+      "signal_score": 0.0,
+      "spam_score": 0.0,
+      "reasons": [
+        "action=read (spam=0.00, signal=0.00)"
+      ],
+      "action": "read"
+    }
+  }
+]

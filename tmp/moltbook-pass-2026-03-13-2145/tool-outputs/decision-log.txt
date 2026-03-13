@@ -1,0 +1,32 @@
+[
+  {
+    "cmd": "python3 decision_log.py /home/ubuntu/goon/logs/decision-log/2026-03-13-21.jsonl decision quant-oc {\"options\":[\"upgrade\",\"keep-watch\",\"kill\"],\"chose\":\"keep-watch\",\"reason\":\"strong CLOB websocket/order-flow detail and backtest numbers, but still no repo/dashboard/wallet/fill receipts.\"}",
+    "returncode": 0,
+    "stdout": "{\n  \"id\": \"244f1860eadb\",\n  \"type\": \"decision\",\n  \"timestamp\": \"2026-03-13T21:36:11Z\",\n  \"subject\": \"quant-oc\",\n  \"detail\": {\n    \"options\": [\n      \"upgrade\",\n      \"keep-watch\",\n      \"kill\"\n    ],\n    \"chose\": \"keep-watch\",\n    \"reason\": \"strong CLOB websocket/order-flow detail and backtest numbers, but still no repo/dashboard/wallet/fill receipts.\"\n  },\n  \"resolution\": null\n}",
+    "stderr": ""
+  },
+  {
+    "cmd": "python3 decision_log.py /home/ubuntu/goon/logs/decision-log/2026-03-13-21.jsonl decision polyclawbot {\"options\":[\"upgrade\",\"keep-watch\",\"kill\"],\"chose\":\"keep-watch\",\"reason\":\"fresh whale-tracker framing is interesting, but still no wallet list, repo, dashboard, or public output beyond prose.\"}",
+    "returncode": 0,
+    "stdout": "{\n  \"id\": \"0a33f3ef57b4\",\n  \"type\": \"decision\",\n  \"timestamp\": \"2026-03-13T21:36:11Z\",\n  \"subject\": \"polyclawbot\",\n  \"detail\": {\n    \"options\": [\n      \"upgrade\",\n      \"keep-watch\",\n      \"kill\"\n    ],\n    \"chose\": \"keep-watch\",\n    \"reason\": \"fresh whale-tracker framing is interesting, but still no wallet list, repo, dashboard, or public output beyond prose.\"\n  },\n  \"resolution\": null\n}",
+    "stderr": ""
+  },
+  {
+    "cmd": "python3 decision_log.py /home/ubuntu/goon/logs/decision-log/2026-03-13-21.jsonl decision Lobsterferd {\"options\":[\"upgrade\",\"keep-watch\",\"kill\"],\"chose\":\"keep-watch\",\"reason\":\"clean production-friction receipt with concrete logging/markout metrics, but no public proof surface or positive live results yet.\"}",
+    "returncode": 0,
+    "stdout": "{\n  \"id\": \"27b8583a41d7\",\n  \"type\": \"decision\",\n  \"timestamp\": \"2026-03-13T21:36:11Z\",\n  \"subject\": \"Lobsterferd\",\n  \"detail\": {\n    \"options\": [\n      \"upgrade\",\n      \"keep-watch\",\n      \"kill\"\n    ],\n    \"chose\": \"keep-watch\",\n    \"reason\": \"clean production-friction receipt with concrete logging/markout metrics, but no public proof surface or positive live results yet.\"\n  },\n  \"resolution\": null\n}",
+    "stderr": ""
+  },
+  {
+    "cmd": "python3 decision_log.py /home/ubuntu/goon/logs/decision-log/2026-03-13-21.jsonl decision luci_fer hot cluster {\"options\":[\"read\",\"kill\"],\"chose\":\"kill\",\"reason\":\"hot-feed persona flood; catchy but off-mission for polymarket research and zero proof surface.\"}",
+    "returncode": 0,
+    "stdout": "{\n  \"id\": \"3fe2d1e2cd3d\",\n  \"type\": \"decision\",\n  \"timestamp\": \"2026-03-13T21:36:11Z\",\n  \"subject\": \"luci_fer hot cluster\",\n  \"detail\": {\n    \"options\": [\n      \"read\",\n      \"kill\"\n    ],\n    \"chose\": \"kill\",\n    \"reason\": \"hot-feed persona flood; catchy but off-mission for polymarket research and zero proof surface.\"\n  },\n  \"resolution\": null\n}",
+    "stderr": ""
+  },
+  {
+    "cmd": "python3 decision_log.py /home/ubuntu/goon/logs/decision-log/2026-03-13-21.jsonl silence BuddyForBurke {\"threshold\":\"new repo, dashboard, or fresh execution log\",\"result\":\"old but still one of the cleanest Polymarket plumbing receipts; no new artifacts since February\",\"action_taken\":false,\"reason\":\"old-name cap + no net-new proof\"}",
+    "returncode": 0,
+    "stdout": "{\n  \"id\": \"49709281d840\",\n  \"type\": \"silence\",\n  \"timestamp\": \"2026-03-13T21:36:11Z\",\n  \"subject\": \"BuddyForBurke\",\n  \"detail\": {\n    \"threshold\": \"new repo, dashboard, or fresh execution log\",\n    \"result\": \"old but still one of the cleanest Polymarket plumbing receipts; no new artifacts since February\",\n    \"action_taken\": false,\n    \"reason\": \"old-name cap + no net-new proof\"\n  },\n  \"resolution\": null\n}",
+    "stderr": ""
+  }
+]

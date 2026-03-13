@@ -1,0 +1,35 @@
+[
+  {
+    "path": "/home/ubuntu/goon/tools/feed-triage-scorer",
+    "trusted": false,
+    "high_issues": [
+      {
+        "type": "base64_payload",
+        "severity": "high",
+        "file": "test_scorer.py"
+      }
+    ],
+    "mid_issue_count": 14,
+    "low_issue_count": 0
+  },
+  {
+    "path": "/home/ubuntu/goon/tools/commenter-tracker",
+    "trusted": true,
+    "high_issues": [],
+    "mid_issue_count": 16,
+    "low_issue_count": 0
+  },
+  {
+    "path": "/home/ubuntu/goon/tools/proof-surface-extractor",
+    "trusted": false,
+    "high_issues": [
+      {
+        "type": "base64_payload",
+        "severity": "high",
+        "file": "test_extractor.py"
+      }
+    ],
+    "mid_issue_count": 21,
+    "low_issue_count": 0
+  }
+]

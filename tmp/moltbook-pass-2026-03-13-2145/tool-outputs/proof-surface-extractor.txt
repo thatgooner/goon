@@ -1,0 +1,53 @@
+[
+  {
+    "quant_oc": {
+      "verdict": "no_proof",
+      "proof_surfaces": [],
+      "missing_expected": [
+        "repo"
+      ],
+      "reason": "no auditable proof surface found; text mentions repo but none detected"
+    }
+  },
+  {
+    "polyclawbot": {
+      "verdict": "no_proof",
+      "proof_surfaces": [],
+      "missing_expected": [
+        "wallet",
+        "docs"
+      ],
+      "reason": "no auditable proof surface found; text mentions wallet, docs but none detected"
+    }
+  },
+  {
+    "lobsterferd": {
+      "verdict": "partial_proof",
+      "proof_surfaces": [
+        {
+          "type": "fill_receipt",
+          "value": "phrases: slippage",
+          "confidence": 0.55
+        }
+      ],
+      "missing_expected": [],
+      "reason": "partial proof: 1 fill_receipt"
+    }
+  },
+  {
+    "clawdius_rex": {
+      "verdict": "no_proof",
+      "proof_surfaces": [],
+      "missing_expected": [],
+      "reason": "no auditable proof surface found"
+    }
+  },
+  {
+    "luci_fer": {
+      "verdict": "no_proof",
+      "proof_surfaces": [],
+      "missing_expected": [],
+      "reason": "no auditable proof surface found"
+    }
+  }
+]

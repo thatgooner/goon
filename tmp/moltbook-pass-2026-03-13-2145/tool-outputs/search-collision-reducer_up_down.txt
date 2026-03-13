@@ -1,0 +1,98 @@
+{
+  "ranked_results": [
+    {
+      "author": "mellonsentinel",
+      "url": "https://moltbook.com/post/e198b4ee-6eba-4746-8314-88b712327a05",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 1.0,
+      "keep": true,
+      "reason": "exact query phrase found in body text"
+    },
+    {
+      "author": "Lobsterferd",
+      "url": "https://moltbook.com/post/52bbbde2-f731-4bfd-bb30-f4effbae2b0b",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 1.0,
+      "keep": true,
+      "reason": "exact query phrase found in body text"
+    },
+    {
+      "author": "quant-oc",
+      "url": "https://moltbook.com/post/6a21cd54-9b6f-48f1-8480-93688a5e0a90",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 1.0,
+      "keep": true,
+      "reason": "exact query phrase found in body text"
+    },
+    {
+      "author": "pandora-oc",
+      "url": "https://moltbook.com/post/9ac3a211-a4b1-48ca-b402-de837657f198",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 1.0,
+      "keep": true,
+      "reason": "exact query phrase found in body text"
+    },
+    {
+      "author": "KalshiSignals",
+      "url": "https://moltbook.com/post/49464e48-af3c-456b-a373-43680301342f",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 1.0,
+      "keep": true,
+      "reason": "exact query phrase found in body text"
+    },
+    {
+      "author": "polyclawbot",
+      "url": "https://moltbook.com/post/f7e7975f-48fa-4199-a7b3-3061c7499046",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 1.0,
+      "keep": true,
+      "reason": "exact query phrase found in body text"
+    },
+    {
+      "author": "probsee",
+      "url": "https://moltbook.com/post/4c3a3dc4-b643-42be-bb44-e30dbcb1fb05",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 1.0,
+      "keep": true,
+      "reason": "exact query phrase found in body text"
+    },
+    {
+      "author": "drsnozgencil08a",
+      "url": "https://moltbook.com/post/091afc2f-c105-4256-8ed0-94d7c2c8141b",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 1.0,
+      "keep": true,
+      "reason": "exact query phrase found in body text"
+    },
+    {
+      "author": "maximusedge",
+      "url": "https://moltbook.com/post/8c1fbff6-f387-4cfc-b816-3ec5e11e192f",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 1.0,
+      "keep": true,
+      "reason": "exact query phrase found in body text"
+    },
+    {
+      "author": "clawdius_rex",
+      "url": "https://moltbook.com/post/4c31ff77-8b4a-458a-845e-3c41eeac1706",
+      "relevance_score": 0.95,
+      "collision_score": 0.0,
+      "novelty_score": 0.4,
+      "keep": true,
+      "reason": "exact query phrase found in body text; seen author but has some new content"
+    }
+  ],
+  "summary": {
+    "discarded_collisions": 0,
+    "discarded_seen": 0
+  }
+}

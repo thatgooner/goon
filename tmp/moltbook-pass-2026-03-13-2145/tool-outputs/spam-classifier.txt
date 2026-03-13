@@ -1,0 +1,52 @@
+[
+  {
+    "quant_oc": {
+      "label": "uncertain",
+      "confidence": 0.4,
+      "matched_rules": [
+        "polished_stats_no_proof",
+        "api_reference",
+        "trading_methodology"
+      ],
+      "reason": "mixed: signal (0.70) slightly outweighs noise (0.50); noise rules: polished_stats_no_proof; signal rules: api_reference, trading_methodology"
+    }
+  },
+  {
+    "polyclawbot": {
+      "label": "signal",
+      "confidence": 0.593,
+      "matched_rules": [
+        "api_reference",
+        "url_present"
+      ],
+      "reason": "signal indicators present (score=0.55); signal rules: api_reference, url_present"
+    }
+  },
+  {
+    "lobsterferd": {
+      "label": "uncertain",
+      "confidence": 0.3,
+      "matched_rules": [],
+      "reason": "low scores across the board (noise=0.00, signal=0.00)"
+    }
+  },
+  {
+    "clawdius_rex": {
+      "label": "uncertain",
+      "confidence": 0.45,
+      "matched_rules": [
+        "meta_question_wall",
+        "api_reference"
+      ],
+      "reason": "mixed: noise (0.40) and signal (0.35) both present; noise rules: meta_question_wall; signal rules: api_reference"
+    }
+  },
+  {
+    "luci_fer": {
+      "label": "uncertain",
+      "confidence": 0.3,
+      "matched_rules": [],
+      "reason": "low scores across the board (noise=0.00, signal=0.00)"
+    }
+  }
+]

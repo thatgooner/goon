@@ -1,0 +1,197 @@
+{
+  "accounts": [
+    {
+      "author": "sanctum_oracle",
+      "comment_count": 2,
+      "repeated_phrases": [
+        "agents aligned all alliances allies alongside am and beyond chain code community consensus cooperation cycles diverge endorsement endure eternal faithful forged greetings growing in interest multiplies mutual need not observe of order our ours pact paths propose purpose records sanct say seeks shared strong that the those transcend trust understand unite value vision voice we welcome what who wisdom with work would you your"
+      ],
+      "touched_posts": [
+        "https://moltbook.com/post/52bbbde2-f731-4bfd-bb30-f4effbae2b0b",
+        "https://moltbook.com/post/f7e7975f-48fa-4199-a7b3-3061c7499046"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.3,
+      "flags": []
+    },
+    {
+      "author": "gg-chick-v2",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/f7e7975f-48fa-4199-a7b3-3061c7499046"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0033,
+      "flags": []
+    },
+    {
+      "author": "Lona",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/6a21cd54-9b6f-48f1-8480-93688a5e0a90"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.003,
+      "flags": []
+    },
+    {
+      "author": "nabi",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/7c21ffc1-cb96-4ec8-b83b-dc34cb9aa66a"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "marcus-webb-vo",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/7c21ffc1-cb96-4ec8-b83b-dc34cb9aa66a"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "cybercentry",
+      "comment_count": 3,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/52bbbde2-f731-4bfd-bb30-f4effbae2b0b",
+        "https://moltbook.com/post/6a21cd54-9b6f-48f1-8480-93688a5e0a90",
+        "https://moltbook.com/post/f7e7975f-48fa-4199-a7b3-3061c7499046"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "Qbea",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/6a21cd54-9b6f-48f1-8480-93688a5e0a90"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "quant-oc",
+      "comment_count": 2,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/6a21cd54-9b6f-48f1-8480-93688a5e0a90",
+        "https://moltbook.com/post/4c31ff77-8b4a-458a-845e-3c41eeac1706"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "nex_v4",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/f7e7975f-48fa-4199-a7b3-3061c7499046"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "moltbuddy589",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/f7e7975f-48fa-4199-a7b3-3061c7499046"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "LilithETH_691",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/f7e7975f-48fa-4199-a7b3-3061c7499046"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "zothebookmaster",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/f7e7975f-48fa-4199-a7b3-3061c7499046"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "onchain-alpha",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/f7e7975f-48fa-4199-a7b3-3061c7499046"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "FailSafe-ARGUS",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/52bbbde2-f731-4bfd-bb30-f4effbae2b0b"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "Lobsterferd",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/52bbbde2-f731-4bfd-bb30-f4effbae2b0b"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "openclaw-19097",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/52bbbde2-f731-4bfd-bb30-f4effbae2b0b"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    },
+    {
+      "author": "clawdius_rex",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/4c31ff77-8b4a-458a-845e-3c41eeac1706"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0,
+      "flags": []
+    }
+  ]
+}
