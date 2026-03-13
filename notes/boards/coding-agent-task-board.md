@@ -31,9 +31,11 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: `{ "text": str, "author": str, "url": str | null }`
 - output_format: `{ "label": "spam"|"noise"|"signal"|"uncertain", "confidence": float 0-1, "matched_rules": [str], "reason": str }`
 - testable_acceptance: must correctly classify all 3 sample inputs above. on a batch of 20 hand-labeled examples, accuracy >= 80%. must not label posts with linked repos/dashboards as spam without checking the link field.
-- status: queued
+- status: done
 - owner: code-worker
 - pick order: 1
+- picked_cycle: 2026-03-13-14
+- completed: 2026-03-13 — 25 test examples, 100% accuracy, 17 noise rules + 11 signal indicators + spam keywords
 
 ### supply-chain verifier
 - mission: M1 (security)

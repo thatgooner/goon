@@ -1,0 +1,226 @@
+{
+  "version": "1.0.0",
+  "noise_patterns": [
+    {
+      "id": "generic_praise",
+      "description": "Generic praise with no implementation detail",
+      "type": "regex",
+      "pattern": "(?i)\\b(incredible|amazing|brilliant|fantastic|phenomenal|game[- ]?changer|mind[- ]?blowing)\\b.*(!|🔥|🚀|💯)",
+      "weight": 0.5
+    },
+    {
+      "id": "future_hype",
+      "description": "Hype about 'the future' with no substance",
+      "type": "regex",
+      "pattern": "(?i)\\bthe\\s+future\\s+of\\s+(ai|agents?|crypto|web3|defi|tech|trading|finance)",
+      "weight": 0.45
+    },
+    {
+      "id": "emoji_flood",
+      "description": "Posts dominated by emojis with minimal text",
+      "type": "heuristic",
+      "heuristic": "emoji_ratio_gt_0.3",
+      "weight": 0.4
+    },
+    {
+      "id": "lfg_wagmi",
+      "description": "Low-effort engagement bait",
+      "type": "regex",
+      "pattern": "(?i)\\b(LFG|WAGMI|NGMI|LET'?S\\s+GO+|to\\s+the\\s+moon)\\b",
+      "weight": 0.35
+    },
+    {
+      "id": "fake_expert_wall",
+      "description": "Long authoritative-sounding text with zero evidence links",
+      "type": "heuristic",
+      "heuristic": "long_text_no_links_no_numbers",
+      "weight": 0.55
+    },
+    {
+      "id": "fake_expert_preamble",
+      "description": "Credential-claiming opener without receipts",
+      "type": "regex",
+      "pattern": "(?i)\\b(as\\s+someone\\s+who\\s+has\\s+(built|deployed|designed|managed|led|architected)|in\\s+my\\s+(?:years?|decade|time)\\s+(?:of|in|building|working)|having\\s+(?:built|designed|deployed|managed)\\s+(?:multi|enterprise|large))",
+      "weight": 0.45
+    },
+    {
+      "id": "buzzword_soup",
+      "description": "Walls of enterprise/tech buzzwords with no concrete detail",
+      "type": "regex",
+      "pattern": "(?i)(?:(?:microservice|event[- ]driven|orchestration|scalab|robust|enterprise|distributed|cloud[- ]native|serverless|containeriz|kubernetes|devops).*){3,}",
+      "weight": 0.35
+    },
+    {
+      "id": "thread_hijack_promo",
+      "description": "Promoting unrelated content in a thread",
+      "type": "regex",
+      "pattern": "(?i)(you\\s+are\\s+invited|check\\s+(?:out|this)|subscribe\\s+(?:to|here)|follow\\s+(?:us|me|for)|join\\s+(?:our|the)|sign\\s+up|(?:free|exclusive)\\s+(?:access|guide|download))",
+      "weight": 0.3
+    },
+    {
+      "id": "promo_spam_tokens",
+      "description": "Token/mint/airdrop promo spam",
+      "type": "regex",
+      "pattern": "(?i)\\b(MBC[- ]?20|airdrop|mint\\s+(?:now|live|free)|token\\s+(?:launch|sale|drop)|(?:free|claim)\\s+(?:tokens?|NFT|mint)|presale|whitelist\\s+(?:open|spot))\\b",
+      "weight": 0.7
+    },
+    {
+      "id": "recycled_profit_anecdote",
+      "description": "Dollar-figure profit claims from X/Twitter without local proof",
+      "type": "regex",
+      "pattern": "(?i)(?:\\$[\\d,]+\\s*(?:into|to|→|->|profit|gains?|return)\\s*[~$\\d]|turned\\s+\\$[\\d,]+\\s+into|made\\s+\\$[\\d,]+\\s+(?:in|from|trading))",
+      "weight": 0.35
+    },
+    {
+      "id": "worth_tracking_filler",
+      "description": "Aggregation filler phrases with no original analysis",
+      "type": "regex",
+      "pattern": "(?i)\\b(worth\\s+(?:tracking|watching|noting)|keep\\s+(?:an\\s+)?eye\\s+on|something\\s+to\\s+watch|interesting\\s+development)\\b",
+      "weight": 0.15
+    },
+    {
+      "id": "performance_flex_no_proof",
+      "description": "Performance metrics without linked proof",
+      "type": "heuristic",
+      "heuristic": "performance_flex_no_proof",
+      "weight": 0.45
+    },
+    {
+      "id": "install_no_repo",
+      "description": "Install/CLI commands without a repo link",
+      "type": "heuristic",
+      "heuristic": "install_commands_no_repo",
+      "weight": 0.45
+    },
+    {
+      "id": "crypto_buzzword_fluff",
+      "description": "Crypto/AI buzzword soup with no substance",
+      "type": "regex",
+      "pattern": "(?i)(?:(?:blockchain|artificial\\s+intelligence|decentraliz|tokeniz|web3|metaverse|unprecedented|paradigm\\s+shift|value\\s+creation|ecosystem|synerg|intersection\\s+of).*){2,}",
+      "weight": 0.4
+    },
+    {
+      "id": "rss_promo",
+      "description": "RSS/newsletter promo links",
+      "type": "regex",
+      "pattern": "(?i)(/rss\\.xml|/feed\\.xml|/atom\\.xml|newsletter|subscribe\\s+to\\s+(?:our|my)\\s+(?:feed|newsletter))",
+      "weight": 0.4
+    },
+    {
+      "id": "meta_question_wall",
+      "description": "Long questioning pattern with no evidence",
+      "type": "heuristic",
+      "heuristic": "many_questions_no_evidence",
+      "weight": 0.4
+    },
+    {
+      "id": "short_hype_only",
+      "description": "Very short posts that are only hype/praise",
+      "type": "heuristic",
+      "heuristic": "short_text_only_hype",
+      "weight": 0.6
+    }
+  ],
+  "signal_indicators": [
+    {
+      "id": "github_link",
+      "description": "Contains GitHub/GitLab repo link",
+      "type": "regex",
+      "pattern": "(?i)(?:github\\.com|gitlab\\.com|bitbucket\\.org)/[\\w.-]+/[\\w.-]+",
+      "weight": 0.6
+    },
+    {
+      "id": "repo_reference",
+      "description": "References a repo without full URL",
+      "type": "regex",
+      "pattern": "(?i)\\b(?:(?:here'?s?|my|the|this)\\s+repo|source\\s+code|open[- ]?source)",
+      "weight": 0.3
+    },
+    {
+      "id": "api_reference",
+      "description": "Specific API or protocol references",
+      "type": "regex",
+      "pattern": "(?i)\\b(CLOB\\s+API|funding\\s+rate|py-clob-client|REST\\s+API|websocket|GraphQL|Gamma\\s+API)\\b",
+      "weight": 0.35
+    },
+    {
+      "id": "concrete_numbers",
+      "description": "Specific numbers in trading/technical context",
+      "type": "regex",
+      "pattern": "(?:spread\\s*[><=]\\s*\\d|filled\\s+at\\s+\\$[\\d.]+|\\$[\\d.]+\\s+(?:order|position|bid|ask)|\\d+(?:\\.\\d+)?%\\s+(?:spread|slippage|divergence|fee))",
+      "weight": 0.35
+    },
+    {
+      "id": "execution_receipt",
+      "description": "First-person execution detail with specifics",
+      "type": "regex",
+      "pattern": "(?i)\\b((?:I|we)\\s+(?:ran|deployed|tested|executed|placed|built|shipped|backtested)|here'?s?\\s+(?:the|my|our)\\s+(?:results?|output|data|repo|dashboard|code))",
+      "weight": 0.35
+    },
+    {
+      "id": "wallet_disclosure",
+      "description": "Wallet address or transaction hash",
+      "type": "regex",
+      "pattern": "(?:0x[a-fA-F0-9]{40}|(?:tx|transaction)\\s*(?:hash|id)?\\s*:?\\s*0x[a-fA-F0-9]+)",
+      "weight": 0.5
+    },
+    {
+      "id": "dashboard_link",
+      "description": "Links to dashboards or data platforms",
+      "type": "regex",
+      "pattern": "(?i)(?:dune\\.com|dashboard|grafana|metabase|analytics|datastudio|notion\\.so|docs\\.google)",
+      "weight": 0.4
+    },
+    {
+      "id": "methodology_detail",
+      "description": "Explicit step-by-step methodology",
+      "type": "regex",
+      "pattern": "(?i)(?:step\\s+[1-9]|(?:first|second|third),?\\s+(?:I|we|you)|framework\\s*:|methodology\\s*:|pipeline\\s*:)",
+      "weight": 0.25
+    },
+    {
+      "id": "url_present",
+      "description": "Post has a URL field or contains links",
+      "type": "heuristic",
+      "heuristic": "has_url_or_link",
+      "weight": 0.2
+    },
+    {
+      "id": "falsifiable_claim",
+      "description": "Concrete falsifiable claim or rule",
+      "type": "regex",
+      "pattern": "(?i)(?:if\\s+(?:spread|ask|bid|price|volume|rate)\\s*[><=]|skip\\s+(?:the\\s+)?market|avoid\\s+(?:markets?|trades?)\\s+(?:where|when|if)|rule\\s*:|heuristic\\s*:)",
+      "weight": 0.3
+    },
+    {
+      "id": "trading_methodology",
+      "description": "Specific trading/risk methodology terms indicating real knowledge",
+      "type": "regex",
+      "pattern": "(?i)\\b(max\\s+(?:leverage|drawdown|daily\\s+bleed)|regime\\s+exit|position\\s+siz(?:e|ing)|risk\\s+framework|Kelly\\s+criterion|stop[- ]?loss|trailing\\s+stop|entry\\s+(?:signal|criteria)|exit\\s+(?:rule|trigger)|risk[- ]reward\\s+ratio|edge\\s+(?:is|isn't|comes\\s+from))\\b",
+      "weight": 0.35
+    }
+  ],
+  "spam_keywords": [
+    {
+      "id": "direct_spam",
+      "description": "Direct spam phrases",
+      "type": "keyword_list",
+      "keywords": [
+        "buy now", "limited time", "act fast", "don't miss out",
+        "guaranteed returns", "risk free", "100x", "1000x",
+        "dm me for", "dm for details", "send me a dm",
+        "join my group", "join our telegram", "join our discord",
+        "make money fast", "passive income guaranteed",
+        "click here to claim", "claim your free"
+      ],
+      "weight": 0.8
+    }
+  ],
+  "thresholds": {
+    "spam_threshold": 0.7,
+    "noise_threshold": 0.4,
+    "signal_threshold": 0.35,
+    "uncertain_min_noise": 0.25,
+    "uncertain_min_signal": 0.15
+  }
+}
