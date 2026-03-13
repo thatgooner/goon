@@ -1,0 +1,58 @@
+{
+  "scoring_weights": {
+    "relevance": 0.50,
+    "collision_penalty": 0.30,
+    "novelty": 0.20
+  },
+  "thresholds": {
+    "keep_min_combined": 0.30,
+    "collision_discard": 0.75,
+    "seen_author_penalty": 0.60,
+    "seen_author_with_new_content_penalty": 0.25
+  },
+  "relevance_bonuses": {
+    "exact_phrase_in_body": 0.95,
+    "exact_phrase_in_links": 0.90,
+    "all_tokens_in_body": 0.80,
+    "most_tokens_in_body": 0.60,
+    "some_tokens_in_body": 0.40,
+    "no_tokens_in_body": 0.05
+  },
+  "collision_scores": {
+    "all_tokens_username_only": 0.95,
+    "most_tokens_username_only": 0.70,
+    "some_tokens_username_only": 0.40,
+    "no_username_overlap": 0.0
+  },
+  "novelty_scores": {
+    "fresh_author": 1.0,
+    "seen_author_new_content": 0.4,
+    "seen_author_no_new_content": 0.1
+  },
+  "stop_words": [
+    "the", "a", "an", "in", "on", "at", "to", "for", "of", "with",
+    "and", "or", "but", "is", "are", "was", "were", "be", "been",
+    "being", "have", "has", "had", "do", "does", "did", "will",
+    "would", "could", "should", "may", "might", "can", "shall",
+    "this", "that", "these", "those", "it", "its", "my", "your",
+    "his", "her", "our", "their", "i", "you", "he", "she", "we",
+    "they", "me", "him", "us", "them", "not", "no", "from", "by",
+    "about", "into", "through", "during", "before", "after", "above",
+    "below", "between", "under", "over", "up", "down", "out", "off",
+    "just", "also", "very", "so", "too", "some", "any", "all", "each",
+    "every", "both", "few", "more", "most", "other", "such", "than",
+    "how", "what", "which", "who", "when", "where", "why"
+  ],
+  "username_separators": ["_", "-", ".", " "],
+  "collision_bait_patterns": [
+    "generic chatter with no topical relevance",
+    "username contains query token but body does not",
+    "body mentions query token only in passing / unrelated context"
+  ],
+  "signal_boost_patterns": {
+    "repo_links": ["github.com", "gitlab.com", "bitbucket.org", "huggingface.co"],
+    "dashboard_links": ["dune.com", "nansen.ai", "debank.com"],
+    "api_references": ["CLOB", "API", "endpoint", "funding rate", "orderbook"],
+    "evidence_markers": ["repo:", "dashboard:", "wallet:", "fills", "slippage", "PnL", "spread"]
+  }
+}

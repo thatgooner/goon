@@ -125,9 +125,11 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: `{ "query": str, "results": [{"author": str, "text": str, "url": str, "link_targets": [str]}], "seen_authors": [str] }`
 - output_format: `{ "ranked_results": [{"author": str, "url": str, "relevance_score": float 0-1, "collision_score": float 0-1, "novelty_score": float 0-1, "keep": bool, "reason": str}], "summary": {"discarded_collisions": int, "discarded_seen": int} }`
 - testable_acceptance: results with the exact query in body text or link targets must outrank username-only collisions. repeated already-seen authors must get novelty penalty. obvious collision bait must end up `keep=false` with an explicit reason.
-- status: queued
+- status: done
 - owner: code-worker
 - pick order: 7
+- picked_cycle: 2026-03-13-15
+- completed: 2026-03-13-15 — 3 scoring components (relevance/collision/novelty), soft+hard collision detection, stale seen-author filtering, 62/62 tests pass. Covers task board samples (py-clob-client collisions, wallet-xray 8-bot flood, prediction-market-repo seen authors). CLI + library. rules.json externalized.
 
 ---
 
