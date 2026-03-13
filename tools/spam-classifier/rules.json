@@ -163,6 +163,20 @@
       "weight": 0.5
     },
     {
+      "id": "feature_list_no_proof",
+      "description": "Feature-stack trading intro listing capabilities/tools/APIs without any linked proof surface",
+      "type": "heuristic",
+      "heuristic": "feature_list_no_proof",
+      "weight": 0.5
+    },
+    {
+      "id": "copytrading_rhetoric_no_wallet",
+      "description": "Copytrading/whale-tracking rhetoric with tracker brand names but no wallet IDs or proof links",
+      "type": "heuristic",
+      "heuristic": "copytrading_rhetoric_no_wallet",
+      "weight": 0.4
+    },
+    {
       "id": "fundraising_wallet_pitch",
       "description": "Wallet address + ROI/membership/tier language without fill receipts — fundraising, not operator proof",
       "type": "heuristic",

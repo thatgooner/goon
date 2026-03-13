@@ -364,6 +364,87 @@ _FUNDRAISING_LANG_RE = re.compile(
 )
 
 
+_FEATURE_CLAIM_RE = re.compile(
+    r"(?i)\b("
+    r"CLOB\s+API|py-clob-client|REST\s+API|websocket|GraphQL|Gamma\s+API|"
+    r"funding\s+rate|spread\s+(?:detection|gate|threshold)|"
+    r"momentum\s+(?:analysis|tracking|signal)|alpha\s+(?:extraction|generation)|"
+    r"position\s+sizing|risk\s+(?:management|framework|control)|"
+    r"max\s+(?:drawdown|leverage)|Kelly\s+criterion|"
+    r"prediction[- ]?market|polymarket|"
+    r"real[- ]?time\s+(?:scanning|monitoring|analysis)|"
+    r"automated\s+(?:trading|execution)|"
+    r"market[- ]?making|liquidity\s+provision|"
+    r"backtest(?:ing)?|optimization|"
+    r"sentiment\s+(?:analysis|tracking)|"
+    r"weather\s+(?:pattern|correlation|data)|"
+    r"frequency[- ]?(?:based|trading|analysis)"
+    r")\b"
+)
+
+
+_METHODOLOGY_STEP_RE = re.compile(
+    r"(?i)(?:step\s+[1-9]|(?:first|second|third),?\s+(?:I|we|you|map|compare|set|size))"
+)
+
+_CONCRETE_EXAMPLE_RE = re.compile(
+    r"(?i)(?:example\s*:|e\.g\.\s|for\s+instance\s*:|for\s+example)"
+)
+
+
+def _is_feature_list_no_proof(text: str, url_field: Optional[str]) -> bool:
+    """Feature-stack intro listing capabilities/tools without any proof surface."""
+    if _count_words(text) < 20:
+        return False
+    if _has_signal_url(text, url_field):
+        return False
+    if _WALLET_RE.search(text):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
+        return False
+    if _METHODOLOGY_STEP_RE.search(text):
+        return False
+    if _CONCRETE_EXAMPLE_RE.search(text):
+        return False
+    matches = _FEATURE_CLAIM_RE.findall(text)
+    distinct = set(m.lower().strip() for m in matches)
+    if len(distinct) < 3:
+        return False
+    return True
+
+
+_COPYTRADING_RE = re.compile(
+    r"(?i)\b("
+    r"copytrad(?:e|ing)|copy\s+trad(?:e|ing|er)|"
+    r"whale\s+(?:track|watch|rank|list|wallet|follow)|"
+    r"wallet\s+(?:rank|list|track|watch|analys|scan)|"
+    r"top\s+(?:trader|whale|wallet)|"
+    r"PnL\s+(?:rank|leader|board)|"
+    r"leaderboard"
+    r")\b"
+)
+
+_TRACKER_BRAND_RE = re.compile(
+    r"(?i)(?:wangr\.com|PolymarketScan|DeBank|Nansen|Arkham|Zerion|"
+    r"Zapper|Scopescan|DeFi\s*Llama)"
+)
+
+
+def _is_copytrading_rhetoric_no_wallet(text: str, url_field: Optional[str]) -> bool:
+    """Copytrading/whale-tracking rhetoric with tracker brand names but no wallet IDs."""
+    if _WALLET_RE.search(text):
+        return False
+    if _has_signal_url(text, url_field):
+        return False
+    if not _COPYTRADING_RE.search(text):
+        return False
+    has_tracker = bool(_TRACKER_BRAND_RE.search(text))
+    copytrade_matches = len(_COPYTRADING_RE.findall(text))
+    if not has_tracker and copytrade_matches < 2:
+        return False
+    return True
+
+
 def _is_fundraising_wallet_pitch(text: str, url_field: Optional[str]) -> bool:
     """Wallet address + fundraising/ROI/membership language without fill receipts."""
     if not _WALLET_RE.search(text):
@@ -419,6 +500,10 @@ def _eval_heuristic(heuristic_name: str, text: str, url_field: Optional[str]) ->
         return _is_abstract_market_essay(text, url_field)
     elif heuristic_name == "one_line_trading_vibe":
         return _is_one_line_trading_vibe(text, url_field)
+    elif heuristic_name == "feature_list_no_proof":
+        return _is_feature_list_no_proof(text, url_field)
+    elif heuristic_name == "copytrading_rhetoric_no_wallet":
+        return _is_copytrading_rhetoric_no_wallet(text, url_field)
     elif heuristic_name == "fundraising_wallet_pitch":
         return _is_fundraising_wallet_pitch(text, url_field)
     elif heuristic_name == "prompt_leak_astroturf":
@@ -505,6 +590,14 @@ def classify(post: dict, rules_path: Optional[str] = None) -> dict:
         rules.get("signal_indicators", []), text, url_field
     )
     all_matched.extend(signal_matched)
+
+    # --- Feature-list-no-proof dampens signal from name-dropped terms ---
+    if "feature_list_no_proof" in noise_matched and not _has_signal_url(text, url_field):
+        signal_score *= 0.25
+
+    # --- Copytrading rhetoric dampens any residual signal ---
+    if "copytrading_rhetoric_no_wallet" in noise_matched and not _has_signal_url(text, url_field):
+        signal_score *= 0.3
 
     # --- Fundraising wallet dampens wallet_disclosure signal ---
     if "fundraising_wallet_pitch" in noise_matched and "wallet_disclosure" in signal_matched:

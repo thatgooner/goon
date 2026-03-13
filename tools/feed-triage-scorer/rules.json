@@ -179,6 +179,18 @@
       "weight": 0.4
     },
     {
+      "id": "feature_list_no_proof",
+      "type": "heuristic",
+      "heuristic": "feature_list_no_proof",
+      "weight": 0.35
+    },
+    {
+      "id": "copytrading_rhetoric_no_wallet",
+      "type": "heuristic",
+      "heuristic": "copytrading_rhetoric_no_wallet",
+      "weight": 0.3
+    },
+    {
       "id": "fundraising_wallet_pitch",
       "type": "heuristic",
       "heuristic": "fundraising_wallet_pitch",
@@ -289,6 +301,7 @@
     "evidence_link_spam_dampen": 0.5,
     "link_target_repo_bonus": 0.1,
     "security_context_install_protection": true,
-    "theory_no_receipt_signal_penalty": 0.25
+    "theory_no_receipt_signal_penalty": 0.25,
+    "promote_needs_execution_proof": true
   }
 }

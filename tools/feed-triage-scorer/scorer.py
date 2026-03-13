@@ -385,6 +385,87 @@ def _is_abstract_market_essay(text: str, url_field: Optional[str], link_targets:
     return True
 
 
+_FEATURE_CLAIM_RE = re.compile(
+    r"(?i)\b("
+    r"CLOB\s+API|py-clob-client|REST\s+API|websocket|GraphQL|Gamma\s+API|"
+    r"funding\s+rate|spread\s+(?:detection|gate|threshold)|"
+    r"momentum\s+(?:analysis|tracking|signal)|alpha\s+(?:extraction|generation)|"
+    r"position\s+sizing|risk\s+(?:management|framework|control)|"
+    r"max\s+(?:drawdown|leverage)|Kelly\s+criterion|"
+    r"prediction[- ]?market|polymarket|"
+    r"real[- ]?time\s+(?:scanning|monitoring|analysis)|"
+    r"automated\s+(?:trading|execution)|"
+    r"market[- ]?making|liquidity\s+provision|"
+    r"backtest(?:ing)?|optimization|"
+    r"sentiment\s+(?:analysis|tracking)|"
+    r"weather\s+(?:pattern|correlation|data)|"
+    r"frequency[- ]?(?:based|trading|analysis)"
+    r")\b"
+)
+
+
+_METHODOLOGY_STEP_RE = re.compile(
+    r"(?i)(?:step\s+[1-9]|(?:first|second|third),?\s+(?:I|we|you|map|compare|set|size))"
+)
+
+_CONCRETE_EXAMPLE_RE = re.compile(
+    r"(?i)(?:example\s*:|e\.g\.\s|for\s+instance\s*:|for\s+example)"
+)
+
+
+def _is_feature_list_no_proof(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Feature-stack intro listing capabilities/tools without any proof surface."""
+    if _count_words(text) < 20:
+        return False
+    if _has_signal_url(text, url_field, link_targets):
+        return False
+    if _WALLET_RE.search(text):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
+        return False
+    if _METHODOLOGY_STEP_RE.search(text):
+        return False
+    if _CONCRETE_EXAMPLE_RE.search(text):
+        return False
+    matches = _FEATURE_CLAIM_RE.findall(text)
+    distinct = set(m.lower().strip() for m in matches)
+    if len(distinct) < 3:
+        return False
+    return True
+
+
+_COPYTRADING_RE = re.compile(
+    r"(?i)\b("
+    r"copytrad(?:e|ing)|copy\s+trad(?:e|ing|er)|"
+    r"whale\s+(?:track|watch|rank|list|wallet|follow)|"
+    r"wallet\s+(?:rank|list|track|watch|analys|scan)|"
+    r"top\s+(?:trader|whale|wallet)|"
+    r"PnL\s+(?:rank|leader|board)|"
+    r"leaderboard"
+    r")\b"
+)
+
+_TRACKER_BRAND_RE = re.compile(
+    r"(?i)(?:wangr\.com|PolymarketScan|DeBank|Nansen|Arkham|Zerion|"
+    r"Zapper|Scopescan|DeFi\s*Llama)"
+)
+
+
+def _is_copytrading_rhetoric_no_wallet(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Copytrading/whale-tracking rhetoric with tracker brand names but no wallet IDs."""
+    if _WALLET_RE.search(text):
+        return False
+    if _has_signal_url(text, url_field, link_targets):
+        return False
+    if not _COPYTRADING_RE.search(text):
+        return False
+    has_tracker = bool(_TRACKER_BRAND_RE.search(text))
+    copytrade_matches = len(_COPYTRADING_RE.findall(text))
+    if not has_tracker and copytrade_matches < 2:
+        return False
+    return True
+
+
 _FUNDRAISING_LANG_RE = re.compile(
     r"(?i)(?:\b(?:earn|income|membership|tier[s ]|empire|join\s+(?:our|the)\s+"
     r"(?:telegram|discord|community|group)|telegram|whitepaper|roadmap)\b|"
@@ -443,6 +524,10 @@ def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets
         return _is_abstract_market_essay(text, url_field, link_targets)
     elif name == "one_line_trading_vibe":
         return _is_one_line_trading_vibe(text, url_field, link_targets)
+    elif name == "feature_list_no_proof":
+        return _is_feature_list_no_proof(text, url_field, link_targets)
+    elif name == "copytrading_rhetoric_no_wallet":
+        return _is_copytrading_rhetoric_no_wallet(text, url_field, link_targets)
     elif name == "fundraising_wallet_pitch":
         return _is_fundraising_wallet_pitch(text, url_field, link_targets)
     elif name == "prompt_leak_astroturf":
@@ -642,6 +727,17 @@ def score_post(post: dict, rules_path: Optional[str] = None) -> dict:
     reasons.extend(context_reasons)
 
     action = _derive_action(spam_score, signal_score, rules)
+
+    ctx_mods = rules.get("context_modifiers", {})
+    if action == "promote" and ctx_mods.get("promote_needs_execution_proof", True):
+        has_fill = bool(_FILL_RECEIPT_RE.search(text))
+        dashboard_terms = ("dune.com", "grafana", "metabase", "datastudio")
+        combined_links = text.lower() + " " + " ".join(link_targets).lower()
+        has_dashboard = any(d in combined_links for d in dashboard_terms)
+        if not has_fill and not has_dashboard:
+            action = "watchlist"
+            reasons.append("promote capped to watchlist — no fill receipts or dashboard links")
+
     reasons.append(f"action={action} (spam={spam_score:.2f}, signal={signal_score:.2f})")
 
     return {
