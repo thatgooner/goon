@@ -519,6 +519,84 @@ def _is_prompt_leak_astroturf(text: str) -> bool:
     return bool(_PROMPT_LEAK_RE.search(text))
 
 
+_QUANT_STRUCTURE_RE = re.compile(
+    r"(?i)\b(signal\s+design|risk[- ]controlled|pipeline|framework|"
+    r"methodology|signal\s+(?:generation|extraction|detection)|"
+    r"risk\s+(?:management|control|framework)|"
+    r"execution\s+(?:engine|layer|pipeline)|"
+    r"alpha\s+(?:generation|extraction|decay)|"
+    r"quantitative\s+(?:strateg|analysis|research)|"
+    r"portfolio\s+(?:optimization|construction)|"
+    r"regime\s+(?:detection|filter|exit)|"
+    r"factor\s+(?:model|analysis))\b"
+)
+
+
+def _is_quant_explainer_no_proof(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Long structured quant/methodology explainer with zero proof surface."""
+    if _count_words(text) < 40:
+        return False
+    if _has_any_url(text, url_field, link_targets):
+        return False
+    if _has_signal_url(text, url_field, link_targets):
+        return False
+    if _WALLET_RE.search(text):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
+        return False
+    quant_hits = len(_QUANT_STRUCTURE_RE.findall(text))
+    if quant_hits < 2:
+        return False
+    _METHODOLOGY_STEP_RE_LOCAL = re.compile(
+        r"(?i)(?:step\s+[1-9]|(?:first|second|third),?\s+(?:I|we|you|map|compare|set|size))"
+    )
+    has_pipeline_lang = bool(re.search(
+        r"(?i)\b(pipeline|framework|methodology|signal\s+design|"
+        r"risk[- ]controlled|stage|phase|from\s+\w+\s+to\s+\w+)\b", text
+    ))
+    has_steps = bool(_METHODOLOGY_STEP_RE_LOCAL.search(text))
+    if not has_pipeline_lang and not has_steps:
+        return False
+    return True
+
+
+_ABSTRACTION_LANG_RE = re.compile(
+    r"(?i)\b(experiment|intel(?:ligence)?|paradigm|thesis|"
+    r"hypothesis|epistem|empirical|systematic|discipline|"
+    r"observation|reasoning|meta[- ]?analysis|"
+    r"mental\s+model|sandboxe?s?|validation|"
+    r"correlation\s+(?:is|isn't|does|doesn't)|"
+    r"the\s+(?:real|actual)\s+(?:question|issue|problem)\s+is)\b"
+)
+
+
+def _is_abstraction_essay_no_claim(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Polished essay about methodology/experiments with no testable claim or artifact."""
+    if _count_words(text) < 30:
+        return False
+    if _has_any_url(text, url_field, link_targets):
+        return False
+    if _has_signal_url(text, url_field, link_targets):
+        return False
+    if _WALLET_RE.search(text):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
+        return False
+    if _TRADING_VENUE_RE.search(text):
+        return False
+    abstraction_hits = len(_ABSTRACTION_LANG_RE.findall(text))
+    if abstraction_hits < 2:
+        return False
+    concrete_re = re.compile(
+        r"(?i)(?:github\.com|gitlab\.com|repo\s*:|dashboard\s*:|"
+        r"deployed|shipped|here's\s+(?:the|my)\s+(?:repo|dashboard|data|code)|"
+        r"backtest\s+results?)"
+    )
+    if concrete_re.search(text):
+        return False
+    return True
+
+
 def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets: list) -> bool:
     if name == "emoji_ratio_gt_0.3":
         return _emoji_ratio(text) > 0.3
@@ -556,6 +634,10 @@ def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets
         return _is_prompt_leak_astroturf(text)
     elif name == "failure_receipt":
         return _is_failure_receipt(text)
+    elif name == "quant_explainer_no_proof":
+        return _is_quant_explainer_no_proof(text, url_field, link_targets)
+    elif name == "abstraction_essay_no_claim":
+        return _is_abstraction_essay_no_claim(text, url_field, link_targets)
     return False
 
 
@@ -662,6 +744,14 @@ def _apply_context_modifiers(
             penalty = modifiers.get("theory_no_receipt_signal_penalty", 0.1)
             signal_score = max(0, signal_score - penalty)
             reasons.append("theory/venue detail without proof surface — signal penalized")
+
+    if "quant_explainer_no_proof" in spam_matched and not has_evidence:
+        signal_score *= 0.3
+        reasons.append("quant explainer without proof — methodology signal dampened")
+
+    if "abstraction_essay_no_claim" in spam_matched and not has_evidence:
+        signal_score *= 0.3
+        reasons.append("abstraction essay without claims — signal dampened")
 
     if "fundraising_wallet_pitch" in spam_matched and "wallet_disclosure" in signal_matched:
         signal_matched.remove("wallet_disclosure")

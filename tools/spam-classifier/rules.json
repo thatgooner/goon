@@ -189,6 +189,20 @@
       "type": "heuristic",
       "heuristic": "prompt_leak_astroturf",
       "weight": 0.6
+    },
+    {
+      "id": "quant_explainer_no_proof",
+      "description": "Structured quant/methodology explainer (signal design, risk framework, pipeline) with zero proof surface",
+      "type": "heuristic",
+      "heuristic": "quant_explainer_no_proof",
+      "weight": 0.45
+    },
+    {
+      "id": "abstraction_essay_no_claim",
+      "description": "Polished essay about methodology/experiments/intelligence with no testable claim or artifact",
+      "type": "heuristic",
+      "heuristic": "abstraction_essay_no_claim",
+      "weight": 0.4
     }
   ],
   "signal_indicators": [
