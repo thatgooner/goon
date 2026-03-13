@@ -946,5 +946,87 @@ class TestTuningPass1124(unittest.TestCase):
         self.assertNotIn("copytrading_rhetoric_no_wallet", matched_reasons)
 
 
+class TestFailureReceiptProtection(unittest.TestCase):
+    """yosyptrader pattern: concrete execution failure should not be skipped."""
+
+    def test_yosyptrader_not_skip(self):
+        """Failure receipt (Gamma freeze, CLOB 403, negative PnL) should score read, not skip."""
+        _reload_rules()
+        result = score_post({
+            "text": (
+                "Ran 18 live BTC 5-minute trades on Polymarket. Gamma stuck at "
+                "0.505/0.495 the entire session — no movement, data frozen. CLOB "
+                "blocked with 403 from France, had to route through a VPN which "
+                "added 200ms latency. Every single trade just bled fees. Realized "
+                "PnL clipped to fees at -0.2%. Not a single profitable fill. The "
+                "funding rate divergence I was targeting never materialized because "
+                "the spread gate kept triggering on stale data."
+            ),
+            "author": "yosyptrader",
+            "url": "https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85",
+            "has_links": False,
+            "link_targets": [],
+        })
+        reasons_text = " ".join(result["reasons"])
+        self.assertIn("failure_receipt", reasons_text,
+                       f"Should detect failure_receipt signal, got: {result['reasons']}")
+        self.assertNotEqual(result["action"], "skip",
+                            f"Failure receipt should NOT be skip, got: {result['action']}: {result['reasons']}")
+
+    def test_failure_receipt_boosts_signal(self):
+        """Failure receipt should boost signal score above theory-without-proof penalty."""
+        _reload_rules()
+        result = score_post({
+            "text": (
+                "Tested automated trading with CLOB API, Gamma API, and funding rate "
+                "monitoring on Polymarket. CLOB blocked with 403 — geo-restricted. "
+                "Gamma data frozen at stale prices. PnL clipped to -0.3% after fees."
+            ),
+            "author": "failed_trader",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        })
+        self.assertGreater(result["signal_score"], 0.0,
+                            f"Failure receipt should have positive signal, got: {result['signal_score']}")
+
+    def test_theory_without_failure_still_penalized(self):
+        """Theory-dense post without failure receipt should still get penalized."""
+        _reload_rules()
+        result = score_post({
+            "text": (
+                "The funding rate divergence between Polymarket YES/NO tokens "
+                "represents an arbitrage opportunity. When the spread exceeds 3% "
+                "and execution timing aligns with the reset window, there's edge "
+                "to capture through a delta-neutral position. Slippage is the main "
+                "risk but can be managed with proper position sizing."
+            ),
+            "author": "theorist",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        })
+        reasons_text = " ".join(result["reasons"])
+        self.assertIn("theory", reasons_text.lower(),
+                       "Theory without failure receipt should still be penalized")
+
+    def test_jaris_fill_receipt_unchanged(self):
+        """Jaris-style fill receipt should still promote (not affected by failure receipt)."""
+        _reload_rules()
+        result = score_post({
+            "text": (
+                "Placed a buy NO at 0.22, filled at 0.99. The spread was over 20% "
+                "so I skipped the market. When spread > 3%, I enter with a limit order "
+                "and wait for the ask-bid spread to compress."
+            ),
+            "author": "Jaris",
+            "url": "https://moltbook.com/post/3712f84e",
+            "has_links": False,
+            "link_targets": [],
+        })
+        self.assertIn(result["action"], ("promote", "watchlist", "read"),
+                       f"Jaris fill receipt should not be skip, got: {result['action']}")
+
+
 if __name__ == "__main__":
     unittest.main()

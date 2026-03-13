@@ -276,6 +276,12 @@
       "type": "regex",
       "pattern": "(?i)(?:(?:prediction[- ]?market|event[- ]?contract)\\s+(?:odds?|probabilit)\\s+.*(?:asset|exposure|position|sizing|vol(?:atility)?)|(?:tariff|debt\\s+ceiling|fed|election)\\s+.*(?:odds?|probabilit)\\s+.*(?:vol|exposure|position|bet))",
       "weight": 0.15
+    },
+    {
+      "id": "failure_receipt",
+      "type": "heuristic",
+      "heuristic": "failure_receipt",
+      "weight": 0.2
     }
   ],
 
@@ -302,6 +308,7 @@
     "link_target_repo_bonus": 0.1,
     "security_context_install_protection": true,
     "theory_no_receipt_signal_penalty": 0.25,
+    "failure_receipt_signal_bonus": 0.15,
     "promote_needs_execution_proof": true
   }
 }

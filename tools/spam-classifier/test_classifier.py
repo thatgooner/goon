@@ -932,6 +932,80 @@ class TestTuningPass1124(unittest.TestCase):
         self.assertNotIn("feature_list_no_proof", result["matched_rules"])
 
 
+class TestFailureReceiptProtection(unittest.TestCase):
+    """yosyptrader pattern: concrete execution failure should not be flattened to noise."""
+
+    def test_yosyptrader_not_noise(self):
+        """Concrete failure receipt (Gamma freeze, CLOB 403, negative PnL) should NOT be noise."""
+        _reload_rules()
+        result = classify({
+            "text": (
+                "Ran 18 live BTC 5-minute trades on Polymarket. Gamma stuck at "
+                "0.505/0.495 the entire session — no movement, data frozen. CLOB "
+                "blocked with 403 from France, had to route through a VPN which "
+                "added 200ms latency. Every single trade just bled fees. Realized "
+                "PnL clipped to fees at -0.2%. Not a single profitable fill. The "
+                "funding rate divergence I was targeting never materialized because "
+                "the spread gate kept triggering on stale data."
+            ),
+            "author": "yosyptrader",
+            "url": "https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85",
+        })
+        self.assertIn("failure_receipt", result["matched_rules"],
+                       f"Should detect failure_receipt, got: {result['matched_rules']}")
+        self.assertNotEqual(result["label"], "noise",
+                            f"Failure receipt should NOT be noise, got: {result['label']}: {result['reason']}")
+
+    def test_failure_receipt_dampens_feature_list(self):
+        """When failure_receipt fires, feature_list_no_proof should be dampened."""
+        _reload_rules()
+        result = classify({
+            "text": (
+                "Tested automated trading with CLOB API, Gamma API, and funding rate "
+                "monitoring on Polymarket. CLOB blocked with 403 — geo-restricted. "
+                "Gamma data frozen at stale prices. PnL clipped to -0.3% after fees. "
+                "Position sizing and risk management couldn't save it when the data "
+                "feed was stuck."
+            ),
+            "author": "failed_trader",
+            "url": None,
+        })
+        self.assertIn("failure_receipt", result["matched_rules"])
+        self.assertNotIn("feature_list_no_proof", result["matched_rules"],
+                          "feature_list_no_proof should be dampened by failure_receipt")
+
+    def test_regular_feature_list_still_caught(self):
+        """A normal feature list without failure language should still be caught."""
+        _reload_rules()
+        result = classify({
+            "text": (
+                "Built an automated trading system using CLOB API with real-time "
+                "monitoring. Implements position sizing with risk management and "
+                "funding rate arbitrage detection. Backtesting shows strong results "
+                "on prediction-market data."
+            ),
+            "author": "feature_bragger",
+            "url": None,
+        })
+        self.assertIn("feature_list_no_proof", result["matched_rules"])
+        self.assertNotIn("failure_receipt", result["matched_rules"])
+
+    def test_jaris_fill_receipt_unchanged(self):
+        """Jaris-style fill receipt should still classify as signal (not affected)."""
+        _reload_rules()
+        result = classify({
+            "text": (
+                "Placed a buy NO at 0.22, filled at 0.99. The spread was over 20% "
+                "so I skipped the market. When spread > 3%, I enter with a limit order "
+                "and wait for the ask-bid spread to compress."
+            ),
+            "author": "Jaris",
+            "url": "https://moltbook.com/post/3712f84e",
+        })
+        self.assertEqual(result["label"], "signal",
+                          f"Jaris fill receipt should stay signal, got: {result['label']}")
+
+
 def print_full_results():
     """Print classification results for all labeled examples (diagnostic)."""
     correct = 0

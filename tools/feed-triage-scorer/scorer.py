@@ -492,6 +492,28 @@ _PROMPT_LEAK_RE = re.compile(
 )
 
 
+def _is_failure_receipt(text: str) -> bool:
+    """Concrete execution failure report: API errors, geo-blocks, negative PnL, frozen data."""
+    indicators = 0
+    if re.search(r"(?i)(?:CLOB|API|Gamma|endpoint|server)\s+(?:blocked|error|refused|frozen|stuck|failed|timeout|denied|down|403|404|500)", text):
+        indicators += 1
+    if re.search(r"(?i)\b(?:403|404|500|502|503)\b", text):
+        indicators += 1
+    if re.search(r"(?i)(?:geo[- ]?block|rate[- ]?limit|IP\s+(?:block|ban|restrict))", text):
+        indicators += 1
+    if re.search(r"(?i)(?:couldn't|could\s+not|unable\s+to|failed\s+to)\s+(?:execute|fill|trade|connect|submit|place|access)", text):
+        indicators += 1
+    if re.search(r"(?i)(?:frozen|stuck|stale)\s+(?:at|on|data|feed|price|gamma)", text) or re.search(r"(?i)(?:Gamma|data|feed|price)\s+(?:stuck|frozen|stale)", text):
+        indicators += 1
+    if re.search(r"(?i)(?:PnL|P&L|profit|return|net)\s*(?:clipped|capped|negative|eaten|red)", text):
+        indicators += 1
+    if re.search(r"(?i)(?:clipped\s+to\s+fees|net\s+(?:negative|loss)|fee\s+bleed|all\s+fees)", text):
+        indicators += 1
+    if re.search(r"-\d+(?:\.\d+)?%", text):
+        indicators += 1
+    return indicators >= 2
+
+
 def _is_prompt_leak_astroturf(text: str) -> bool:
     """Prompt leak or refusal comment that exposes astroturf instructions."""
     return bool(_PROMPT_LEAK_RE.search(text))
@@ -532,6 +554,8 @@ def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets
         return _is_fundraising_wallet_pitch(text, url_field, link_targets)
     elif name == "prompt_leak_astroturf":
         return _is_prompt_leak_astroturf(text)
+    elif name == "failure_receipt":
+        return _is_failure_receipt(text)
     return False
 
 
@@ -618,11 +642,23 @@ def _apply_context_modifiers(
                 signal_score += 0.1
                 reasons.append("security context detected — install command is threat description, not promo")
 
+    has_failure = "failure_receipt" in signal_matched
+    if has_failure:
+        for dampened_rule in ("recycled_profit_anecdote", "feature_list_no_proof"):
+            if dampened_rule in spam_matched:
+                rule_weight = next(
+                    (r["weight"] for r in rules.get("spam_rules", []) if r["id"] == dampened_rule), 0
+                )
+                spam_score = max(0, spam_score - rule_weight)
+                spam_matched.remove(dampened_rule)
+        signal_score += modifiers.get("failure_receipt_signal_bonus", 0.15)
+        reasons.append("failure receipt detected — noise dampened, signal boosted")
+
     if not has_evidence and not has_links and not link_targets:
         theory_re = re.compile(
             r"(?i)(?:(?:funding\s+rate|arbitrage|spread|divergence|execution|timing|slippage).*){2,}"
         )
-        if theory_re.search(text) and not _FILL_RECEIPT_RE.search(text):
+        if theory_re.search(text) and not _FILL_RECEIPT_RE.search(text) and not has_failure:
             penalty = modifiers.get("theory_no_receipt_signal_penalty", 0.1)
             signal_score = max(0, signal_score - penalty)
             reasons.append("theory/venue detail without proof surface — signal penalized")

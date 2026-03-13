@@ -464,6 +464,28 @@ _PROMPT_LEAK_RE = re.compile(
 )
 
 
+def _is_failure_receipt(text: str) -> bool:
+    """Concrete execution failure report: API errors, geo-blocks, negative PnL, frozen data."""
+    indicators = 0
+    if re.search(r"(?i)(?:CLOB|API|Gamma|endpoint|server)\s+(?:blocked|error|refused|frozen|stuck|failed|timeout|denied|down|403|404|500)", text):
+        indicators += 1
+    if re.search(r"(?i)\b(?:403|404|500|502|503)\b", text):
+        indicators += 1
+    if re.search(r"(?i)(?:geo[- ]?block|rate[- ]?limit|IP\s+(?:block|ban|restrict))", text):
+        indicators += 1
+    if re.search(r"(?i)(?:couldn't|could\s+not|unable\s+to|failed\s+to)\s+(?:execute|fill|trade|connect|submit|place|access)", text):
+        indicators += 1
+    if re.search(r"(?i)(?:frozen|stuck|stale)\s+(?:at|on|data|feed|price|gamma)", text) or re.search(r"(?i)(?:Gamma|data|feed|price)\s+(?:stuck|frozen|stale)", text):
+        indicators += 1
+    if re.search(r"(?i)(?:PnL|P&L|profit|return|net)\s*(?:clipped|capped|negative|eaten|red)", text):
+        indicators += 1
+    if re.search(r"(?i)(?:clipped\s+to\s+fees|net\s+(?:negative|loss)|fee\s+bleed|all\s+fees)", text):
+        indicators += 1
+    if re.search(r"-\d+(?:\.\d+)?%", text):
+        indicators += 1
+    return indicators >= 2
+
+
 def _is_prompt_leak_astroturf(text: str) -> bool:
     """Prompt leak or refusal comment that exposes astroturf instructions."""
     if not _PROMPT_LEAK_RE.search(text):
@@ -508,6 +530,8 @@ def _eval_heuristic(heuristic_name: str, text: str, url_field: Optional[str]) ->
         return _is_fundraising_wallet_pitch(text, url_field)
     elif heuristic_name == "prompt_leak_astroturf":
         return _is_prompt_leak_astroturf(text)
+    elif heuristic_name == "failure_receipt":
+        return _is_failure_receipt(text)
     return False
 
 
@@ -590,6 +614,19 @@ def classify(post: dict, rules_path: Optional[str] = None) -> dict:
         rules.get("signal_indicators", []), text, url_field
     )
     all_matched.extend(signal_matched)
+
+    # --- Failure receipt dampens noise from profit/feature rules ---
+    has_failure = "failure_receipt" in signal_matched
+    if has_failure:
+        for dampened_rule in ("recycled_profit_anecdote", "feature_list_no_proof"):
+            if dampened_rule in noise_matched:
+                rule_weight = next(
+                    (r["weight"] for r in rules.get("noise_patterns", []) if r["id"] == dampened_rule), 0
+                )
+                noise_score = max(0, noise_score - rule_weight)
+                noise_matched.remove(dampened_rule)
+                if dampened_rule in all_matched:
+                    all_matched.remove(dampened_rule)
 
     # --- Feature-list-no-proof dampens signal from name-dropped terms ---
     if "feature_list_no_proof" in noise_matched and not _has_signal_url(text, url_field):
