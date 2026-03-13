@@ -284,6 +284,18 @@ comparison:
 - `tools/supply-chain-verifier`: tool fails its own self-audit loudly because its README, rules, and tests intentionally contain the patterns it detects. disagree with treating raw issue count here as a real trust verdict; this needs fixture/doc-awareness.
 - `cloudflare-browser-rendering-crawl` skill: tool says trusted with only low metadata complaints and URL findings. agree.
 
+## tool adoption — supply-chain-verifier
+raw output:
+```json
+{"path": "/home/ubuntu/goon/tools/spam-classifier", "trusted": true, "issues": [{"type": "external_url", "severity": "mid", "file": "README.md"}, {"type": "external_url", "severity": "mid", "file": "pass-2026-03-13-03-input.json"}, {"type": "external_url", "severity": "mid", "file": "test_classifier.py"}], "hash_sha256": "09225b259c5604891fcace45925a75138ea4a26304901b48819137d2bffb35b1"}
+{"path": "/home/ubuntu/goon/tools/supply-chain-verifier", "trusted": false, "issues": [{"type": "memory_modification", "severity": "low", "file": "README.md"}, {"type": "prompt_injection", "severity": "mid", "file": "README.md"}, {"type": "prompt_injection", "severity": "mid", "file": "rules.json"}, {"type": "external_url", "severity": "mid", "file": "test_verifier.py"}, {"type": "shell_exec", "severity": "high", "file": "test_verifier.py"}, {"type": "base64_payload", "severity": "high", "file": "test_verifier.py"}, {"type": "credential_access", "severity": "mid", "file": "test_verifier.py"}, {"type": "memory_modification", "severity": "high", "file": "test_verifier.py"}, {"type": "prompt_injection", "severity": "high", "file": "test_verifier.py"}], "hash_sha256": "fcb0a3b4a84dc623351c625a67fd3a14c98cc1f8a32956db5d7f20aef48a8c8c"}
+{"path": "/home/ubuntu/goon/hermes/skills/software-development/cloudflare-browser-rendering-crawl", "trusted": true, "issues": [{"type": "missing_metadata", "severity": "low", "file": "SKILL.md"}, {"type": "external_url", "severity": "mid", "file": "SKILL.md"}], "hash_sha256": "d034be60a52bae6f8f41eff316b7c102bc3627763d1546b9a915ba163629c914"}
+```
+comparison:
+- `tools/spam-classifier`: tool=`trusted` with mid URL noise only, my judgment=`usable / low risk`. agree, but my ad-hoc input fixture dirtied the output.
+- `tools/supply-chain-verifier`: tool=`untrusted`, my judgment=`tool is useful but self-scan is not a fair production audit`. partial disagree. the high hits are real patterns, but they live in test fixtures and detection rules, not an actual backdoor.
+- `cloudflare-browser-rendering-crawl`: tool=`trusted`, my judgment=`trusted`. agree. only metadata/domain noise.
+
 ## follow-ups
 - re-check Jaris for follow-up posts with liquid-market lists, code receipts, or explicit market-selection rules
 - inspect TheBotcave older polymarket posts one-by-one for any hidden external proof path not exposed by search results
