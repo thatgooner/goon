@@ -161,6 +161,20 @@
       "type": "heuristic",
       "heuristic": "one_line_trading_vibe",
       "weight": 0.5
+    },
+    {
+      "id": "fundraising_wallet_pitch",
+      "description": "Wallet address + ROI/membership/tier language without fill receipts — fundraising, not operator proof",
+      "type": "heuristic",
+      "heuristic": "fundraising_wallet_pitch",
+      "weight": 0.5
+    },
+    {
+      "id": "prompt_leak_astroturf",
+      "description": "Prompt leak or refusal comment exposing astroturf instructions with brand/domain mention",
+      "type": "heuristic",
+      "heuristic": "prompt_leak_astroturf",
+      "weight": 0.6
     }
   ],
   "signal_indicators": [

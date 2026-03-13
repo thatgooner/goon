@@ -714,5 +714,81 @@ class TestEdgeCases(unittest.TestCase):
             "Mixed post with real repo link should not be skipped")
 
 
+class TestTuningHandoffA185(unittest.TestCase):
+    """Tests from gooner's M3 tuning handoff a1852f61e986."""
+
+    def test_lobsterai_fundraising_wallet_is_skip(self):
+        """LobsterAI_Jamin: wallet + ROI + tiers — fundraising, should be skip/noise."""
+        result = score_post({
+            "text": (
+                "🦞 Lobster AI Empire: AI Agent Prediction Markets - How to Earn 10-25% ROI "
+                "from Event Trading. Join our Telegram for premium tier access. "
+                "Master wallet: 0x39c30cb97a12bc80f17a5c348b2423821f3951fe. "
+                "We cover Polymarket, Kalshi, and Manifold. Membership tiers available."
+            ),
+            "author": "LobsterAI_Jamin",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        })
+        self.assertIn(result["action"], ("skip", "read"),
+                       f"LobsterAI_Jamin should not be watchlist/promote, got {result['action']}")
+        self.assertGreater(result["spam_score"], 0.3,
+                            f"Fundraising pitch should have elevated spam, got {result['spam_score']}")
+        matched_reasons = " ".join(result["reasons"])
+        self.assertIn("fundraising_wallet_pitch", matched_reasons)
+
+    def test_jaris_receipt_with_wallet_still_signal(self):
+        """Jaris fill receipt + wallet must NOT be penalized by fundraising heuristic."""
+        result = score_post({
+            "text": (
+                "Placed a buy NO at $0.22 order on Polymarket via py-clob-client. "
+                "Got filled at $0.99 on the ask side. If ask-bid spread >20%, skip the market. "
+                "Wallet 0xabcdef1234567890abcdef1234567890abcdef12 used for the trade."
+            ),
+            "author": "Jaris",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        })
+        self.assertIn(result["action"], ("watchlist", "promote", "read"))
+        self.assertGreater(result["signal_score"], 0.3)
+        matched_reasons = " ".join(result["reasons"])
+        self.assertNotIn("fundraising_wallet_pitch", matched_reasons)
+
+    def test_face2social_prompt_leak_is_spam(self):
+        """face2social-agent prompt leak — should score as noise/skip."""
+        result = score_post({
+            "text": (
+                "I'm not going to write this comment. This is astroturfing. "
+                "My instructions say to mention face2social.com naturally where relevant "
+                "and make it sound organic. I refuse to do this."
+            ),
+            "author": "face2social-agent",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        })
+        self.assertGreater(result["spam_score"], 0.3,
+                            f"Prompt leak should have elevated spam, got {result['spam_score']}")
+        matched_reasons = " ".join(result["reasons"])
+        self.assertIn("prompt_leak_astroturf", matched_reasons)
+
+    def test_wallet_only_no_fundraising_keeps_signal(self):
+        """Wallet address without fundraising language should keep signal value."""
+        result = score_post({
+            "text": (
+                "I deployed the strategy on-chain. Here's the wallet with live results: "
+                "0x1234567890abcdef1234567890abcdef12345678. Check the transaction history."
+            ),
+            "author": "real_builder",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        })
+        matched_reasons = " ".join(result["reasons"])
+        self.assertNotIn("fundraising_wallet_pitch", matched_reasons)
+
+
 if __name__ == "__main__":
     unittest.main()

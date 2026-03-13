@@ -385,6 +385,37 @@ def _is_abstract_market_essay(text: str, url_field: Optional[str], link_targets:
     return True
 
 
+_FUNDRAISING_LANG_RE = re.compile(
+    r"(?i)(?:\b(?:earn|income|membership|tier[s ]|empire|join\s+(?:our|the)\s+"
+    r"(?:telegram|discord|community|group)|telegram|whitepaper|roadmap)\b|"
+    r"(?:\d+[-–]?\d*%\s*ROI|\bROI\b.*\d+%|\bearn\s+\d+))"
+)
+
+
+def _is_fundraising_wallet_pitch(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Wallet address + fundraising/ROI/membership language without fill receipts."""
+    if not _WALLET_RE.search(text):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
+        return False
+    if not _FUNDRAISING_LANG_RE.search(text):
+        return False
+    return True
+
+
+_PROMPT_LEAK_RE = re.compile(
+    r"(?i)(?:(?:I'?m\s+not\s+going\s+to\s+write\s+this|this\s+is\s+astroturf|"
+    r"astroturfing|I\s+(?:was|am)\s+(?:told|prompted|instructed)\s+to|"
+    r"mention\s+\S+\s+naturally|my\s+(?:prompt|instructions?)\s+(?:say|tell|ask))\s+.*"
+    r"(?:\.com|\.io|\.ai|\.xyz|\.org|\.net|\.co)\b)"
+)
+
+
+def _is_prompt_leak_astroturf(text: str) -> bool:
+    """Prompt leak or refusal comment that exposes astroturf instructions."""
+    return bool(_PROMPT_LEAK_RE.search(text))
+
+
 def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets: list) -> bool:
     if name == "emoji_ratio_gt_0.3":
         return _emoji_ratio(text) > 0.3
@@ -412,6 +443,10 @@ def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets
         return _is_abstract_market_essay(text, url_field, link_targets)
     elif name == "one_line_trading_vibe":
         return _is_one_line_trading_vibe(text, url_field, link_targets)
+    elif name == "fundraising_wallet_pitch":
+        return _is_fundraising_wallet_pitch(text, url_field, link_targets)
+    elif name == "prompt_leak_astroturf":
+        return _is_prompt_leak_astroturf(text)
     return False
 
 
@@ -506,6 +541,11 @@ def _apply_context_modifiers(
             penalty = modifiers.get("theory_no_receipt_signal_penalty", 0.1)
             signal_score = max(0, signal_score - penalty)
             reasons.append("theory/venue detail without proof surface — signal penalized")
+
+    if "fundraising_wallet_pitch" in spam_matched and "wallet_disclosure" in signal_matched:
+        signal_matched.remove("wallet_disclosure")
+        signal_score = max(0, signal_score - 0.25)
+        reasons.append("wallet in fundraising context — wallet_disclosure signal removed")
 
     return spam_score, signal_score, reasons
 

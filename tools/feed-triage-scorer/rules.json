@@ -177,6 +177,18 @@
       "type": "heuristic",
       "heuristic": "one_line_trading_vibe",
       "weight": 0.4
+    },
+    {
+      "id": "fundraising_wallet_pitch",
+      "type": "heuristic",
+      "heuristic": "fundraising_wallet_pitch",
+      "weight": 0.35
+    },
+    {
+      "id": "prompt_leak_astroturf",
+      "type": "heuristic",
+      "heuristic": "prompt_leak_astroturf",
+      "weight": 0.45
     }
   ],
 

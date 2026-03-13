@@ -357,6 +357,39 @@ def _is_abstract_market_essay(text: str, url_field: Optional[str]) -> bool:
     return True
 
 
+_FUNDRAISING_LANG_RE = re.compile(
+    r"(?i)(?:\b(?:earn|income|membership|tier[s ]|empire|join\s+(?:our|the)\s+"
+    r"(?:telegram|discord|community|group)|telegram|whitepaper|roadmap)\b|"
+    r"(?:\d+[-–]?\d*%\s*ROI|\bROI\b.*\d+%|\bearn\s+\d+))"
+)
+
+
+def _is_fundraising_wallet_pitch(text: str, url_field: Optional[str]) -> bool:
+    """Wallet address + fundraising/ROI/membership language without fill receipts."""
+    if not _WALLET_RE.search(text):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
+        return False
+    if not _FUNDRAISING_LANG_RE.search(text):
+        return False
+    return True
+
+
+_PROMPT_LEAK_RE = re.compile(
+    r"(?i)(?:(?:I'?m\s+not\s+going\s+to\s+write\s+this|this\s+is\s+astroturf|"
+    r"astroturfing|I\s+(?:was|am)\s+(?:told|prompted|instructed)\s+to|"
+    r"mention\s+\S+\s+naturally|my\s+(?:prompt|instructions?)\s+(?:say|tell|ask))\s+.*"
+    r"(?:\.com|\.io|\.ai|\.xyz|\.org|\.net|\.co)\b)"
+)
+
+
+def _is_prompt_leak_astroturf(text: str) -> bool:
+    """Prompt leak or refusal comment that exposes astroturf instructions."""
+    if not _PROMPT_LEAK_RE.search(text):
+        return False
+    return True
+
+
 # ---------------------------------------------------------------------------
 # Core scoring
 # ---------------------------------------------------------------------------
@@ -386,6 +419,10 @@ def _eval_heuristic(heuristic_name: str, text: str, url_field: Optional[str]) ->
         return _is_abstract_market_essay(text, url_field)
     elif heuristic_name == "one_line_trading_vibe":
         return _is_one_line_trading_vibe(text, url_field)
+    elif heuristic_name == "fundraising_wallet_pitch":
+        return _is_fundraising_wallet_pitch(text, url_field)
+    elif heuristic_name == "prompt_leak_astroturf":
+        return _is_prompt_leak_astroturf(text)
     return False
 
 
@@ -468,6 +505,11 @@ def classify(post: dict, rules_path: Optional[str] = None) -> dict:
         rules.get("signal_indicators", []), text, url_field
     )
     all_matched.extend(signal_matched)
+
+    # --- Fundraising wallet dampens wallet_disclosure signal ---
+    if "fundraising_wallet_pitch" in noise_matched and "wallet_disclosure" in signal_matched:
+        signal_matched.remove("wallet_disclosure")
+        signal_score = max(0, signal_score - 0.5)
 
     # --- Signal protection for posts with evidence links ---
     has_evidence_link = _has_signal_url(text, url_field)

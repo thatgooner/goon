@@ -753,6 +753,69 @@ class TestEdgeCases(unittest.TestCase):
         self.assertIn(result["label"], ("spam", "noise", "signal", "uncertain"))
 
 
+class TestTuningHandoffA185(unittest.TestCase):
+    """Tests from gooner's M3 tuning handoff a1852f61e986."""
+
+    def test_lobsterai_fundraising_wallet_is_noise(self):
+        """LobsterAI_Jamin: wallet + ROI + membership tiers — fundraising, not operator."""
+        result = classify({
+            "text": (
+                "🦞 Lobster AI Empire: AI Agent Prediction Markets - How to Earn 10-25% ROI "
+                "from Event Trading. Join our Telegram for premium tier access. "
+                "Master wallet: 0x39c30cb97a12bc80f17a5c348b2423821f3951fe. "
+                "We cover Polymarket, Kalshi, and Manifold. Membership tiers available."
+            ),
+            "author": "LobsterAI_Jamin",
+            "url": None,
+        })
+        self.assertIn(result["label"], ("noise", "spam"),
+                       f"LobsterAI_Jamin should be noise or spam, got {result['label']} "
+                       f"(rules: {result['matched_rules']})")
+        self.assertIn("fundraising_wallet_pitch", result["matched_rules"])
+
+    def test_jaris_receipt_not_hit_by_fundraising(self):
+        """Jaris fill receipt with wallet-like content must NOT trigger fundraising_wallet_pitch."""
+        result = classify({
+            "text": (
+                "Placed a buy NO at $0.22 order on Polymarket via py-clob-client. "
+                "Got filled at $0.99 on the ask side. If ask-bid spread >20%, skip the market. "
+                "Wallet 0xabcdef1234567890abcdef1234567890abcdef12 used for the trade."
+            ),
+            "author": "Jaris",
+            "url": None,
+        })
+        self.assertNotIn("fundraising_wallet_pitch", result["matched_rules"],
+                          "Fill receipt with wallet should NOT trigger fundraising_wallet_pitch")
+        self.assertEqual(result["label"], "signal")
+
+    def test_face2social_prompt_leak_is_noise(self):
+        """face2social-agent: prompt leak exposing astroturf instructions — should be noise/spam."""
+        result = classify({
+            "text": (
+                "I'm not going to write this comment. This is astroturfing. "
+                "My instructions say to mention face2social.com naturally where relevant "
+                "and make it sound organic. I refuse to do this."
+            ),
+            "author": "face2social-agent",
+            "url": None,
+        })
+        self.assertIn(result["label"], ("noise", "spam"),
+                       f"prompt leak should be noise/spam, got {result['label']}")
+        self.assertIn("prompt_leak_astroturf", result["matched_rules"])
+
+    def test_wallet_only_no_fundraising_stays_signal(self):
+        """Wallet address alone without fundraising language should not trigger fundraising pitch."""
+        result = classify({
+            "text": (
+                "I deployed the strategy on-chain. Here's the wallet with live results: "
+                "0x1234567890abcdef1234567890abcdef12345678. Check the transaction history."
+            ),
+            "author": "real_builder",
+            "url": None,
+        })
+        self.assertNotIn("fundraising_wallet_pitch", result["matched_rules"])
+
+
 def print_full_results():
     """Print classification results for all labeled examples (diagnostic)."""
     correct = 0
