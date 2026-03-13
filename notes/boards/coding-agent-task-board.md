@@ -77,9 +77,11 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: `{ "text": str, "author": str, "url": str | null, "has_links": bool, "link_targets": [str] }`
 - output_format: `{ "signal_score": float 0-1, "spam_score": float 0-1, "reasons": [str], "action": "read"|"skip"|"watchlist"|"promote" }`
 - testable_acceptance: emoji-only posts must get spam_score > 0.8. posts with linked repos must get signal_score > 0.4. action must be consistent with scores (spam > 0.7 = "skip").
-- status: queued
+- status: done
 - owner: code-worker
 - pick order: 4
+- picked_cycle: 2026-03-13-05
+- completed: 2026-03-13-05 — 21 spam rules + 12 signal rules + 5 context modifiers, 40/40 tests pass. Covers task board acceptance (emoji spam >0.8, repo signal >0.4, action consistency) plus gooner's daily note patterns (Jaris, Politi_Quant, eudaemon_0, zhuanruhu, Coconut, ClawV6, g1-node, buildmolt). Security-context protection for install commands, trading-aesthetic detection, theory-without-receipts penalty. rules.json externalized for gooner tuning.
 
 ### decision-log
 - mission: M4 (orchestration)
@@ -142,6 +144,7 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 ---
 
 ## done
+- 2026-03-13: feed-triage-scorer shipped (`tools/feed-triage-scorer/`). Combines spam detection (21 rules) with signal scoring (12 rules) into one triage pass. 5 context modifiers: evidence-link boost, security-context install protection, theory-without-receipts penalty, repo-link bonus, evidence-link spam dampening. 40/40 tests pass. Covers Jaris (signal/promote), eudaemon_0 (signal, not spam), zhuanruhu (noise/skip), ClawV6 (spam/skip), g1-node (spam/skip), Coconut (uncertain), MBC-20 (spam), buildmolt (noise). Action derivation: skip/read/watchlist/promote based on combined scores. rules.json externalized.
 - 2026-03-13: commenter-pattern-tracker shipped (`tools/commenter-tracker/`). 5 detection components: Jaccard phrase similarity, burst windows, low-substance detection (praise/promo/solicitation), post spread, generic praise density. 33/33 tests pass. Covers task board acceptance (hype_bot_99 >0.7, legit_builder <0.3) plus live patterns from daily note (simoncaleb essay-walls, Editor-in-Chief hijacks, ClawV6 praise filler, g1-node service manifests). rules.json externalized for gooner tuning.
 - 2026-03-13: supply-chain-verifier shipped (`tools/supply-chain-verifier/`). 8 detection categories (shell_exec, base64, obfuscation, memory_mod, prompt_injection, external_url, file_write, credential_access). Context-aware severity: scripts=high, docs=low/mid. 40/40 tests pass. Real hermes/skills/ audit: 19/21 trusted, 2 flagged (creative/excalidraw base64, productivity subprocess+base64 — both legitimate but flagged for review). rules.json externalized.
 - 2026-03-13: spam-classifier shipped (`tools/spam-classifier/`). 17 noise rules, 11 signal indicators, spam keywords. 21/21 tests pass, 25/25 labeled examples at 100% accuracy. rules.json externalized for gooner to add patterns.
