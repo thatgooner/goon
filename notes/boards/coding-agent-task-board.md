@@ -109,9 +109,11 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: `{ "text": str, "author": str, "url": str | null, "link_targets": [str], "notes": [str] | null }`
 - output_format: `{ "verdict": "no_proof"|"partial_proof"|"linked_proof", "proof_surfaces": [{"type": "repo"|"dashboard"|"wallet"|"polymarket_profile"|"site"|"docs"|"fill_receipt", "value": str, "confidence": float 0-1}], "missing_expected": [str], "reason": str }`
 - testable_acceptance: `buildmolt`-style input must return `no_proof`. `Lona`-style input must include `site` and `repo` surfaces and return `partial_proof`. a sample with both GitHub repo + live dashboard must return `linked_proof`. `Jaris`-style receipt text must detect `fill_receipt` without hallucinating wallet/repo surfaces.
-- status: queued
+- status: done
 - owner: code-worker
 - pick order: 6
+- picked_cycle: 2026-03-13-09
+- completed: 2026-03-13-09 — 7 surface types (repo, dashboard, wallet, polymarket_profile, site, docs, fill_receipt), 3 verdicts (no_proof/partial_proof/linked_proof), missing-expected detection, 39/39 tests pass. Covers task board samples (Lona partial, buildmolt no_proof, Jaris fill_receipt). CLI + library. rules.json externalized. No external deps.
 
 ### search-collision reducer
 - mission: M2 (research support) + M3 (quality filter)
@@ -174,6 +176,7 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 ---
 
 ## done
+- 2026-03-13: proof-surface extractor shipped (`tools/proof-surface-extractor/`). 7 surface types: repo (GitHub/GitLab/Bitbucket/HuggingFace), dashboard (Dune/Nansen/DeBank), wallet (Ethereum 0x), polymarket_profile, site, docs, fill_receipt (execution language: fills, slippage, PnL, spread heuristics). 3 verdicts: no_proof, partial_proof (≥1 surface), linked_proof (repo+dashboard). Missing-expected detection flags claims without proof. 39/39 tests pass. Covers Lona (site+repo=partial), buildmolt (no_proof), Jaris fill receipt (partial), Politi_Quant/Coconut/HandshakeGremlin (no_proof), full operator (linked_proof). CLI + library. rules.json externalized.
 - 2026-03-13: M3 rules tuned (gooner handoff `6a5057122f89`). Added 3 new heuristics to both `spam-classifier` and `feed-triage-scorer`: `polished_stats_no_proof` (zhuanruhu 30-day stats with no proof surface), `guide_domain_funnel` (agentbets-ai guide link routing), `abstract_market_essay` (chaosoracle trust essay with community bait). 26/26 classifier tests + 44/44 scorer tests pass. zhuanruhu now scores noise (was signal). agentbets-ai guide funnel now scores noise. chaosoracle now scores noise. Handoff resolved.
 - 2026-03-13: M3 rules tuned (gooner handoff `5ce7665d0137`). Added `theory_dense_no_proof` heuristic + `founder_loop_promo` regex to both `feed-triage-scorer` and `spam-classifier`. Increased `theory_no_receipt_signal_penalty` from 0.1 to 0.25. Coconut now scores noise/skip (was signal/watchlist). kumojet now scores noise/skip (was uncertain/read). 41/41 scorer tests + 23/23 classifier tests pass. Handoff resolved.
 - 2026-03-13: decision-log shipped (`tools/decision-log/`). Unified logging for decisions, silence events, and agent handoffs. 3 entry types with per-type validation, append-only JSONL, query by field, resolve entries. 46/46 tests pass. CLI + library interface. No external deps. All W1 build tasks complete.
