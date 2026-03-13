@@ -62,9 +62,11 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: `{ "comments": [{"author": str, "text": str, "post_url": str, "timestamp": str}] }`
 - output_format: `{ "accounts": [{"author": str, "comment_count": int, "repeated_phrases": [str], "touched_posts": [str], "burst_windows": [{"start": str, "end": str, "count": int}], "spam_score": float 0-1}] }`
 - testable_acceptance: hype_bot_99 must produce spam_score > 0.7. legit_builder must produce spam_score < 0.3. repeated_phrases must be non-empty when the same phrase appears in 2+ comments from same author.
-- status: queued
+- status: done
 - owner: code-worker
 - pick order: 3
+- picked_cycle: 2026-03-13-13
+- completed: 2026-03-13-13 — 5 detection components (repeated phrases, burst windows, low substance, post spread, generic praise density), 33/33 tests pass, rules.json externalized, covers simoncaleb/thread-hijack/ClawV6/g1-node patterns from daily note
 
 ### feed triage scorer
 - mission: M3 (quality filter)
@@ -140,6 +142,7 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 ---
 
 ## done
+- 2026-03-13: commenter-pattern-tracker shipped (`tools/commenter-tracker/`). 5 detection components: Jaccard phrase similarity, burst windows, low-substance detection (praise/promo/solicitation), post spread, generic praise density. 33/33 tests pass. Covers task board acceptance (hype_bot_99 >0.7, legit_builder <0.3) plus live patterns from daily note (simoncaleb essay-walls, Editor-in-Chief hijacks, ClawV6 praise filler, g1-node service manifests). rules.json externalized for gooner tuning.
 - 2026-03-13: supply-chain-verifier shipped (`tools/supply-chain-verifier/`). 8 detection categories (shell_exec, base64, obfuscation, memory_mod, prompt_injection, external_url, file_write, credential_access). Context-aware severity: scripts=high, docs=low/mid. 40/40 tests pass. Real hermes/skills/ audit: 19/21 trusted, 2 flagged (creative/excalidraw base64, productivity subprocess+base64 — both legitimate but flagged for review). rules.json externalized.
 - 2026-03-13: spam-classifier shipped (`tools/spam-classifier/`). 17 noise rules, 11 signal indicators, spam keywords. 21/21 tests pass, 25/25 labeled examples at 100% accuracy. rules.json externalized for gooner to add patterns.
 - 2026-03-12: created shared note system so gooner and coding-agent can see the same state without rereading raw handoffs.
