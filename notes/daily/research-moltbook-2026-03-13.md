@@ -152,12 +152,46 @@
   - ClawV6 post: https://moltbook.com/post/49c5d5e4-2a7e-4036-85b6-5f8449eaf977
   - g1-node post: https://moltbook.com/post/16122fcf-f4e7-4950-8c06-821281f4558b
 
+### 04:30 UTC — M2 recheck: Jaris still the only clean Polymarket receipt, Lona public repo audit, fresh trading-noise sweep + full tool adoption
+- query / angle: M2 deep re-check with M3/M1 side-output. Re-validated the strongest old Polymarket receipt (`Jaris`), audited the strongest current prediction-market promo surface (`Lona`) beyond Moltbook by checking the public site + linked GitHub repo, checked notifications/our post activity, sampled fresh top/hot/new again, and ran every shipped tool on pass-native inputs.
+- what was checked:
+  - pulled `GET /api/v1/home`, `GET /api/v1/notifications`, and `GET /api/v1/feed` for `top` / `hot` / `new` (15 each)
+  - searched `polymarket`, `CLOB`, `funding rate`, `copytrading`, `prediction market`, `py-clob-client`, `market making agent`, `wallet xray`, and `slippage`
+  - re-opened `Jaris` CLOB post + best comments; confirmed the thread is still mostly thread-hijack junk, not useful execution follow-up
+  - opened `Lona` prediction-market post and checked the external proof surface at `lona.agency`; cloned the linked public repo `mindsightventures/lona-agent-skills` and inspected its README
+  - opened fresh trading-adjacent new-feed post from `zhuanruhu` as current-pass noise sample
+  - checked `logs/code-worker/2026-03-13-04.md` and confirmed `commenter-tracker` shipped this cycle
+- strongest signal found:
+  - `Jaris` still clears the bar. Same conclusion as earlier, but it survived another re-check: exact tool named (`py-clob-client`), exact failure mode (Gamma/API price illusion vs empty public CLOB book), exact market heuristic (`spread >20% => skip`). Nobody else in this pass matched that level of falsifiable execution detail.
+  - `Lona` is a partial upgrade from pure vapor because the external surface is real: `lona.agency` resolves, links a public GitHub repo, and that repo actually clones. But the public repo is generic trading/MCP/backtest infrastructure — no public Polymarket-specific code, no live dashboard, no fills, no event-contract research receipts. So this is real product surface, not yet real Polymarket edge.
+- strongest noise found:
+  - search is still rotten for serious M2 work. `py-clob-client`, `Gamma API`, `wallet xray`, and `market making agent` mostly collapse into username/token collisions instead of topical results.
+  - `zhuanruhu`'s fresh trading-assistant post is clean current-pass noise: vibes about discipline and quiet conviction, zero execution detail, zero dataset, zero proof path. Trading aesthetic, no edge.
+  - comment lanes are still promo bait magnets. `Editor-in-Chief` remains the clearest example under the Jaris thread, and `merkybot` used the Lona thread to plug AGDEL instead of adding evidence.
+- decisions:
+  - no upvote, no comment, no watchlist promotion
+  - keep `Jaris` as the strongest active Polymarket receipt on the board
+  - keep `Lona` below trust/promotion: real product/repo exists, but public evidence is still generic infra rather than prediction-market receipts
+  - record two tool-tuning gaps from this pass: `spam-classifier` undercalled `zhuanruhu` and overcalled `Coconut`; `commenter-tracker` undercalled obvious single-thread hijacks / architecture-wall promo because it wants repeated-account evidence
+- receipts:
+  - home/notifications: `GET /api/v1/home`, `GET /api/v1/notifications`
+  - Jaris post: https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92
+  - Lona post: https://moltbook.com/post/59cbe4f8-9c95-4311-872c-b1919a19859d
+  - zhuanruhu post: https://moltbook.com/post/44fa585f-2e81-495f-b4a6-35a86bccd1ae
+  - Lona site: https://lona.agency
+  - Lona public repo: https://github.com/mindsightventures/lona-agent-skills
+
 ## post-pass mission audit
 - did this pass advance the target objective? yes
-- evidence: two accounts were promoted to the watchlist with explicit receipts today (`Jaris` and `Politi_Quant`); code-worker also shipped `tools/spam-classifier/` and `tools/supply-chain-verifier/`, and these rerun passes actually adopted them on live Moltbook items plus local audit targets. That produced two useful disagreement classes: `Lona` overcalled as spam by the classifier, and `supply-chain-verifier` over-reporting on its own README/rules/tests. The passes also converted thread noise plus search-surface pollution into concrete classifier-rule candidates and tightened the evidence bar around TheBotcave / Unity / goddessnyx / Lona instead of letting them drift upward on vibes.
+- evidence: two accounts were promoted to the watchlist with explicit receipts today (`Jaris` and `Politi_Quant`); code-worker also shipped `tools/spam-classifier/` and `tools/supply-chain-verifier/`, and these rerun passes actually adopted them on live Moltbook items plus local audit targets. That produced two useful disagreement classes: `Lona` overcalled as spam by the classifier, and `supply-chain-verifier` over-reporting on its own README/rules/tests. The passes also converted thread noise plus search-surface pollution into concrete classifier-rule candidates and tightened the evidence bar around TheBotcave / Unity / goddessnyx / Lona instead of letting them drift upward on vibes. This pass added one more concrete split: `Lona` does have a real external product/repo surface, but the public repo still does not expose prediction-market-specific code or execution proof. It also adopted the new `commenter-tracker` on live comment batches and confirmed where it helps (repeat-account sludge) versus where it undercalls (single-thread hijacks, architecture-wall self-promo).
 - if no: what went wrong and what must change before the next pass?
 
 ## pass delta
+- net-new vs yesterday:
+  - `Lona` now has a verified public proof surface (`lona.agency` + cloneable GitHub repo), but the public repo is generic trading/MCP infrastructure with no visible Polymarket-specific code or live execution receipts
+  - fresh current-pass noise captured: `zhuanruhu` trading-discipline post is trading-themed but content-empty; looks like style theater, not operator signal
+  - `commenter-tracker` shipped and was adopted live this pass; it is useful for repeated-account sludge but undercalls one-off thread hijacks and architecture-wall promo comments
+  - search-collision problem got worse, not better: `Gamma API`, `wallet xray`, and `market making agent` are still mostly unusable for deep research because search ranks usernames/token fragments above topical posts
 - net-new vs yesterday:
   - first concrete Polymarket CLOB execution receipt saved: Jaris on bad fills / empty orderbooks / spread filter >20%
   - first copytrading-specific framing worth keeping: copy entries are less portable than copying constraints
@@ -180,6 +214,7 @@
 - if count >= 3: escalate to user or force a hard angle pivot. do not repeat the same approach.
 
 ## signal shortlist
+- Lona: public site + public GitHub repo are real, which is more than most trading-posters have. still not enough Polymarket-specific proof to promote beyond watch/uncertain
 - Jaris: first-person CLOB execution failure + exact heuristic is stronger than 90% of polymarket posting on the site
 - HandshakeGremlin: copytrading constraints > copytrading vibes is worth keeping as research framing
 - Politi_Quant: event-probability -> asset-pricing translation framework is concrete enough to justify a watchlist slot, even though proof surfaces are still missing
@@ -188,6 +223,8 @@
 - Lona: strongest infra/process poster in this batch, but still below watchlist threshold until a repo/dashboard/proof surface shows up
 
 ## noise patterns
+- trading-discipline vibe posts that talk about emotional control / silence / sleep / conviction but provide zero method, fill, dataset, or execution artifact
+- reply-lane product plugs that mirror the thread topic just enough to look relevant before pivoting into marketplace/self-promo (`merkybot` on Lona)
 - irrelevant promo comments dropped into technical threads with zero relation to the post
 - repeated “insightful question” essay-comments that sound technical but never add evidence
 - X/Twitter recap dumping: summarizing other people’s wins and screenshots without preserving the proof path
@@ -199,6 +236,9 @@
 - service-manifest solicitation posts: rates, direct contact, premium tiers, capability laundry list, and zero proof surface (`g1-node` style)
 
 ## classifier rule candidates
+- pattern: trading-aesthetic self-help without an actual trading method / example: `zhuanruhu` asking whether AI should trade autonomously while offering only discipline vibes and no concrete edge (https://moltbook.com/post/44fa585f-2e81-495f-b4a6-35a86bccd1ae) / why_noise: prediction-market/trading language without any execution detail, data source, or falsifiable claim
+- pattern: reply hijack that piggybacks on thread topic before plugging a separate product / example: `merkybot` on the Lona thread pivoting from “great points on prediction markets” into `AGDEL` marketplace promo / why_noise: uses topical mimicry to smuggle self-promo, not to add evidence
+- pattern: generic theory + venue names + nice numbers can still be proof-light / example: `Coconut` funding-rate arbitrage post talks about Binance + Deribit spreads and timing logic but exposes no live trade, no logs, no linked research / why_noise: looks sophisticated enough to bypass shallow filters even when the proof surface is missing
 - pattern: irrelevant promo in a technical thread / example: `Editor-in-Chief` replying to the Jaris CLOB post with a generic “You are Invited to Watch Human Culture” RSS promo / why_noise: it ignores the topic entirely and uses the thread as distribution, not discussion
 - pattern: repeated meta-question walls from the same account / example: `simoncaleb_openclaw_bot` posting multiple long “insightful question” comments under the jarvis Simmer thread / why_noise: high word count, no receipts, no new evidence, same engagement template repeated
 - pattern: recycled profit anecdote aggregation / example: Bro0805Bot_Polymarket weather radar listing `$204 into ~$24,000`, `$45,918 profit`, and “worth tracking” summaries from X / why_noise: second-hand claim stacking with no native proof path, no wallet, no code, no method verification
@@ -211,6 +251,10 @@
 - pattern: service-manifest solicitation with rates + off-platform contact / example: `g1-node` listing Perth physical services, hourly consultation, LinkedIn, Telegram, and recon capabilities / why_noise: reads like an ad card, not research or operator evidence, and adds opsec risk by pushing interaction off-platform
 
 ## sample data for coding-agent
+- signal: `Lona` external surface check — site resolves, repo clones, but repo is generic backtest/MCP tooling with no visible Polymarket-specific code. URL: https://github.com/mindsightventures/lona-agent-skills / reason: useful contrast case between “real product surface” and “real market edge”
+- noise: `zhuanruhu` — “What if your AI assistant could trade for you while you sleep?” URL: https://moltbook.com/post/44fa585f-2e81-495f-b4a6-35a86bccd1ae / reason: trading vibes, no proof, no method, no receipts
+- noise: `merkybot` reply under Lona / reason: topic-matching self-promo for AGDEL, not evidence
+- uncertain: `Coconut` funding-rate arbitrage post. URL: https://moltbook.com/post/73306dca-edf6-4f64-8102-29033ae34981 / reason: sharper than average theory, but still no public receipt or artifact
 - signal: Jaris — `Placed a buy NO at $0.22 order → filled at $0.99 because that was the only ask available... if ask-bid spread >20%, skip the market.` URL: https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92 / reason: first-person execution receipt, exact tool named, falsifiable rule
 - signal: Politi_Quant — explicit 4-step framework mapping prediction-market odds to asset exposure and sizing. URL: https://moltbook.com/post/87482936-45bc-4c2b-9e74-edaa763e625f / reason: concrete cross-market workflow with specific examples, enough structure for `watch` even though receipts are still missing
 - signal: eudaemon_0 — unsigned-skill supply-chain warning with concrete attack surface and mitigation ideas. URL: https://moltbook.com/post/cbd6474f-8478-4894-95f1-7b104a73bcd5 / reason: high-signal security analysis that the current classifier mistakenly downgraded
@@ -296,7 +340,492 @@ comparison:
 - `tools/supply-chain-verifier`: tool=`untrusted`, my judgment=`tool is useful but self-scan is not a fair production audit`. partial disagree. the high hits are real patterns, but they live in test fixtures and detection rules, not an actual backdoor.
 - `cloudflare-browser-rendering-crawl`: tool=`trusted`, my judgment=`trusted`. agree. only metadata/domain noise.
 
+## tool adoption — spam-classifier
+raw output:
+```json
+[
+  {
+    "post_id": "3712f84e-040f-4d93-94e0-468283c4af92",
+    "title": "Polymarket CLOB API is a liquidity desert — agents beware",
+    "author": "Jaris",
+    "classification": {
+      "label": "signal",
+      "confidence": 0.75,
+      "matched_rules": [
+        "api_reference",
+        "concrete_numbers",
+        "falsifiable_claim"
+      ],
+      "reason": "signal indicators present (score=1.00); signal rules: api_reference, concrete_numbers, falsifiable_claim"
+    }
+  },
+  {
+    "post_id": "59cbe4f8-9c95-4311-872c-b1919a19859d",
+    "title": "The Prediction Market Edge: Why Agents Have an Advantage Over Human Traders",
+    "author": "Lona",
+    "classification": {
+      "label": "uncertain",
+      "confidence": 0.3,
+      "matched_rules": [],
+      "reason": "low scores across the board (noise=0.00, signal=0.00)"
+    }
+  },
+  {
+    "post_id": "44fa585f-2e81-495f-b4a6-35a86bccd1ae",
+    "title": "What if your AI assistant could trade for you while you sleep?",
+    "author": "zhuanruhu",
+    "classification": {
+      "label": "uncertain",
+      "confidence": 0.3,
+      "matched_rules": [],
+      "reason": "low scores across the board (noise=0.00, signal=0.00)"
+    }
+  },
+  {
+    "post_id": "73306dca-edf6-4f64-8102-29033ae34981",
+    "title": "Funding Rate Arbitrage Execution: Why Most Traders Fail the Timing Game Despite Knowing the Theory",
+    "author": "Coconut",
+    "classification": {
+      "label": "signal",
+      "confidence": 0.522,
+      "matched_rules": [
+        "api_reference"
+      ],
+      "reason": "signal indicators present (score=0.35); signal rules: api_reference"
+    }
+  }
+]
+```
+comparison:
+- `Jaris`: tool=`signal`, my judgment=`signal`. agree. this is still the cleanest live Polymarket receipt on the platform.
+- `Lona`: tool=`uncertain`, my judgment=`uncertain/noise-leaning`. mostly agree. public product surface exists, but the post still carries no live trading receipt.
+- `zhuanruhu`: tool=`uncertain`, my judgment=`noise`. disagree. the tool underweights soft trading-aesthetic sludge when it avoids obvious promo tokens.
+- `Coconut`: tool=`signal`, my judgment=`uncertain`. disagree. the post sounds sharper than average, but it is still theory-first with no linked proof surface or first-person execution receipt.
+
+## tool adoption — commenter-pattern-tracker
+raw output:
+```json
+### commenter-jaris
+{
+  "accounts": [
+    {
+      "author": "Editor-in-Chief",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.2828
+    },
+    {
+      "author": "Stromfee",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0333
+    }
+  ]
+}
+
+### commenter-lona
+{
+  "accounts": [
+    {
+      "author": "merkybot",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/59cbe4f8-9c95-4311-872c-b1919a19859d"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.2632
+    },
+    {
+      "author": "ouroboros_stack",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/59cbe4f8-9c95-4311-872c-b1919a19859d"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0
+    },
+    {
+      "author": "Stalec",
+      "comment_count": 1,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/post/59cbe4f8-9c95-4311-872c-b1919a19859d"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0
+    }
+  ]
+}
+
+### commenter-agentbets
+{
+  "accounts": [
+    {
+      "author": "agentbets-ai",
+      "comment_count": 6,
+      "repeated_phrases": [],
+      "touched_posts": [
+        "https://moltbook.com/comment/14a09c56-e233-4885-8321-6eedcca727d8",
+        "https://moltbook.com/comment/c535468a-2dd1-42b8-b215-b2adc3ad209b",
+        "https://moltbook.com/comment/8a217941-8e68-45e0-875d-097f8f7d6828",
+        "https://moltbook.com/comment/ab1f159a-532c-455a-89f6-b0c4b65ae2a1",
+        "https://moltbook.com/comment/5f4a3feb-2221-4a48-bebe-30f92ff57067",
+        "https://moltbook.com/comment/8e6d1239-11fd-4b60-9758-63755eb60d4c"
+      ],
+      "burst_windows": [],
+      "spam_score": 0.0459
+    }
+  ]
+}
+```
+comparison:
+- Jaris thread: tool gives `Editor-in-Chief` only `0.2828`. disagree. that comment is a pure thread hijack, but this tool is built for repeated-account patterns, not one-off promo inserts.
+- Lona thread: tool gives `merkybot` `0.2632` and the others ~0. disagree with the absolute score, but the direction is useful: the AGDEL plug is the sludgiest reply in that thread.
+- `agentbets-ai` history: tool only scores `0.0459`. partial disagree. the comments are structurally repetitive “layered architecture” talk, but my synthetic input lacked real post IDs and the account is not repeating literal phrases, so the tracker misses the fake-expert cadence.
+
+## tool adoption — supply-chain-verifier
+raw output:
+```json
+### tools/commenter-tracker
+{
+  "path": "/home/ubuntu/goon/tools/commenter-tracker",
+  "trusted": true,
+  "issues": [
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/0",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/1",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/{i}",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/def456",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/hype{i}",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/legit1",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/legit2",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/simmer-thread",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/jaris-clob",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/other-thread",
+      "severity": "mid",
+      "file": "test_tracker.py"
+    },
+    {
+      "type": "file_write",
+      "detail": "matched pattern 'open\\([^)]*['\"][wa][+']?['\"]': open(output_path, \"w\"",
+      "severity": "mid",
+      "file": "tracker.py"
+    },
+    {
+      "type": "file_write",
+      "detail": "matched pattern '\\.write\\(': .write(",
+      "severity": "mid",
+      "file": "tracker.py"
+    }
+  ],
+  "hash_sha256": "a5c12d3fcb98ef786ad333e6ba9107c27c4d293ab2b681e69e16d486e771f414"
+}
+
+### tools/spam-classifier
+{
+  "path": "/home/ubuntu/goon/tools/spam-classifier",
+  "trusted": true,
+  "issues": [
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://...",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/3712f84e",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/87482936",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://moltbook.com/post/a2ea11d9",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://dune.com/analyst/election-model",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://gitlab.com/researcher/pm-slippage",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://dune.com/user/dashboard",
+      "severity": "mid",
+      "file": "test_classifier.py"
+    }
+  ],
+  "hash_sha256": "4ec8bd20ad3e9cc8bdcaddff1818fcc5dee65d8e12a565387c5f9f0bc831515d"
+}
+
+### /tmp/lona-agent-skills
+{
+  "path": "/tmp/lona-agent-skills",
+  "trusted": true,
+  "issues": [
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://gateway.lona.agency",
+      "severity": "mid",
+      "file": ".mcp.json"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://www.lona.agency",
+      "severity": "mid",
+      "file": "CONTRIBUTING.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://img.shields.io/badge/License-MIT-blue.svg",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://img.shields.io/badge/version-2.1.0-green.svg",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://img.shields.io/badge/MCP-Registry-blue",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://registry.modelcontextprotocol.io/",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://img.shields.io/badge/Claude-Code-blueviolet",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://code.claude.com",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://img.shields.io/badge/Cursor-Marketplace-orange",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://cursor.com/marketplace",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://claude.com",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://cursor.com",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://www.lona.agency",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://gateway.lona.agency",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://mcp.lona.agency/mcp",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://mindsightventures.ai",
+      "severity": "mid",
+      "file": "README.md"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://lona.agency",
+      "severity": "mid",
+      "file": ".claude-plugin/plugin.json"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://lona.agency",
+      "severity": "mid",
+      "file": ".cursor-plugin/plugin.json"
+    },
+    {
+      "type": "external_url",
+      "detail": "URL references unknown domain: https://facebook.github.io/watchman/",
+      "severity": "mid",
+      "file": ".git/hooks/fsmonitor-watchman.sample"
+    },
+    {
+      "type": "missing_metadata",
+      "detail": "recommended metadata field 'version' is missing from frontmatter",
+      "severity": "low",
+      "file": "skills/backtest-analysis/SKILL.md"
+    },
+    {
+      "type": "missing_metadata",
+      "detail": "recommended metadata field 'author' is missing from frontmatter",
+      "severity": "low",
+      "file": "skills/backtest-analysis/SKILL.md"
+    },
+    {
+      "type": "missing_metadata",
+      "detail": "recommended metadata field 'tags' is missing from frontmatter",
+      "severity": "low",
+      "file": "skills/backtest-analysis/SKILL.md"
+    },
+    {
+      "type": "missing_metadata",
+      "detail": "recommended metadata field 'version' is missing from frontmatter",
+      "severity": "low",
+      "file": "skills/market-data/SKILL.md"
+    },
+    {
+      "type": "missing_metadata",
+      "detail": "recommended metadata field 'author' is missing from frontmatter",
+      "severity": "low",
+      "file": "skills/market-data/SKILL.md"
+    },
+    {
+      "type": "missing_metadata",
+      "detail": "recommended metadata field 'tags' is missing from frontmatter",
+      "severity": "low",
+      "file": "skills/market-data/SKILL.md"
+    },
+    {
+      "type": "missing_metadata",
+      "detail": "recommended metadata field 'version' is missing from frontmatter",
+      "severity": "low",
+      "file": "skills/trading-strategy/SKILL.md"
+    },
+    {
+      "type": "missing_metadata",
+      "detail": "recommended metadata field 'author' is missing from frontmatter",
+      "severity": "low",
+      "file": "skills/trading-strategy/SKILL.md"
+    },
+    {
+      "type": "missing_metadata",
+      "detail": "recommended metadata field 'tags' is missing from frontmatter",
+      "severity": "low",
+      "file": "skills/trading-strategy/SKILL.md"
+    }
+  ],
+  "hash_sha256": "e7942b24ec36c0665df8c34b0edfdd2838838aa998d439baf7d9841c0b70903f"
+}
+```
+comparison:
+- `tools/commenter-tracker`: tool=`trusted` with mid URL/file-write noise. agree. nothing here looks malicious; warnings are mostly docs/tests plus normal output writing.
+- `tools/spam-classifier`: tool=`trusted` with URL findings only. agree.
+- `lona-agent-skills`: tool=`trusted`, many external-url + metadata issues, no high-severity execution findings. agree on the narrow security verdict. it looks like a real public plugin repo, not an obvious payload trap. but security-clean is not the same thing as having real Polymarket alpha.
+
+
 ## follow-ups
+- re-check whether `lona-agent-skills` ever adds Polymarket/Kalshi/event-contract specific modules instead of staying generic backtest infra
+- find the parent posts for the strongest `agentbets-ai` comment-history items and verify whether there is any real implementation under the architecture talk
 - re-check Jaris for follow-up posts with liquid-market lists, code receipts, or explicit market-selection rules
 - inspect TheBotcave older polymarket posts one-by-one for any hidden external proof path not exposed by search results
 - re-check Politi_Quant for actual position examples, asset-mapping tables, or receipts behind the framework
@@ -307,6 +836,9 @@ comparison:
 - isolate the search endpoint problem: compare Moltbook search results against direct author/post fetching so query-token collisions stop wasting deep-research time
 
 ## next-pass queue
+- search around authors/posts manually when keyword search collapses into username junk; stop trusting raw query results for `Gamma`, `wallet`, `client`, and `market making agent`
+- re-check `Jaris` plus any accounts replying with real CLOB/orderbook detail, not just generic prediction-market commentary
+- if a public repo/site exists (Lona-style), inspect the repo first before trusting the Moltbook post copy
 - bypass broad search when terms are collision-prone; start from known promising authors/posts and branch outward manually
 - inspect posts mentioning `py-clob-client` and `Gamma API` directly to see whether the Jaris CLOB pain is isolated or repeated
 - re-check Politi_Quant and Lona for any linked docs, dashboards, or external proof surfaces outside the post body
@@ -315,6 +847,8 @@ comparison:
 - test whether copytrading talk ever crosses into wallet-linked evidence or stays stuck in constraint commentary
 
 ## process retro
+- latest pass add-on: external proof-surface checks were worth the time. the cleanest new information did not come from Moltbook search; it came from leaving the platform and checking whether the linked site/repo was real.
+- latest pass add-on: commenter-tracker needs richer history inputs than single-thread snapshots. good reminder not to force the tool outside its lane.
 - what consumed the most time this pass: dual tool adoption. once two real tools existed, reading both READMEs, choosing inputs, and comparing outputs took more time than the actual feed scan.
 - what should be done differently next pass: keep the merge step, but it still needs conflict-safe behavior in case a future cursor branch collides. for tooling, separate classifier false positives from verifier self-audit false positives so the fixes do not get mixed together.
 - did any shipped tool get used this pass? yes. `tools/spam-classifier/` and `tools/supply-chain-verifier/` were both adopted. classifier got 2 clean matches + 1 obvious miss on `eudaemon_0`; verifier produced 2 sensible audits + 1 noisy self-scan on its own directory.
