@@ -194,6 +194,27 @@ def _many_questions_no_evidence(text: str) -> bool:
     return q_count / max(words / 30, 1) > 1.0
 
 
+_FILL_RECEIPT_RE = re.compile(
+    r"(?i)(?:"
+    r"filled\s+at\s+[\$]?[\d.]+"
+    r"|placed\s+(?:a\s+)?(?:buy|sell)\s+.*?at\s+[\$]?[\d.]+"
+    r"|(?:buy|sell)\s+(?:YES|NO)\s+at\s+[\$]?[\d.]+"
+    r"|order\s*[→\-]+\s*filled"
+    r"|(?:ask|bid)[- ]?(?:book|side)\s+was\s+empty"
+    r"|(?:ask[- ]?bid|bid[- ]?ask)\s+spread\s*[><=]+\s*\d+"
+    r")"
+)
+
+_ONE_LINE_TRADING_VIBE_RE = re.compile(
+    r"(?i)\b(latency\s+arbitrage|alpha\s+(?:is|generation|capture|leak|decay)"
+    r"|arbitrage\s+opportunit|market\s+making\s+(?:opportunit|strateg)"
+    r"|scalping\s+(?:opportunit|edge)|high[- ]frequency\s+(?:trad|edge)"
+    r"|yield\s+farm|snip(?:e|ing)\s+(?:opportunit|bot)|MEV\s+(?:extract|opportunit)"
+    r"|front[- ]?run\s+(?:opportunit|protect)|flash\s+loan\s+(?:opportunit|strateg)"
+    r"|fleeting\s+edge|tasty\s+(?:edge|alpha|krill|spread))\b"
+)
+
+
 _TRADING_VENUE_RE = re.compile(
     r"(?i)\b(Binance|Deribit|Coinbase|Kraken|Bybit|OKX|Kalshi|Polymarket|"
     r"FTX|BitMEX|Huobi|KuCoin|Gate\.io)\b"
@@ -211,6 +232,8 @@ def _is_theory_dense_no_proof(text: str, url_field: Optional[str]) -> bool:
     if _has_any_url(text, url_field):
         return False
     if _has_signal_url(text, url_field):
+        return False
+    if _FILL_RECEIPT_RE.search(text):
         return False
     venues = len(_TRADING_VENUE_RE.findall(text))
     theory_terms = len(_TRADING_THEORY_RE.findall(text))
@@ -237,8 +260,8 @@ _BROAD_URL_RE = re.compile(
 )
 
 _GUIDE_LANG_RE = re.compile(
-    r"(?i)\b(?:guide|how\s+to|tutorial|step[- ]by[- ]step|learn\s+how|"
-    r"check\s+out|full\s+guide|detailed\s+guide)\b"
+    r"(?i)(?:\bguides?\b|\bhow\s+to\b|\btutorials?\b|\bstep[- ]by[- ]step\b|\blearn\s+how\b|"
+    r"\bcheck\s+out\b|\bfull\s+guide\b|\bdetailed\s+guide\b|/guides?/|/tutorials?/)"
 )
 
 _MARKET_THEORY_RE = re.compile(
@@ -254,6 +277,8 @@ _COMMUNITY_BAIT_RE = re.compile(
 def _is_polished_stats_no_proof(text: str, url_field: Optional[str]) -> bool:
     """Polished self-report with exact trading stats but no proof surface."""
     if _count_words(text) < 30:
+        return False
+    if _FILL_RECEIPT_RE.search(text):
         return False
     stat_hits = (
         len(_STAT_TRADE_COUNT_RE.findall(text))
@@ -287,6 +312,31 @@ def _is_guide_domain_funnel(text: str, url_field: Optional[str]) -> bool:
     if url_field:
         combined += " " + url_field
     if not _GUIDE_LANG_RE.search(combined):
+        return False
+    return True
+
+
+def _is_one_line_trading_vibe(text: str, url_field: Optional[str]) -> bool:
+    """Short post that drops trading buzzwords with zero method or evidence."""
+    words = _count_words(text)
+    if words > 30:
+        return False
+    if _has_any_url(text, url_field):
+        return False
+    broad_trading_re = re.compile(
+        r"(?i)\b(latency\s+arbitrage|arbitrage\s+opportunit|market\s+making"
+        r"|scalping|high[- ]frequency|yield\s+farm|snip(?:e|ing)|MEV"
+        r"|front[- ]?run|flash\s+loan|fleeting\s+edge|alpha\s+(?:generation|capture|leak|decay)"
+        r"|edge\s+(?:is|capture|decay)|krill|liquidity\s+provision)\b"
+    )
+    if not broad_trading_re.search(text):
+        return False
+    substance_re = re.compile(
+        r"(?i)(?:github\.com|gitlab\.com|repo|dashboard|\d+(?:\.\d+)?%"
+        r"|\$[\d.]+|step\s+\d|because\s+\w+\s+\w+|therefore|data\s+shows"
+        r"|tested|deployed|backtested|results)"
+    )
+    if substance_re.search(text):
         return False
     return True
 
@@ -334,6 +384,8 @@ def _eval_heuristic(heuristic_name: str, text: str, url_field: Optional[str]) ->
         return _is_guide_domain_funnel(text, url_field)
     elif heuristic_name == "abstract_market_essay":
         return _is_abstract_market_essay(text, url_field)
+    elif heuristic_name == "one_line_trading_vibe":
+        return _is_one_line_trading_vibe(text, url_field)
     return False
 
 

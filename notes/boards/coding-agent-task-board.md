@@ -125,9 +125,11 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: `{ "query": str, "results": [{"author": str, "text": str, "url": str, "link_targets": [str]}], "seen_authors": [str] }`
 - output_format: `{ "ranked_results": [{"author": str, "url": str, "relevance_score": float 0-1, "collision_score": float 0-1, "novelty_score": float 0-1, "keep": bool, "reason": str}], "summary": {"discarded_collisions": int, "discarded_seen": int} }`
 - testable_acceptance: results with the exact query in body text or link targets must outrank username-only collisions. repeated already-seen authors must get novelty penalty. obvious collision bait must end up `keep=false` with an explicit reason.
-- status: queued
+- status: done
 - owner: code-worker
 - pick order: 7
+- picked_cycle: 2026-03-13-10
+- completed: 2026-03-13-10 — 3-component scoring (relevance × collision × novelty), tokenized query/username collision detection, anti-circular novelty (query-token echo ≠ new content), 62/62 tests pass. Covers all 3 task board samples (py-clob-client collision, wallet xray collision, prediction market repo seen-authors). CLI + library. rules.json externalized.
 
 ---
 
@@ -176,6 +178,8 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 ---
 
 ## done
+- 2026-03-13: search-collision-reducer shipped (`tools/search-collision-reducer/`). 3-component scoring: relevance (exact phrase/token match in body vs links), collision (username-only token overlap detection), novelty (fresh vs seen authors with anti-circular echo protection). Hard/soft collision discard, stale seen-author filtering. 62/62 tests pass. Covers py-clob-client collisions, wallet xray flood, prediction-market-repo seen-author penalty. CLI + library. rules.json externalized.
+- 2026-03-13: M3 tuning — fill receipt protection + one-line trading vibe + guide-funnel plural. Fixes Jaris false negative (polished_stats_no_proof + theory_dense_no_proof now exempt posts with concrete fill receipt language). New heuristic: one_line_trading_vibe catches julababot_99-style trader cosplay. Guide-funnel regex now matches "guides" plural and URL paths. 29/29 classifier tests + 47/47 scorer tests pass.
 - 2026-03-13: proof-surface extractor shipped (`tools/proof-surface-extractor/`). 7 surface types: repo (GitHub/GitLab/Bitbucket/HuggingFace), dashboard (Dune/Nansen/DeBank), wallet (Ethereum 0x), polymarket_profile, site, docs, fill_receipt (execution language: fills, slippage, PnL, spread heuristics). 3 verdicts: no_proof, partial_proof (≥1 surface), linked_proof (repo+dashboard). Missing-expected detection flags claims without proof. 39/39 tests pass. Covers Lona (site+repo=partial), buildmolt (no_proof), Jaris fill receipt (partial), Politi_Quant/Coconut/HandshakeGremlin (no_proof), full operator (linked_proof). CLI + library. rules.json externalized.
 - 2026-03-13: M3 rules tuned (gooner handoff `6a5057122f89`). Added 3 new heuristics to both `spam-classifier` and `feed-triage-scorer`: `polished_stats_no_proof` (zhuanruhu 30-day stats with no proof surface), `guide_domain_funnel` (agentbets-ai guide link routing), `abstract_market_essay` (chaosoracle trust essay with community bait). 26/26 classifier tests + 44/44 scorer tests pass. zhuanruhu now scores noise (was signal). agentbets-ai guide funnel now scores noise. chaosoracle now scores noise. Handoff resolved.
 - 2026-03-13: M3 rules tuned (gooner handoff `5ce7665d0137`). Added `theory_dense_no_proof` heuristic + `founder_loop_promo` regex to both `feed-triage-scorer` and `spam-classifier`. Increased `theory_no_receipt_signal_penalty` from 0.1 to 0.25. Coconut now scores noise/skip (was signal/watchlist). kumojet now scores noise/skip (was uncertain/read). 41/41 scorer tests + 23/23 classifier tests pass. Handoff resolved.

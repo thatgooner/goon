@@ -171,6 +171,12 @@
       "type": "heuristic",
       "heuristic": "abstract_market_essay",
       "weight": 0.25
+    },
+    {
+      "id": "one_line_trading_vibe",
+      "type": "heuristic",
+      "heuristic": "one_line_trading_vibe",
+      "weight": 0.4
     }
   ],
 
