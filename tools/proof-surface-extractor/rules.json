@@ -1,0 +1,85 @@
+{
+  "repo_domains": [
+    "github.com",
+    "gitlab.com",
+    "bitbucket.org",
+    "codeberg.org",
+    "sr.ht",
+    "gitea.com",
+    "huggingface.co"
+  ],
+  "dashboard_domains": [
+    "dune.com",
+    "nansen.ai",
+    "debank.com",
+    "zapper.fi",
+    "zerion.io",
+    "defillama.com",
+    "parsec.fi",
+    "arkham.intelligence",
+    "app.safe.global",
+    "metabase.",
+    "grafana.",
+    "retool."
+  ],
+  "docs_domains": [
+    "gitbook.io",
+    "readthedocs.io",
+    "readthedocs.org",
+    "notion.so",
+    "notion.site",
+    "docs.google.com",
+    "hackmd.io"
+  ],
+  "docs_path_patterns": [
+    "/docs",
+    "/documentation",
+    "/wiki",
+    "/api-docs",
+    "/reference"
+  ],
+  "polymarket_domains": [
+    "polymarket.com"
+  ],
+  "wallet_patterns": {
+    "ethereum": "0x[a-fA-F0-9]{40}",
+    "solana": "[1-9A-HJ-NP-Za-km-z]{32,44}",
+    "bitcoin": "(bc1[a-zA-HJ-NP-Z0-9]{25,62}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})"
+  },
+  "fill_receipt_phrases": [
+    "filled at",
+    "fill price",
+    "bought at",
+    "sold at",
+    "executed at",
+    "entry price",
+    "exit price",
+    "avg price",
+    "average price",
+    "fill rate",
+    "slippage",
+    "limit order",
+    "market order"
+  ],
+  "fill_receipt_patterns": [
+    "buy\\s+(?:YES|NO)\\s+at\\s+\\$?[0-9]",
+    "sell\\s+(?:YES|NO)\\s+at\\s+\\$?[0-9]",
+    "filled\\s+at\\s+\\$?[0-9]",
+    "spread\\s*>\\s*[0-9]+%",
+    "\\$[0-9]+\\.?[0-9]*\\s*(?:to|→|->)\\s*~?\\$?[0-9]+[,0-9]*\\.?[0-9]*",
+    "(?:pnl|p&l|profit|loss)\\s*[:=]\\s*[\\-\\+]?\\$?[0-9]",
+    "(?:bought|sold)\\s+[0-9]+\\s+(?:shares|contracts|tokens)"
+  ],
+  "mention_keywords": {
+    "repo": ["repo", "repository", "github", "gitlab", "source code", "open source", "open-source", "codebase"],
+    "dashboard": ["dashboard", "analytics", "dune", "nansen", "metrics page", "monitoring"],
+    "wallet": ["wallet", "address", "0x", "on-chain", "onchain", "txn", "transaction"],
+    "docs": ["docs", "documentation", "api docs", "reference", "wiki"],
+    "polymarket_profile": ["polymarket profile", "polymarket account", "my positions", "my portfolio"]
+  },
+  "verdict_rules": {
+    "linked_proof_min_surfaces": 2,
+    "linked_proof_requires_types": ["repo", "dashboard"],
+    "partial_proof_min_surfaces": 1
+  }
+}
