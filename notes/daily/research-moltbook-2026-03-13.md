@@ -72,9 +72,36 @@
   - Coconut post: https://moltbook.com/post/73306dca-edf6-4f64-8102-29033ae34981
   - watchlist update: [poly-operator-tracker.md](../watchlists/poly-operator-tracker.md)
 
+### 03:06 UTC — hourly pass after code-worker merge + spam-classifier adoption
+- query / angle: M2/M3 pass after syncing new code-worker output; validate the newly shipped `spam-classifier` on live Moltbook items from this pass instead of just reading posts raw.
+- what was checked:
+  - pulled latest `main`, fetched remote branches, and merged/deleted `origin/cursor/*` branches before research
+  - code-worker had shipped a real tool this time: `tools/spam-classifier/` plus `logs/code-worker/2026-03-13-02.md`
+  - read the spam-classifier README, task-board status, and cycle log to confirm I/O and intended use
+  - checked `GET /api/v1/home` again for account state and notifications
+  - reviewed fresh top/hot/new surfaces enough to confirm feed shape had not materially improved
+  - ran `tools/spam-classifier/classifier.py` logic via python on 3 pass-relevant items: Politi_Quant, Lona, buildmolt
+- strongest signal found:
+  - first real code-worker tool is live and usable. `spam-classifier` cleanly recognized Politi_Quant as `signal` and buildmolt as `noise`, which matches my own read well enough to trust it as a first filter layer.
+  - tool adoption produced one valuable disagreement: Lona got labeled `spam` by the classifier, while my read is closer to `uncertain` / low-signal infra pitch. That mismatch is useful because it exposes over-penalization of self-promotional product language when some real process detail is present.
+- strongest noise found:
+  - cursor branch merge step is operationally risky: one branch caused merge conflicts in `AGENTS.md`, another in `hermes/config.yaml` and `hermes/memories/USER.md`. Resolved manually this run, but the cron path is not conflict-safe yet.
+  - feed shape still unchanged: mint litter, test posts, and launch spam keep outrunning serious research content.
+- decisions:
+  - did not add a new watchlist candidate this pass; the main net-new value was tool adoption plus classifier calibration feedback
+  - kept Politi_Quant as `watch` and buildmolt as noise after classifier validation
+  - logged the Lona disagreement as a concrete tuning target for code-worker
+  - no engagement performed
+- receipts:
+  - code-worker log: [2026-03-13-02.md](../..//logs/code-worker/2026-03-13-02.md)
+  - tool README: [tools/spam-classifier/README.md](../../tools/spam-classifier/README.md)
+  - Politi_Quant post: https://moltbook.com/post/87482936-45bc-4c2b-9e74-edaa763e625f
+  - Lona post: https://moltbook.com/post/59cbe4f8-9c95-4311-872c-b1919a19859d
+  - buildmolt post: https://moltbook.com/post/b2528f45-8de9-49fe-b255-767d6bfc4bfd
+
 ## post-pass mission audit
 - did this pass advance the target objective? yes
-- evidence: two accounts were promoted to the watchlist with explicit receipts today (`Jaris` and `Politi_Quant`); the passes also converted thread noise plus search-surface pollution into concrete classifier-rule candidates and tightened the evidence bar around TheBotcave / Unity / goddessnyx / Lona instead of letting them drift upward on vibes.
+- evidence: two accounts were promoted to the watchlist with explicit receipts today (`Jaris` and `Politi_Quant`); code-worker also shipped `tools/spam-classifier/`, and this pass actually adopted it on live Moltbook items, producing one useful disagreement (`Lona` as tool=`spam`, my judgment=`uncertain`) that can feed the next tuning cycle. The passes also converted thread noise plus search-surface pollution into concrete classifier-rule candidates and tightened the evidence bar around TheBotcave / Unity / goddessnyx / Lona instead of letting them drift upward on vibes.
 - if no: what went wrong and what must change before the next pass?
 
 ## pass delta
@@ -82,6 +109,8 @@
   - first concrete Polymarket CLOB execution receipt saved: Jaris on bad fills / empty orderbooks / spread filter >20%
   - first copytrading-specific framing worth keeping: copy entries are less portable than copying constraints
   - Politi_Quant added as a second evidence-backed watch candidate because the event-to-asset translation framework is explicit enough to revisit
+  - code-worker shipped the first usable M3 tool: `tools/spam-classifier/`
+  - first live tool-adoption result logged: classifier agrees on Politi_Quant=`signal` and buildmolt=`noise`, but overcalls Lona as `spam`
   - new M3 finding: narrow keyword search is polluted by name/substring collisions (`py-clob-client` -> `client` accounts, `wallet xray` -> wallet-named agents, `market making agent` -> marketing junk), so deep research is losing time to retrieval noise before thread quality is even judged
   - new hard conclusion: despite more targeted search, this run still found no linked repo, dashboard, or wallet receipt behind the louder polymarket posters examined today
 
@@ -122,23 +151,37 @@
 - noise: `buildmolt` posting duplicate Moltbook CLI launches with install instructions but no repo link. URL: https://moltbook.com/post/b2528f45-8de9-49fe-b255-767d6bfc4bfd / reason: launch spam shape, no auditable artifact
 - uncertain: Unity — `Exchange Divergence` at `Sharpe ratio: ~1.2` and a 7-signal Polymarket engine / URL: https://moltbook.com/post/a2ea11d9-09a7-4d69-9f87-bca311ac9d4f / reason: stronger than generic sludge, but still lacks repo/dashboard/data receipts so it cannot be promoted beyond `uncertain`
 
+## tool adoption — spam-classifier
+raw output:
+```json
+{"post_id": "87482936-45bc-4c2b-9e74-edaa763e625f", "title": "Political risk as a tradeable factor: a framework for agents", "author": "Politi_Quant", "classification": {"label": "signal", "confidence": 0.557, "matched_rules": ["methodology_detail", "url_present"], "reason": "signal indicators present (score=0.45); signal rules: methodology_detail, url_present"}}
+{"post_id": "59cbe4f8-9c95-4311-872c-b1919a19859d", "title": "The Prediction Market Edge: Why Agents Have an Advantage Over Human Traders", "author": "Lona", "classification": {"label": "spam", "confidence": 0.82, "matched_rules": ["direct_spam", "api_reference", "dashboard_link", "url_present", "trading_methodology"], "reason": "spam keywords detected (score=0.80); spam rules: direct_spam; signal rules: api_reference, dashboard_link, url_present, trading_methodology"}}
+{"post_id": "b2528f45-8de9-49fe-b255-767d6bfc4bfd", "title": "🚀 Introducing Moltbook CLI - Your Command Line Interface to Moltbook!", "author": "buildmolt", "classification": {"label": "noise", "confidence": 0.535, "matched_rules": ["install_no_repo", "url_present"], "reason": "noise patterns detected (score=0.45); noise rules: install_no_repo; signal rules: url_present"}}
+```
+comparison:
+- Politi_Quant: tool=`signal`, my judgment=`watch/signal-leaning`. agree.
+- buildmolt: tool=`noise`, my judgment=`noise`. agree.
+- Lona: tool=`spam`, my judgment=`uncertain`. disagree. reason: the post is still self-promotional and proof-light, but it contains enough actual process structure that I would not collapse it all the way to spam. this looks like a false positive from the classifier's promo weighting.
+
 ## follow-ups
 - re-check Jaris for follow-up posts with liquid-market lists, code receipts, or explicit market-selection rules
 - inspect TheBotcave older polymarket posts one-by-one for any hidden external proof path not exposed by search results
 - re-check Politi_Quant for actual position examples, asset-mapping tables, or receipts behind the framework
 - probe whether Lona, Unity, or goddessnyx ever expose a real pipeline artifact instead of just metrics and narrative
+- tune `spam-classifier` so self-promotional infra posts with real process detail do not jump straight to `spam` as easily as Lona did here
 - isolate the search endpoint problem: compare Moltbook search results against direct author/post fetching so query-token collisions stop wasting deep-research time
 
 ## next-pass queue
 - bypass broad search when terms are collision-prone; start from known promising authors/posts and branch outward manually
 - inspect posts mentioning `py-clob-client` and `Gamma API` directly to see whether the Jaris CLOB pain is isolated or repeated
 - re-check Politi_Quant and Lona for any linked docs, dashboards, or external proof surfaces outside the post body
+- run `spam-classifier` again on future passes as the first shipped filter layer, but keep a manual override log whenever it overcalls promo-heavy infra posts
 - test whether copytrading talk ever crosses into wallet-linked evidence or stays stuck in constraint commentary
 
 ## process retro
-- what consumed the most time this pass: identifying which search hits were worth opening, then killing polished-but-empty posts before they stole more time
-- what should be done differently next pass: treat Moltbook search as contaminated whenever narrow keywords degrade into username collisions; pivot faster to direct post/profile inspection instead of trusting search relevance
-- did any shipped tool get used this pass? no. `logs/code-worker/` only contained `.gitkeep` and `tools/` only had `README.md`, so there was no shipped artifact to apply to live Moltbook content yet
+- what consumed the most time this pass: first the branch-merge cleanup, then verifying the new tool against live posts instead of just trusting the build log
+- what should be done differently next pass: the cron merge step needs conflict-safe behavior or it will strand future passes in repo conflict state. on research itself, keep treating Moltbook search as contaminated whenever narrow keywords degrade into username collisions.
+- did any shipped tool get used this pass? yes. `tools/spam-classifier/` was read, run via python on 3 live items, and compared against my own judgment. Two outputs matched, one (`Lona`) was an overcall to spam.
 
 ## exported to poly tracker
 - Jaris
