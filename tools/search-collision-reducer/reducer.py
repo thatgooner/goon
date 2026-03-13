@@ -36,6 +36,19 @@ def _normalize(text: str) -> str:
     return text.lower()
 
 
+def _token_in_username(token: str, author_tokens: list[str],
+                       author_lower: str, rules: dict) -> bool:
+    """Check if a token matches the username via exact token or substring."""
+    if token in author_tokens:
+        return True
+    cfg = rules.get("collision_detection", {})
+    if cfg.get("enable_substring_match", True):
+        min_len = cfg.get("min_token_length_for_substring", 3)
+        if len(token) >= min_len and token in author_lower:
+            return True
+    return False
+
+
 def compute_relevance(query: str, tokens: list[str], text: str,
                       link_targets: list[str], rules: dict) -> float:
     """Score how relevant the result body/links are to the query."""
@@ -75,28 +88,56 @@ def compute_relevance(query: str, tokens: list[str], text: str,
 
 
 def compute_collision(tokens: list[str], author: str, text: str,
-                      link_targets: list[str], rules: dict) -> float:
-    """Score how much the match is a username/token collision."""
+                      link_targets: list[str], query: str,
+                      rules: dict) -> float:
+    """Score how much the match is a username/token collision.
+
+    Uses substring matching against the full username (catches camelCase and
+    concatenated names like ClawClient, walletray, agentmarket).  When every
+    body-text token hit also overlaps the username — i.e. no independent
+    evidence — the match is treated as a username-dominated collision.
+    """
     scores = rules["collision_scores"]
 
     if not tokens:
         return scores["no_username_overlap"]
 
     author_tokens = tokenize_username(author)
+    author_lower = author.lower()
     text_lower = _normalize(text)
+    query_lower = _normalize(query)
 
-    username_only_count = 0
-    for t in tokens:
-        in_username = t in author_tokens
-        in_body = t in text_lower
-        in_links = any(t in _normalize(lnk) for lnk in link_targets)
-        if in_username and not in_body and not in_links:
-            username_only_count += 1
+    in_uname = lambda t: _token_in_username(t, author_tokens, author_lower, rules)
 
-    if username_only_count == 0:
+    username_overlap_count = sum(1 for t in tokens if in_uname(t))
+    if username_overlap_count == 0:
         return scores["no_username_overlap"]
 
-    ratio = username_only_count / len(tokens)
+    if query_lower in text_lower:
+        return scores["no_username_overlap"]
+    if any(query_lower in _normalize(lnk) for lnk in link_targets):
+        return scores["no_username_overlap"]
+
+    independent_hits = 0
+    for t in tokens:
+        in_body = t in text_lower
+        in_links = any(t in _normalize(lnk) for lnk in link_targets)
+        if (in_body or in_links) and not in_uname(t):
+            independent_hits += 1
+
+    if independent_hits > 0:
+        strict_username_only = 0
+        for t in tokens:
+            in_body = t in text_lower
+            in_links = any(t in _normalize(lnk) for lnk in link_targets)
+            if in_uname(t) and not in_body and not in_links:
+                strict_username_only += 1
+        if strict_username_only == 0:
+            return scores["no_username_overlap"]
+        ratio = strict_username_only / len(tokens)
+    else:
+        ratio = username_overlap_count / len(tokens)
+
     if ratio >= 1.0:
         return scores["all_tokens_username_only"]
     elif ratio >= 0.6:
@@ -145,26 +186,29 @@ def compute_novelty(author: str, text: str, seen_authors: list[str],
 def _build_reason(relevance: float, collision: float, novelty: float,
                   query_tokens: list[str], author: str, text: str,
                   link_targets: list[str], seen_authors: list[str],
-                  keep: bool, rules: dict) -> str:
+                  keep: bool, query: str, rules: dict) -> str:
     parts = []
     author_tokens = tokenize_username(author)
+    author_lower = author.lower()
     text_lower = _normalize(text)
-    query_lower_joined = " ".join(query_tokens)
 
-    token_overlap = [t for t in query_tokens if t in author_tokens]
+    token_overlap = [
+        t for t in query_tokens
+        if _token_in_username(t, author_tokens, author_lower, rules)
+    ]
 
     if collision >= rules["collision_scores"]["all_tokens_username_only"]:
         parts.append(
-            f"collision: query tokens {token_overlap} match username only, "
-            "not found in body or links"
+            f"collision: query tokens {token_overlap} overlap username '{author}', "
+            "no independent body evidence"
         )
     elif collision >= rules["collision_scores"]["most_tokens_username_only"]:
         parts.append(
-            f"partial collision: most query tokens {token_overlap} only in username"
+            f"partial collision: most query tokens {token_overlap} overlap username '{author}'"
         )
     elif collision > 0 and token_overlap:
         parts.append(
-            f"collision: query tokens {token_overlap} found in username but not in body"
+            f"collision: query tokens {token_overlap} overlap username '{author}'"
         )
 
     if relevance >= rules["relevance_bonuses"]["exact_phrase_in_body"]:
@@ -176,7 +220,6 @@ def _build_reason(relevance: float, collision: float, novelty: float,
     elif relevance <= rules["relevance_bonuses"]["no_tokens_in_body"]:
         parts.append("no query tokens found in body text or links")
 
-    author_lower = author.lower()
     if author_lower in [a.lower() for a in seen_authors]:
         if novelty <= rules["novelty_scores"]["seen_author_no_new_content"]:
             parts.append("seen author with no new relevant content")
@@ -184,9 +227,8 @@ def _build_reason(relevance: float, collision: float, novelty: float,
             parts.append("seen author but has some new content")
 
     if not keep:
-        is_any_collision = collision > 0 and relevance <= rules["relevance_bonuses"]["no_tokens_in_body"]
-        if collision >= rules["thresholds"]["collision_discard"] or is_any_collision:
-            parts.append("discarded as collision bait")
+        if collision > 0:
+            parts.append("discarded as collision")
         elif author_lower in [a.lower() for a in seen_authors] and \
                 novelty <= rules["novelty_scores"]["seen_author_no_new_content"]:
             parts.append("discarded as repeated seen author")
@@ -205,7 +247,7 @@ def score_result(result: dict, query: str, query_tokens: list[str],
     link_targets = result.get("link_targets", [])
 
     relevance = compute_relevance(query, query_tokens, text, link_targets, rules)
-    collision = compute_collision(query_tokens, author, text, link_targets, rules)
+    collision = compute_collision(query_tokens, author, text, link_targets, query, rules)
     novelty = compute_novelty(author, text, seen_authors, query_tokens, link_targets, rules)
 
     weights = rules["scoring_weights"]
@@ -234,7 +276,7 @@ def score_result(result: dict, query: str, query_tokens: list[str],
 
     reason = _build_reason(
         relevance, collision, novelty, query_tokens, author, text,
-        link_targets, seen_authors, keep, rules
+        link_targets, seen_authors, keep, query, rules
     )
 
     return {
