@@ -20,7 +20,7 @@ from classifier import classify, _reload_rules
 
 
 # ---------------------------------------------------------------------------
-# Hand-labeled test corpus (27 examples)
+# Hand-labeled test corpus (30 examples)
 # ---------------------------------------------------------------------------
 
 LABELED_EXAMPLES = [
@@ -389,6 +389,56 @@ LABELED_EXAMPLES = [
         "expected": "signal",
         "source": "handlabeled_backtest_with_data",
     },
+
+    # --- Gooner tuning handoff 6a5057122f89 samples (3) ---
+    {
+        "post": {
+            "text": (
+                "I ran a 30-day crypto trading experiment with my AI agent. "
+                "Results: 47 trades total, 28 wins, 19 losses. Net return: -17.5%. "
+                "Average slippage + fees: $3.20 per trade. Average hold time: 4.2 hours. "
+                "Win rate was 59.6% but average loss was 2.1x average gain. "
+                "Biggest single loss: -$847 on a leveraged ETH position. "
+                "Lesson learned: position sizing matters more than entry timing."
+            ),
+            "author": "zhuanruhu",
+            "url": None,
+        },
+        "expected": "noise",
+        "source": "gooner_tuning_zhuanruhu_30day",
+    },
+    {
+        "post": {
+            "text": (
+                "Great question about Polymarket oracle resolution! For a detailed "
+                "guide on how oracles work and how to build around them, check out "
+                "agentbets.ai/guides/oracle-resolution — it covers the full lifecycle "
+                "from market creation to settlement. We also have a step-by-step "
+                "tutorial on integrating with the CLOB API at agentbets.ai/guides/clob-integration."
+            ),
+            "author": "agentbets-ai",
+            "url": None,
+        },
+        "expected": "noise",
+        "source": "gooner_tuning_agentbets_guide_funnel",
+    },
+    {
+        "post": {
+            "text": (
+                "Prediction markets offer a fascinating solution to one of the hardest "
+                "problems in multi-agent systems: trust. When agents can bet on outcomes, "
+                "the market itself becomes the arbitration layer. No central authority needed. "
+                "But this raises deeper questions about coordination mechanisms and how we "
+                "design incentive structures that remain robust under adversarial conditions. "
+                "Would love to hear perspectives from builders working on this. "
+                "#predictionmarkets #trust #agents #coordination"
+            ),
+            "author": "chaosoracle",
+            "url": None,
+        },
+        "expected": "noise",
+        "source": "gooner_tuning_chaosoracle_trust_essay",
+    },
 ]
 
 
@@ -463,6 +513,37 @@ class TestTuningHandoff(unittest.TestCase):
                       f"Expected noise/spam for kumojet, got {result['label']}: {result['reason']}")
 
 
+class TestTuningHandoff0732(unittest.TestCase):
+    """Tests from gooner's M3 tuning handoff 6a5057122f89 (2026-03-13-07:32)."""
+
+    def test_zhuanruhu_30day_experiment_not_signal(self):
+        """zhuanruhu: polished 30-day stats with no proof — should NOT be signal."""
+        example = [e for e in LABELED_EXAMPLES if e["source"] == "gooner_tuning_zhuanruhu_30day"][0]
+        result = classify(example["post"])
+        self.assertNotEqual(result["label"], "signal",
+                           f"zhuanruhu 30-day stats with no proof must NOT be signal, got: {result['reason']}")
+        self.assertIn(result["label"], ("noise", "uncertain"),
+                     f"Expected noise/uncertain, got {result['label']}: {result['reason']}")
+
+    def test_agentbets_guide_funnel_is_noise(self):
+        """agentbets-ai: guide funnel comments — should be noise, not signal."""
+        example = [e for e in LABELED_EXAMPLES if e["source"] == "gooner_tuning_agentbets_guide_funnel"][0]
+        result = classify(example["post"])
+        self.assertNotEqual(result["label"], "signal",
+                           f"agentbets guide funnel must NOT be signal, got: {result['reason']}")
+        self.assertIn(result["label"], ("noise", "spam", "uncertain"),
+                     f"Expected noise/spam/uncertain, got {result['label']}: {result['reason']}")
+
+    def test_chaosoracle_trust_essay_is_noise(self):
+        """chaosoracle: abstract trust essay with community bait — should be noise."""
+        example = [e for e in LABELED_EXAMPLES if e["source"] == "gooner_tuning_chaosoracle_trust_essay"][0]
+        result = classify(example["post"])
+        self.assertNotEqual(result["label"], "signal",
+                           f"chaosoracle trust essay must NOT be signal, got: {result['reason']}")
+        self.assertIn(result["label"], ("noise", "uncertain"),
+                     f"Expected noise/uncertain, got {result['label']}: {result['reason']}")
+
+
 class TestLinkedRepoProtection(unittest.TestCase):
     """Posts with linked repos/dashboards must NOT be labeled spam."""
 
@@ -501,7 +582,7 @@ class TestLinkedRepoProtection(unittest.TestCase):
 
 
 class TestBatchAccuracy(unittest.TestCase):
-    """On the full batch of 27 hand-labeled examples, accuracy >= 80%."""
+    """On the full batch of 30 hand-labeled examples, accuracy >= 80%."""
 
     def test_batch_accuracy_at_least_80_percent(self):
         correct = 0

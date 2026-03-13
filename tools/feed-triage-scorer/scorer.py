@@ -245,6 +245,106 @@ def _is_theory_dense_no_proof(text: str, url_field: Optional[str], link_targets:
     return True
 
 
+_STAT_TRADE_COUNT_RE = re.compile(r"\d+\s+trades?", re.IGNORECASE)
+_STAT_PERCENT_RE = re.compile(r"\d+(?:\.\d+)?%")
+_STAT_DOLLAR_RE = re.compile(r"\$\d+(?:\.\d+)?")
+_STAT_MULTIPLIER_RE = re.compile(r"\d+(?:\.\d+)?x\b")
+_STAT_PHRASE_RE = re.compile(
+    r"(?i)\b(?:win\s+rate|loss\s+rate|avg\s+slippage|total\s+return|net\s+return|hold\s+time)\b"
+)
+_WALLET_RE = re.compile(r"0x[a-fA-F0-9]{40}")
+
+_BROAD_URL_RE = re.compile(
+    r"https?://[^\s<>\"']+|"
+    r"\b[\w.\-]+\.(?:com|org|io|dev|xyz|net|ai|co|app|me|gg)/[\w.\-/]+"
+)
+
+_GUIDE_LANG_RE = re.compile(
+    r"(?i)\b(?:guide|how\s+to|tutorial|step[- ]by[- ]step|learn\s+how|"
+    r"check\s+out|full\s+guide|detailed\s+guide)\b"
+)
+
+_MARKET_THEORY_RE = re.compile(
+    r"(?i)\b(?:prediction\s+market|trust|coordination|governance|"
+    r"fascinating|solution|framework)\b"
+)
+_COMMUNITY_BAIT_RE = re.compile(
+    r"(?i)(?:would\s+love\s+to\s+hear|perspectives|what\s+do\s+you\s+think|"
+    r"thoughts\?|your\s+take)"
+)
+
+
+def _extract_urls(text: str, url_field: Optional[str], link_targets: list) -> list:
+    urls = _URL_RE.findall(text)
+    if url_field:
+        urls.extend(_URL_RE.findall(url_field))
+        if url_field.strip() and url_field.strip() not in urls:
+            urls.append(url_field.strip())
+    for lt in link_targets:
+        if lt and lt not in urls:
+            urls.append(lt)
+    return urls
+
+
+def _is_polished_stats_no_proof(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Polished self-report with exact trading stats but no proof surface."""
+    if _count_words(text) < 30:
+        return False
+    stat_hits = (
+        len(_STAT_TRADE_COUNT_RE.findall(text))
+        + len(_STAT_PERCENT_RE.findall(text))
+        + len(_STAT_DOLLAR_RE.findall(text))
+        + len(_STAT_MULTIPLIER_RE.findall(text))
+        + len(_STAT_PHRASE_RE.findall(text))
+    )
+    if stat_hits < 3:
+        return False
+    if _has_any_url(text, url_field, link_targets):
+        return False
+    if _WALLET_RE.search(text):
+        return False
+    if _has_signal_url(text, url_field, link_targets):
+        return False
+    return True
+
+
+def _is_guide_domain_funnel(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Comment funneling traffic to a non-signal external guide domain."""
+    urls = _BROAD_URL_RE.findall(text)
+    if url_field:
+        urls.extend(_BROAD_URL_RE.findall(url_field))
+        if url_field.strip() and url_field.strip() not in urls:
+            urls.append(url_field.strip())
+    for lt in link_targets:
+        if lt and lt not in urls:
+            urls.append(lt)
+    non_signal_urls = [u for u in urls if not _LINK_SIGNAL_DOMAINS_RE.search(u)]
+    if not non_signal_urls:
+        return False
+    combined = text
+    if url_field:
+        combined += " " + url_field
+    if not _GUIDE_LANG_RE.search(combined):
+        return False
+    return True
+
+
+def _is_abstract_market_essay(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Abstract prediction-market/trust/coordination essay with community bait and no artifacts."""
+    if _count_words(text) < 30:
+        return False
+    theory_hits = len(_MARKET_THEORY_RE.findall(text))
+    if theory_hits < 2:
+        return False
+    if not _COMMUNITY_BAIT_RE.search(text):
+        return False
+    if _has_any_url(text, url_field, link_targets):
+        return False
+    if _has_signal_url(text, url_field, link_targets):
+        return False
+    return True
+
+
 def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets: list) -> bool:
     if name == "emoji_ratio_gt_0.3":
         return _emoji_ratio(text) > 0.3
@@ -264,6 +364,12 @@ def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets
         return _is_pure_emoji_no_text(text)
     elif name == "theory_dense_no_proof":
         return _is_theory_dense_no_proof(text, url_field, link_targets)
+    elif name == "polished_stats_no_proof":
+        return _is_polished_stats_no_proof(text, url_field, link_targets)
+    elif name == "guide_domain_funnel":
+        return _is_guide_domain_funnel(text, url_field, link_targets)
+    elif name == "abstract_market_essay":
+        return _is_abstract_market_essay(text, url_field, link_targets)
     return False
 
 

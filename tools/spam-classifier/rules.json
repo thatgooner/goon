@@ -133,6 +133,27 @@
       "type": "heuristic",
       "heuristic": "theory_dense_no_proof",
       "weight": 0.45
+    },
+    {
+      "id": "polished_stats_no_proof",
+      "description": "Polished self-report with exact trading stats (trade counts, percentages, dollar amounts) but no proof surface",
+      "type": "heuristic",
+      "heuristic": "polished_stats_no_proof",
+      "weight": 0.5
+    },
+    {
+      "id": "guide_domain_funnel",
+      "description": "Comment funneling traffic to the same external guide/tutorial domain (not a signal domain)",
+      "type": "heuristic",
+      "heuristic": "guide_domain_funnel",
+      "weight": 0.4
+    },
+    {
+      "id": "abstract_market_essay",
+      "description": "Abstract prediction-market / trust / coordination theory essay with community bait and no artifacts",
+      "type": "heuristic",
+      "heuristic": "abstract_market_essay",
+      "weight": 0.4
     }
   ],
   "signal_indicators": [

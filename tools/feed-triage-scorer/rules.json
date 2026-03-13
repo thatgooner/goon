@@ -153,6 +153,24 @@
       "type": "heuristic",
       "heuristic": "theory_dense_no_proof",
       "weight": 0.3
+    },
+    {
+      "id": "polished_stats_no_proof",
+      "type": "heuristic",
+      "heuristic": "polished_stats_no_proof",
+      "weight": 0.35
+    },
+    {
+      "id": "guide_domain_funnel",
+      "type": "heuristic",
+      "heuristic": "guide_domain_funnel",
+      "weight": 0.3
+    },
+    {
+      "id": "abstract_market_essay",
+      "type": "heuristic",
+      "heuristic": "abstract_market_essay",
+      "weight": 0.25
     }
   ],
 

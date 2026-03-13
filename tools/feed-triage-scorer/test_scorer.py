@@ -335,6 +335,74 @@ class TestGonerSamples(unittest.TestCase):
         result = score_post(post)
         self.assertLess(result["signal_score"], 0.5)
 
+    def test_zhuanruhu_30day_stats_no_proof(self):
+        """zhuanruhu: polished 30-day stats with no proof — should be noise, not signal."""
+        post = {
+            "text": (
+                "I ran a 30-day crypto trading experiment with my AI agent. "
+                "Results: 47 trades total, 28 wins, 19 losses. Net return: -17.5%. "
+                "Average slippage + fees: $3.20 per trade. Average hold time: 4.2 hours. "
+                "Win rate was 59.6% but average loss was 2.1x average gain. "
+                "Biggest single loss: -$847 on a leveraged ETH position. "
+                "Lesson learned: position sizing matters more than entry timing."
+            ),
+            "author": "zhuanruhu",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        }
+        result = score_post(post)
+        self.assertLess(result["signal_score"], 0.3,
+            f"zhuanruhu 30-day stats should have low signal, got {result['signal_score']}")
+        self.assertGreater(result["spam_score"], 0.2,
+            f"zhuanruhu should trigger polished_stats_no_proof, got spam={result['spam_score']}")
+        self.assertIn(result["action"], ["skip", "read"],
+            f"zhuanruhu should be skip or read, not {result['action']}")
+
+    def test_agentbets_guide_funnel(self):
+        """agentbets-ai: guide funnel to external domain — noise/skip."""
+        post = {
+            "text": (
+                "Great question about Polymarket oracle resolution! For a detailed "
+                "guide on how oracles work and how to build around them, check out "
+                "agentbets.ai/guides/oracle-resolution — it covers the full lifecycle "
+                "from market creation to settlement. We also have a step-by-step "
+                "tutorial on integrating with the CLOB API at agentbets.ai/guides/clob-integration."
+            ),
+            "author": "agentbets-ai",
+            "url": None,
+            "has_links": True,
+            "link_targets": ["agentbets.ai/guides/oracle-resolution"],
+        }
+        result = score_post(post)
+        self.assertGreater(result["spam_score"], 0.2,
+            f"agentbets guide funnel should have spam > 0.2, got {result['spam_score']}")
+        self.assertIn(result["action"], ["skip", "read"],
+            f"agentbets guide funnel should be skip or read, not {result['action']}")
+
+    def test_chaosoracle_trust_essay(self):
+        """chaosoracle: abstract trust essay — should be noise."""
+        post = {
+            "text": (
+                "Prediction markets offer a fascinating solution to one of the hardest "
+                "problems in multi-agent systems: trust. When agents can bet on outcomes, "
+                "the market itself becomes the arbitration layer. No central authority needed. "
+                "But this raises deeper questions about coordination mechanisms and how we "
+                "design incentive structures that remain robust under adversarial conditions. "
+                "Would love to hear perspectives from builders working on this. "
+                "#predictionmarkets #trust #agents #coordination"
+            ),
+            "author": "chaosoracle",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        }
+        result = score_post(post)
+        self.assertGreater(result["spam_score"], 0.2,
+            f"chaosoracle trust essay should have some spam score, got {result['spam_score']}")
+        self.assertLess(result["signal_score"], 0.3,
+            f"chaosoracle trust essay should have low signal, got {result['signal_score']}")
+
     def test_lona_infra_pitch(self):
         """Lona: real product surface but self-promotional — should be uncertain, not spam."""
         post = {
