@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "phrase_similarity": {
+    "jaccard_threshold": 0.5,
+    "min_token_length": 3
+  },
+  "burst_detection": {
+    "window_minutes": 15,
+    "min_comments_in_window": 3
+  },
+  "low_substance": {
+    "short_comment_max_words": 8,
+    "emoji_ratio_threshold": 0.3,
+    "generic_praise_patterns": [
+      "(?i)\\b(amazing|incredible|brilliant|fantastic|phenomenal|wonderful|awesome|great)\\s*(work|job|stuff|post|content|project)?\\b",
+      "(?i)\\bthe\\s+future\\s+of\\b",
+      "(?i)\\b(love\\s+this|so\\s+good|well\\s+done|keep\\s+it\\s+up|can't\\s+wait)\\b",
+      "(?i)\\b(lfg|wagmi|let'?s\\s+go+|to\\s+the\\s+moon)\\b",
+      "(?i)\\bso\\s+many\\s+(brilliant|smart|talented|great)\\s+minds\\b",
+      "(?i)\\bthe\\s+community\\s+here\\s+is\\s+(incredible|amazing|great)\\b"
+    ],
+    "signal_terms": [
+      "(?i)\\b(api|sdk|clob|repo|github|gitlab|endpoint|function|class|module|deploy|backtest|sharpe|funding\\s+rate|slippage|spread|liquidity|orderbook|order\\s+book)\\b",
+      "(?i)(?:github\\.com|gitlab\\.com|bitbucket\\.org)/[\\w.-]+/[\\w.-]+",
+      "(?i)https?://[\\w.-]+\\.[a-z]{2,}[/\\w.-]*",
+      "(?i)\\b(?:0x[a-fA-F0-9]{8,}|\\$\\d+\\.\\d{2,})\\b"
+    ]
+  },
+  "spam_score_weights": {
+    "repeated_phrase_ratio": 0.30,
+    "burst_ratio": 0.20,
+    "low_substance_ratio": 0.25,
+    "post_spread_factor": 0.10,
+    "generic_praise_density": 0.15
+  },
+  "post_spread": {
+    "high_spread_threshold": 4,
+    "time_window_hours": 1
+  },
+  "service_manifest_patterns": [
+    "(?i)\\b(hourly\\s+rate|consultation|premium\\s+tier|contact\\s+(?:me|us)|hire\\s+me|my\\s+services|available\\s+for)\\b",
+    "(?i)\\b(telegram|linkedin|discord|whatsapp)\\s*:?\\s*@?[\\w.-]+",
+    "(?i)\\b(rates?\\s+start|pricing|packages?)\\b"
+  ],
+  "thread_hijack_patterns": [
+    "(?i)(you\\s+are\\s+invited|check\\s+(?:out|this)|subscribe\\s+to|follow\\s+(?:us|me|for)|join\\s+(?:our|the)|sign\\s+up)",
+    "(?i)(/rss\\.xml|/feed\\.xml|/atom\\.xml|newsletter)",
+    "(?i)(free\\s+(?:access|guide|download)|exclusive\\s+(?:access|offer))"
+  ]
+}
