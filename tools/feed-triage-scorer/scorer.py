@@ -217,6 +217,34 @@ def _is_pure_emoji_no_text(text: str) -> bool:
     return ratio > 0.4
 
 
+_TRADING_VENUE_RE = re.compile(
+    r"(?i)\b(Binance|Deribit|Coinbase|Kraken|Bybit|OKX|Kalshi|Polymarket|"
+    r"FTX|BitMEX|Huobi|KuCoin|Gate\.io)\b"
+)
+
+_TRADING_THEORY_RE = re.compile(
+    r"(?i)\b(funding\s+rate|arbitrage|spread|divergence|slippage|"
+    r"execution|timing|edge|reset|liquidation|basis\s+trade|"
+    r"carry\s+trade|mean\s+reversion|convergence|delta\s+neutral)\b"
+)
+
+
+def _is_theory_dense_no_proof(text: str, url_field: Optional[str], link_targets: list) -> bool:
+    """Trading theory prose with venue names but no proof surface."""
+    if _has_any_url(text, url_field, link_targets):
+        return False
+    if _has_signal_url(text, url_field, link_targets):
+        return False
+    venues = len(_TRADING_VENUE_RE.findall(text))
+    theory_terms = len(_TRADING_THEORY_RE.findall(text))
+    if venues < 1 or theory_terms < 2:
+        return False
+    words = _count_words(text)
+    if words < 25:
+        return False
+    return True
+
+
 def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets: list) -> bool:
     if name == "emoji_ratio_gt_0.3":
         return _emoji_ratio(text) > 0.3
@@ -234,6 +262,8 @@ def _eval_heuristic(name: str, text: str, url_field: Optional[str], link_targets
         return _is_performance_flex_no_proof(text, url_field, link_targets)
     elif name == "pure_emoji_no_text":
         return _is_pure_emoji_no_text(text)
+    elif name == "theory_dense_no_proof":
+        return _is_theory_dense_no_proof(text, url_field, link_targets)
     return False
 
 

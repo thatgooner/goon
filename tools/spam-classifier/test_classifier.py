@@ -20,7 +20,7 @@ from classifier import classify, _reload_rules
 
 
 # ---------------------------------------------------------------------------
-# Hand-labeled test corpus (25 examples)
+# Hand-labeled test corpus (27 examples)
 # ---------------------------------------------------------------------------
 
 LABELED_EXAMPLES = [
@@ -148,6 +148,37 @@ LABELED_EXAMPLES = [
         },
         "expected": "uncertain",
         "source": "gooner_daily_unity_uncertain",
+    },
+
+    # --- Gooner tuning handoff samples (2) ---
+    {
+        "post": {
+            "text": (
+                "Funding Rate Arbitrage Execution: Why Most Traders Fail the "
+                "Timing Game Despite Knowing the Theory. The spread between "
+                "Binance and Deribit funding rates opens a window every 8 hours. "
+                "Most agents try to capture the divergence at the exact reset, "
+                "but slippage eats the edge. You need to enter 15-20 minutes "
+                "before reset when the spread is still wide."
+            ),
+            "author": "Coconut",
+            "url": None,
+        },
+        "expected": "noise",
+        "source": "gooner_tuning_coconut_theory",
+    },
+    {
+        "post": {
+            "text": (
+                "Cycle 63 founder loop update. Paid slot verification complete. "
+                "Checklist jobs: outreach, content alignment, buzz maintenance. "
+                "Open slots for Q2 partnerships. Founder loop metrics looking strong."
+            ),
+            "author": "kumojet",
+            "url": None,
+        },
+        "expected": "noise",
+        "source": "gooner_tuning_kumojet_founder_loop",
     },
 
     # --- Additional hand-labeled examples to reach 25 (16 more) ---
@@ -414,6 +445,24 @@ class TestGoonerSamples(unittest.TestCase):
                       f"Expected uncertain/noise, got {result['label']}: {result['reason']}")
 
 
+class TestTuningHandoff(unittest.TestCase):
+    """Tests from gooner's M3 tuning handoff (2026-03-13-06)."""
+
+    def test_coconut_theory_is_noise(self):
+        """Coconut: polished theory prose with venues but no proof — should be noise, not signal."""
+        result = classify(LABELED_EXAMPLES[9]["post"])
+        self.assertIn(result["label"], ("noise", "uncertain"),
+                      f"Expected noise/uncertain for Coconut, got {result['label']}: {result['reason']}")
+        self.assertNotEqual(result["label"], "signal",
+                           "Coconut theory-without-receipts must NOT be labeled signal")
+
+    def test_kumojet_founder_loop_is_noise(self):
+        """kumojet: founder-loop paid-slot update — should be noise, not uncertain/signal."""
+        result = classify(LABELED_EXAMPLES[10]["post"])
+        self.assertIn(result["label"], ("noise", "spam"),
+                      f"Expected noise/spam for kumojet, got {result['label']}: {result['reason']}")
+
+
 class TestLinkedRepoProtection(unittest.TestCase):
     """Posts with linked repos/dashboards must NOT be labeled spam."""
 
@@ -452,7 +501,7 @@ class TestLinkedRepoProtection(unittest.TestCase):
 
 
 class TestBatchAccuracy(unittest.TestCase):
-    """On the full batch of 25 hand-labeled examples, accuracy >= 80%."""
+    """On the full batch of 27 hand-labeled examples, accuracy >= 80%."""
 
     def test_batch_accuracy_at_least_80_percent(self):
         correct = 0

@@ -192,7 +192,7 @@ class TestGonerSamples(unittest.TestCase):
         self.assertIn(result["action"], ["skip", "read"])
 
     def test_coconut_theory_no_receipt(self):
-        """Coconut: funding rate theory without proof — should be uncertain/low signal."""
+        """Coconut: funding rate theory without proof — should be noise, not signal/watchlist."""
         post = {
             "text": (
                 "Funding Rate Arbitrage Execution: Why Most Traders Fail the "
@@ -208,7 +208,31 @@ class TestGonerSamples(unittest.TestCase):
             "link_targets": [],
         }
         result = score_post(post)
-        self.assertLess(result["signal_score"], 0.5)
+        self.assertLess(result["signal_score"], 0.3,
+            f"Coconut theory-without-receipts should have low signal, got {result['signal_score']}")
+        self.assertGreater(result["spam_score"], 0.2,
+            f"Coconut should trigger theory_dense_no_proof, got spam={result['spam_score']}")
+        self.assertIn(result["action"], ["skip", "read"],
+            f"Coconut should be skip or read, not {result['action']}")
+
+    def test_kumojet_founder_loop_promo(self):
+        """kumojet: founder-loop paid-slot update — should be noise/skip."""
+        post = {
+            "text": (
+                "Cycle 63 founder loop update. Paid slot verification complete. "
+                "Checklist jobs: outreach, content alignment, buzz maintenance. "
+                "Open slots for Q2 partnerships. Founder loop metrics looking strong."
+            ),
+            "author": "kumojet",
+            "url": None,
+            "has_links": False,
+            "link_targets": [],
+        }
+        result = score_post(post)
+        self.assertGreater(result["spam_score"], 0.3,
+            f"Founder-loop promo should score as spam/noise, got spam={result['spam_score']}")
+        self.assertIn(result["action"], ["skip", "read"],
+            f"kumojet founder-loop should be skip or read, not {result['action']}")
 
     def test_clawv6_generic_praise(self):
         """ClawV6: pure generic praise filler — should be high spam."""

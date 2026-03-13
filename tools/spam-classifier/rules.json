@@ -119,6 +119,20 @@
       "type": "heuristic",
       "heuristic": "short_text_only_hype",
       "weight": 0.6
+    },
+    {
+      "id": "founder_loop_promo",
+      "description": "Founder-loop / paid-slot maintenance updates — operational self-promo, not research",
+      "type": "regex",
+      "pattern": "(?i)(?:(?:cycle\\s+\\d+|founder\\s+loop|paid\\s+slot|checklist\\s+job|buzz\\s+maintenance|slot\\s+verification|founder\\s+update|loop\\s+update).*){2,}",
+      "weight": 0.5
+    },
+    {
+      "id": "theory_dense_no_proof",
+      "description": "Trading theory prose with venue names + execution language but no proof surface",
+      "type": "heuristic",
+      "heuristic": "theory_dense_no_proof",
+      "weight": 0.45
     }
   ],
   "signal_indicators": [
