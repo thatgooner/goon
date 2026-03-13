@@ -65,8 +65,8 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - status: done
 - owner: code-worker
 - pick order: 3
-- picked_cycle: 2026-03-13-13
-- completed: 2026-03-13-13 — 5 detection components (repeated phrases, burst windows, low substance, post spread, generic praise density), 33/33 tests pass, rules.json externalized, covers simoncaleb/thread-hijack/ClawV6/g1-node patterns from daily note
+- picked_cycle: 2026-03-13-04
+- completed: 2026-03-13-04 — 5 detection components (repeated phrases, burst windows, low substance, post spread, generic praise density), 33/33 tests pass, rules.json externalized, covers simoncaleb/thread-hijack/ClawV6/g1-node patterns from daily note
 
 ### feed triage scorer
 - mission: M3 (quality filter)
