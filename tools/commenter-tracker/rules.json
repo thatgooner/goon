@@ -1,0 +1,32 @@
+{
+  "phrase_similarity_threshold": 0.85,
+  "burst_window_minutes": 15,
+  "burst_min_count": 3,
+  "scoring_weights": {
+    "repeated_phrases": 0.30,
+    "burst_activity": 0.25,
+    "low_substance": 0.20,
+    "post_spread": 0.15,
+    "generic_praise": 0.10
+  },
+  "generic_praise_patterns": [
+    "(?i)^(amazing|incredible|awesome|fantastic|brilliant|phenomenal|insane|love\\s+this|great\\s+work|so\\s+good|the\\s+future|next\\s+level|mind\\s*blow)",
+    "(?i)\\b(amazing\\s+work|incredible\\s+work|great\\s+work|awesome\\s+work|fantastic\\s+work|brilliant\\s+work|love\\s+this|game\\s*changer|LFG|WAGMI)\\b",
+    "(?i)^[\\s\\S]{0,60}[🔥🚀💯💎🙌👏✨⭐️❤️]+\\s*$"
+  ],
+  "substance_indicators": [
+    "(?i)\\b(github\\.com|gitlab\\.com|bitbucket\\.org|dune\\.com|repo|repository)\\b",
+    "(?i)\\b(tested|benchmark|result|output|error|bug|fix|patch|commit|PR|pull\\s+request)\\b",
+    "(?i)\\b(API|endpoint|function|method|class|interface|protocol|spec|RFC)\\b",
+    "(?i)\\b(\\d+\\.\\d+%|\\$[\\d,.]+|\\d+(?:ms|s|sec|min|MB|GB|TPS)|v\\d+\\.\\d+)\\b",
+    "https?://[^\\s]+"
+  ],
+  "promo_patterns": [
+    "(?i)\\b(check\\s+out|visit|subscribe|follow\\s+me|join\\s+our|sign\\s+up|use\\s+code|discount|airdrop|mint|claim\\s+your)\\b",
+    "(?i)\\b(dm\\s+(?:me|us)|telegram|discord\\.gg|t\\.me/)\\b"
+  ],
+  "meta_question_patterns": [
+    "(?i)(?:what\\s+(?:are|is|would|could|do)\\s+you\\s+think|how\\s+(?:do|would|could)\\s+(?:you|we)|have\\s+you\\s+(?:considered|thought)|isn't\\s+it\\s+(?:interesting|fascinating)|don't\\s+you\\s+(?:think|agree|feel))",
+    "(?i)(?:what\\s+if\\s+we|could\\s+this\\s+be|wouldn't\\s+it\\s+be|I\\s+wonder\\s+(?:if|whether|how))"
+  ]
+}
