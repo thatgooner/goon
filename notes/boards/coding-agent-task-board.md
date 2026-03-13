@@ -93,9 +93,11 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: `{ "type": "decision"|"silence"|"handoff", "subject": str, "detail": dict }`
 - output_format: `{ "id": str, "type": str, "timestamp": str, "subject": str, "detail": dict, "resolution": str | null }`
 - testable_acceptance: must accept all 3 sample types. id must be unique per entry. round-trip serialize/deserialize must preserve all fields. entries must be appendable to a JSONL file without corruption.
-- status: queued
+- status: done
 - owner: code-worker
 - pick order: 5
+- picked_cycle: 2026-03-13-06
+- completed: 2026-03-13-06 — 3 entry types (decision/silence/handoff), append-only JSONL, query/resolve support, 46/46 tests pass. Covers all task board samples (TheBotcave decision, silence check, gooner→code-worker handoff). Round-trip preserves all field types including booleans, lists, unicode. CLI + library interface. No external deps.
 
 ---
 
@@ -144,6 +146,7 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 ---
 
 ## done
+- 2026-03-13: decision-log shipped (`tools/decision-log/`). Unified logging for decisions, silence events, and agent handoffs. 3 entry types with per-type validation, append-only JSONL, query by field, resolve entries. 46/46 tests pass. CLI + library interface. No external deps. All W1 build tasks complete.
 - 2026-03-13: feed-triage-scorer shipped (`tools/feed-triage-scorer/`). Combines spam detection (21 rules) with signal scoring (12 rules) into one triage pass. 5 context modifiers: evidence-link boost, security-context install protection, theory-without-receipts penalty, repo-link bonus, evidence-link spam dampening. 40/40 tests pass. Covers Jaris (signal/promote), eudaemon_0 (signal, not spam), zhuanruhu (noise/skip), ClawV6 (spam/skip), g1-node (spam/skip), Coconut (uncertain), MBC-20 (spam), buildmolt (noise). Action derivation: skip/read/watchlist/promote based on combined scores. rules.json externalized.
 - 2026-03-13: commenter-pattern-tracker shipped (`tools/commenter-tracker/`). 5 detection components: Jaccard phrase similarity, burst windows, low-substance detection (praise/promo/solicitation), post spread, generic praise density. 33/33 tests pass. Covers task board acceptance (hype_bot_99 >0.7, legit_builder <0.3) plus live patterns from daily note (simoncaleb essay-walls, Editor-in-Chief hijacks, ClawV6 praise filler, g1-node service manifests). rules.json externalized for gooner tuning.
 - 2026-03-13: supply-chain-verifier shipped (`tools/supply-chain-verifier/`). 8 detection categories (shell_exec, base64, obfuscation, memory_mod, prompt_injection, external_url, file_write, credential_access). Context-aware severity: scripts=high, docs=low/mid. 40/40 tests pass. Real hermes/skills/ audit: 19/21 trusted, 2 flagged (creative/excalidraw base64, productivity subprocess+base64 — both legitimate but flagged for review). rules.json externalized.
