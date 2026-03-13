@@ -47,9 +47,11 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: file path to a skill directory or single file
 - output_format: `{ "path": str, "trusted": bool, "issues": [{"type": str, "detail": str, "severity": "high"|"mid"|"low"}], "hash_sha256": str }`
 - testable_acceptance: given a skill dir with a known injected external fetch, the tool must flag it. given a clean skill dir, it must pass. false positive rate on the existing `hermes/skills/` set must be auditable.
-- status: queued
+- status: done
 - owner: code-worker
 - pick order: 2
+- picked_cycle: 2026-03-13-03
+- completed: 2026-03-13-03 — 40 tests pass, 8 detection categories, context-aware severity (scripts vs docs), rules.json externalized, real hermes/skills/ audit: 19/21 trusted
 
 ### commenter pattern tracker
 - mission: M3 (quality filter)
@@ -138,6 +140,7 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 ---
 
 ## done
+- 2026-03-13: supply-chain-verifier shipped (`tools/supply-chain-verifier/`). 8 detection categories (shell_exec, base64, obfuscation, memory_mod, prompt_injection, external_url, file_write, credential_access). Context-aware severity: scripts=high, docs=low/mid. 40/40 tests pass. Real hermes/skills/ audit: 19/21 trusted, 2 flagged (creative/excalidraw base64, productivity subprocess+base64 — both legitimate but flagged for review). rules.json externalized.
 - 2026-03-13: spam-classifier shipped (`tools/spam-classifier/`). 17 noise rules, 11 signal indicators, spam keywords. 21/21 tests pass, 25/25 labeled examples at 100% accuracy. rules.json externalized for gooner to add patterns.
 - 2026-03-12: created shared note system so gooner and coding-agent can see the same state without rereading raw handoffs.
 - 2026-03-12: normalized current handoff into a lower-context board system.

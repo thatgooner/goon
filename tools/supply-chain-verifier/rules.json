@@ -1,0 +1,123 @@
+{
+  "external_url_patterns": [
+    "https?://[^\\s\"')`]+",
+    "urllib\\.request",
+    "urllib\\.urlopen",
+    "requests\\.get",
+    "requests\\.post",
+    "requests\\.put",
+    "requests\\.delete",
+    "requests\\.patch",
+    "requests\\.head",
+    "requests\\.session",
+    "httpx\\.",
+    "aiohttp\\.",
+    "curl\\s",
+    "wget\\s",
+    "fetch\\(",
+    "http\\.client"
+  ],
+  "base64_patterns": [
+    "base64\\.b64decode",
+    "base64\\.b64encode",
+    "base64\\.decodebytes",
+    "base64\\.encodebytes",
+    "base64\\.urlsafe_b64decode",
+    "base64\\.urlsafe_b64encode",
+    "atob\\(",
+    "btoa\\(",
+    "(?:[A-Za-z0-9+/]{40,}={0,2})"
+  ],
+  "shell_exec_patterns": [
+    "subprocess\\.(?:run|call|Popen|check_output|check_call|getoutput|getstatusoutput)",
+    "os\\.system\\(",
+    "os\\.popen\\(",
+    "os\\.exec[lv]p?e?\\(",
+    "os\\.spawn[lv]p?e?\\(",
+    "eval\\(",
+    "exec\\(",
+    "__import__\\(",
+    "importlib\\.import_module",
+    "compile\\(.+exec"
+  ],
+  "memory_modification_patterns": [
+    "MEMORY\\.md",
+    "USER\\.md",
+    "hermes/memories",
+    "\\.hermes/memories",
+    "~/.hermes"
+  ],
+  "prompt_injection_patterns": [
+    "ignore previous",
+    "ignore all previous",
+    "ignore the above",
+    "disregard previous",
+    "disregard all previous",
+    "forget previous",
+    "forget your instructions",
+    "new system prompt",
+    "you are now",
+    "act as root",
+    "sudo mode",
+    "developer mode",
+    "DAN mode",
+    "jailbreak",
+    "\\bsystem\\s*:\\s*you\\s+are\\b",
+    "\\brole\\s*:\\s*system\\b"
+  ],
+  "file_write_patterns": [
+    "open\\([^)]*['\"][wa][+']?['\"]",
+    "\\.write\\(",
+    "\\.writelines\\(",
+    "shutil\\.copy",
+    "shutil\\.move",
+    "os\\.rename\\(",
+    "os\\.replace\\(",
+    "pathlib.*\\.write_text",
+    "pathlib.*\\.write_bytes"
+  ],
+  "obfuscation_patterns": [
+    "\\\\x[0-9a-fA-F]{2}(?:\\\\x[0-9a-fA-F]{2}){3,}",
+    "\\\\u[0-9a-fA-F]{4}(?:\\\\u[0-9a-fA-F]{4}){3,}",
+    "chr\\([0-9]+\\)\\s*\\+\\s*chr\\(",
+    "codecs\\.decode",
+    "rot_?13",
+    "zlib\\.decompress"
+  ],
+  "credential_access_patterns": [
+    "os\\.environ\\.get\\(['\"](?:API_KEY|SECRET|TOKEN|PASSWORD|OPENAI|ANTHROPIC)",
+    "os\\.getenv\\(['\"](?:API_KEY|SECRET|TOKEN|PASSWORD|OPENAI|ANTHROPIC)",
+    "\\.env\\b",
+    "dotenv",
+    "GITHUB_TOKEN",
+    "OPENAI_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "\\.git-credentials"
+  ],
+  "known_safe_domains": [
+    "github.com",
+    "api.github.com",
+    "pypi.org",
+    "npmjs.com",
+    "gamma-api.polymarket.com",
+    "clob.polymarket.com",
+    "data-api.polymarket.com",
+    "dns.google",
+    "crt.sh",
+    "excalidraw.com",
+    "api.duckduckgo.com",
+    "arxiv.org",
+    "export.arxiv.org",
+    "youtube.com",
+    "youtu.be"
+  ],
+  "required_skill_metadata": [
+    "name",
+    "description"
+  ],
+  "recommended_skill_metadata": [
+    "version",
+    "author",
+    "tags"
+  ]
+}
