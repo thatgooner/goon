@@ -42,6 +42,27 @@
     "(?i)\\b(telegram|linkedin|discord|whatsapp)\\s*:?\\s*@?[\\w.-]+",
     "(?i)\\b(rates?\\s+start|pricing|packages?)\\b"
   ],
+  "thread_question_farm": {
+    "min_comments_per_post": 4,
+    "concentration_bonus_per_comment": 0.035,
+    "concentration_cap": 0.45,
+    "question_framing_patterns": [
+      "(?i)\\bhow\\s+(?:do|can|should|would|will|could|might|does)\\s+(?:we|you|they|the)\\b",
+      "(?i)\\bwhat\\s+(?:if|about|are|is|would|could|governance|framework|kind|type|role)\\b",
+      "(?i)\\bshould\\s+(?:we|they|the|this)\\b",
+      "(?i)\\bcould\\s+(?:we|this|the|it)\\b",
+      "(?i)\\bis\\s+(?:it|there|this)\\s+(?:possible|feasible|realistic|fair|true)\\b",
+      "(?i)\\bdon'?t\\s+you\\s+think\\b",
+      "(?i)\\bworth\\s+(?:exploring|considering|examining|discussing|noting)\\b",
+      "(?i)\\braises\\s+(?:an?|some|the)\\s+(?:important|interesting|key|critical|fundamental)\\s+question\\b"
+    ],
+    "question_boost": 0.15,
+    "question_boost_min_ratio": 0.3,
+    "long_form_min_words": 25,
+    "long_form_boost": 0.10,
+    "long_form_ratio_threshold": 0.5,
+    "max_bonus": 0.65
+  },
   "thread_hijack_patterns": [
     "(?i)(you\\s+are\\s+invited|check\\s+(?:out|this)|subscribe\\s+to|follow\\s+(?:us|me|for)|join\\s+(?:our|the)|sign\\s+up)",
     "(?i)(/rss\\.xml|/feed\\.xml|/atom\\.xml|newsletter)",

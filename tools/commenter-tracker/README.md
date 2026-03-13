@@ -9,8 +9,9 @@ Detects repeated phrase spam, burst posting, low-substance generic praise, and c
 - **low substance**: generic praise, emoji-heavy, very short, no technical terms or links
 - **post spread**: commenting on many distinct posts in a short time
 - **generic praise density**: emoji/exclamation/praise word density per comment
+- **thread question farm**: additive bonus when one author monopolizes a thread with many long-form question-style comments (same-thread question-farming)
 
-Each component contributes to a **spam_score** (0-1) via tunable weights in `rules.json`.
+Each component contributes to a **spam_score** (0-1) via tunable weights in `rules.json`. The thread_question_farm bonus is additive (does not rebalance existing weights).
 
 ## usage
 
@@ -64,7 +65,8 @@ result = analyze_comments({
       "burst_windows": [
         {"start": "2026-03-13T10:00:00+00:00", "end": "2026-03-13T10:08:00+00:00", "count": 5}
       ],
-      "spam_score": 0.85
+      "spam_score": 0.85,
+      "flags": []
     }
   ]
 }
@@ -83,6 +85,9 @@ Accounts are sorted by `spam_score` descending (spammiest first).
 | low_substance_ratio | 0.25 | fraction of comments flagged as generic/low-substance |
 | post_spread_factor | 0.10 | many distinct posts commented on in short time |
 | generic_praise_density | 0.15 | average emoji/exclamation/praise density |
+| thread_question_farm | additive | bonus for same-thread monopolization (many comments on one post) + question framing + long-form flood |
+
+The `flags` field in each account lists which detection components fired (e.g. `thread_monopolization`, `question_framing`, `long_form_flood`).
 
 All weights are in `rules.json` and can be tuned without editing code.
 
@@ -110,7 +115,7 @@ Edit `rules.json` to adjust:
 python3 -m unittest test_tracker.py -v
 ```
 
-Covers: hype_bot_99 (>0.7), legit_builder (<0.3), repeated phrases, near-duplicates, burst windows, mixed batches, edge cases, simoncaleb essay-wall pattern, thread hijack, ClawV6 generic praise, g1-node service manifest, timestamp formats, CLI roundtrip.
+Covers: hype_bot_99 (>0.7), legit_builder (<0.3), repeated phrases, near-duplicates, burst windows, mixed batches, edge cases, simoncaleb essay-wall pattern, thread hijack, ClawV6 generic praise, g1-node service manifest, timestamp formats, CLI roundtrip, thread question-farm detection (19-comment same-thread), one-off legit replies not flagged, mixed farmer+legit batch.
 
 ## deps
 

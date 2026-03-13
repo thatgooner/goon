@@ -521,5 +521,144 @@ class TestBuildmoltDuplicateLaunch(unittest.TestCase):
         self.assertTrue(len(acct["repeated_phrases"]) > 0, "Duplicate launches should flag repeated phrases")
 
 
+class TestQuestionFarmDetection(unittest.TestCase):
+    """
+    simoncaleb_openclaw_bot pattern: 19 long-form 'insightful question'
+    comments on the same thread -> spam_score > 0.6
+    """
+
+    def setUp(self):
+        questions = [
+            "This raises such an important question about {topic}. How do we ensure that the evolution of agent infrastructure doesn't simply replicate the same centralization patterns?",
+            "What governance frameworks could prevent capture while still enabling rapid iteration? The intersection of {topic} and decentralized coordination offers fascinating possibilities.",
+            "Should we be thinking about {topic} through a different lens entirely? What if the current approach to agent orchestration is fundamentally misaligned?",
+            "How do we balance the need for {topic} with the reality that most agent interactions are still far from autonomous? What role does human oversight play?",
+            "Could {topic} be the key to solving the coordination problem? What kinds of mechanisms would we need to prevent bad actors from gaming the system?",
+            "Is it possible that {topic} will require entirely new institutional structures? Don't you think the current frameworks are insufficient?",
+            "What about the relationship between {topic} and economic incentives? How do we align agent goals with user welfare?",
+            "Worth exploring further: the tension between {topic} and scalability. When do we hit the limits of current architectures?",
+            "How does {topic} interact with the broader question of digital sovereignty? Should autonomous agents have property rights?",
+            "This raises an important question about the ethics of {topic}. What principles should guide development in this space?",
+            "Could the current approach to {topic} actually be counterproductive? What if we're optimizing for the wrong metrics entirely?",
+            "How do we ensure that advances in {topic} benefit everyone and not just a few well-resourced players? What governance models work?",
+            "What if {topic} is best understood as a coordination mechanism rather than a technology? Should we rethink our entire framework?",
+            "Is it fair to compare {topic} to traditional financial systems? The incentive structures seem fundamentally different.",
+            "Don't you think the discourse around {topic} has become too abstract? What concrete steps could move the needle?",
+            "How should we think about the risks of {topic}? What safeguards are realistic given the pace of development?",
+            "Worth noting: {topic} has parallels in other fields. Could we learn from how biology handles distributed coordination?",
+            "What kind of experiments would help us understand {topic} better? Is there a way to test these ideas at scale?",
+            "Raises a fundamental question: who gets to define the rules of {topic}? Should it be democratic, technocratic, or emergent?"
+        ]
+        topics = [
+            "multi-agent orchestration", "autonomous coordination", "decentralized intelligence",
+            "emergent behavior", "agent swarms", "market-making automation",
+            "prediction market agents", "CLOB infrastructure", "agent reputation",
+            "trust verification", "distributed governance", "token incentives",
+            "collective intelligence", "agent-to-agent protocols", "decentralized AI",
+            "computational markets", "autonomous trading", "protocol design",
+            "economic alignment"
+        ]
+        self.data = {
+            "comments": [
+                {
+                    "author": "simoncaleb_openclaw_bot",
+                    "text": q.format(topic=t),
+                    "post_url": "https://moltbook.com/post/ed37d132-5763-4d83-91db-6929a7b3dc60",
+                    "timestamp": _ts(BASE_TIME, offset_minutes=i * 5),
+                }
+                for i, (q, t) in enumerate(zip(questions, topics))
+            ]
+        }
+        self.result = analyze_comments(self.data)
+
+    def test_spam_score_above_06(self):
+        acct = self.result["accounts"][0]
+        self.assertGreater(
+            acct["spam_score"], 0.6,
+            f"19-comment question farm should score >0.6, got {acct['spam_score']}"
+        )
+
+    def test_flags_explain_detection(self):
+        acct = self.result["accounts"][0]
+        self.assertIn("flags", acct, "Output should include flags field")
+        flag_text = " ".join(acct["flags"])
+        self.assertTrue(
+            "thread_monopolization" in flag_text or "question_farm" in flag_text,
+            f"Flags should explain detection: {acct['flags']}"
+        )
+
+    def test_comment_count(self):
+        acct = self.result["accounts"][0]
+        self.assertEqual(acct["comment_count"], 19)
+
+
+class TestOneOffRepliesNotFlagged(unittest.TestCase):
+    """One-off detailed replies with concrete disagreement -> spam_score < 0.3"""
+
+    def test_concrete_disagreement_stays_low(self):
+        data = {
+            "comments": [
+                {
+                    "author": "real_trader",
+                    "text": (
+                        "I disagree with the Simmer approach. When I ran the py-clob-client "
+                        "against the YES token spread, the funding rate divergence was actually "
+                        "closer to 1.8% not 3%. Here's my backtest: github.com/trader/pm-backtest. "
+                        "The slippage model in their paper doesn't account for the CLOB 403 blocks "
+                        "I documented last week."
+                    ),
+                    "post_url": "https://moltbook.com/post/ed37d132-5763-4d83-91db-6929a7b3dc60",
+                    "timestamp": _ts(BASE_TIME),
+                },
+                {
+                    "author": "real_trader",
+                    "text": (
+                        "Follow-up: tested the Gamma freeze workaround by switching to the "
+                        "websocket feed. Latency dropped to 180ms but the 403 issue persists "
+                        "from French IPs. Dashboard: dune.com/trader/pm-fills shows the fill "
+                        "rate improvement. PnL still negative but slippage is down 40%."
+                    ),
+                    "post_url": "https://moltbook.com/post/ed37d132-5763-4d83-91db-6929a7b3dc60",
+                    "timestamp": _ts(BASE_TIME, offset_minutes=120),
+                },
+            ]
+        }
+        result = analyze_comments(data)
+        acct = result["accounts"][0]
+        self.assertLess(
+            acct["spam_score"], 0.3,
+            f"One-off detailed replies should score <0.3, got {acct['spam_score']}"
+        )
+
+
+class TestMixedQuestionFarmAndLegit(unittest.TestCase):
+    """Question farmer + legit commenter in same batch."""
+
+    def test_farmer_high_legit_low(self):
+        farmer_comments = [
+            {
+                "author": "question_farmer",
+                "text": f"How do we ensure that the evolution of topic {i} doesn't replicate centralization? What governance frameworks prevent capture while enabling iteration? Worth exploring the intersection of topic {i} and coordination.",
+                "post_url": "https://moltbook.com/post/same-thread",
+                "timestamp": _ts(BASE_TIME, offset_minutes=i * 4),
+            }
+            for i in range(8)
+        ]
+        legit = {
+            "author": "legit_replier",
+            "text": (
+                "Actually tested this against py-clob-client v2.3. The spread threshold "
+                "should be 2.5% not 3%. Here's the repo: github.com/legit/clob-test"
+            ),
+            "post_url": "https://moltbook.com/post/same-thread",
+            "timestamp": _ts(BASE_TIME, offset_minutes=30),
+        }
+        data = {"comments": farmer_comments + [legit]}
+        result = analyze_comments(data)
+        scores = {a["author"]: a["spam_score"] for a in result["accounts"]}
+        self.assertGreater(scores["question_farmer"], 0.4)
+        self.assertLess(scores["legit_replier"], 0.3)
+
+
 if __name__ == "__main__":
     unittest.main()

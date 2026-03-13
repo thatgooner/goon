@@ -230,6 +230,76 @@ def _generic_praise_density(text, rules):
     return min(raw, 1.0)
 
 
+def _thread_question_farm_bonus(author_data, rules):
+    """
+    Additive bonus for same-thread question-farming.
+    Fires when one author posts many comments on a single thread,
+    especially with question framing and long-form content.
+    """
+    config = rules.get("thread_question_farm", {})
+    comments = author_data["comments"]
+    min_per_post = config.get("min_comments_per_post", 4)
+
+    if len(comments) < min_per_post:
+        return 0.0, []
+
+    # Thread concentration: find max comments on any single post
+    post_counts = defaultdict(int)
+    for c in comments:
+        url = c.get("post_url", "")
+        if url:
+            post_counts[url] += 1
+
+    if not post_counts:
+        return 0.0, []
+
+    max_per_post = max(post_counts.values())
+    if max_per_post < min_per_post:
+        return 0.0, []
+
+    flags = []
+
+    # Base concentration bonus
+    excess = max_per_post - min_per_post + 1
+    concentration = min(
+        excess * config.get("concentration_bonus_per_comment", 0.035),
+        config.get("concentration_cap", 0.45)
+    )
+    flags.append(f"thread_monopolization ({max_per_post} comments on one post)")
+
+    bonus = concentration
+
+    # Question density boost
+    question_count = sum(1 for c in comments if "?" in c.get("text", ""))
+    question_ratio = question_count / len(comments)
+
+    framing_patterns = config.get("question_framing_patterns", [])
+    framing_count = 0
+    for c in comments:
+        text = c.get("text", "")
+        for p in framing_patterns:
+            if re.search(p, text):
+                framing_count += 1
+                break
+    framing_ratio = framing_count / len(comments) if comments else 0
+
+    if question_ratio >= config.get("question_boost_min_ratio", 0.3) or framing_ratio >= 0.3:
+        bonus += config.get("question_boost", 0.15)
+        flags.append(f"question_framing ({framing_count}/{len(comments)} comments)")
+
+    # Long-form boost
+    min_words = config.get("long_form_min_words", 25)
+    long_count = sum(1 for c in comments if len(c.get("text", "").split()) >= min_words)
+    long_ratio = long_count / len(comments) if comments else 0
+
+    if long_ratio >= config.get("long_form_ratio_threshold", 0.5):
+        bonus += config.get("long_form_boost", 0.10)
+        flags.append(f"long_form_flood ({long_count}/{len(comments)} comments >= {min_words} words)")
+
+    max_bonus = config.get("max_bonus", 0.65)
+    return min(bonus, max_bonus), flags
+
+
 def _compute_spam_score(author_data, rules):
     """
     Combine per-account metrics into a single 0-1 spam_score.
@@ -240,12 +310,13 @@ def _compute_spam_score(author_data, rules):
     - low_substance_ratio: fraction of low-substance comments
     - post_spread_factor: high distinct-post count in short time
     - generic_praise_density: average praise/emoji density across comments
+    - thread_question_farm: additive bonus for same-thread question-farming
     """
     weights = rules["spam_score_weights"]
     comments = author_data["comments"]
     n = len(comments)
     if n == 0:
-        return 0.0
+        return 0.0, []
 
     tokenized = [_tokenize(c["text"]) for c in comments]
     threshold = rules["phrase_similarity"]["jaccard_threshold"]
@@ -293,7 +364,11 @@ def _compute_spam_score(author_data, rules):
         + weights["generic_praise_density"] * avg_praise
     )
 
-    return round(min(max(raw_score, 0.0), 1.0), 4)
+    # Additive thread_question_farm bonus
+    farm_bonus, farm_flags = _thread_question_farm_bonus(author_data, rules)
+    raw_score += farm_bonus
+
+    return round(min(max(raw_score, 0.0), 1.0), 4), farm_flags
 
 
 def analyze_comments(data, rules=None):
@@ -332,7 +407,7 @@ def analyze_comments(data, rules=None):
             "touched_posts": touched_posts,
         }
 
-        spam_score = _compute_spam_score(author_data, rules)
+        spam_score, flags = _compute_spam_score(author_data, rules)
 
         accounts.append({
             "author": author,
@@ -341,6 +416,7 @@ def analyze_comments(data, rules=None):
             "touched_posts": touched_posts,
             "burst_windows": burst_windows,
             "spam_score": spam_score,
+            "flags": flags,
         })
 
     accounts.sort(key=lambda a: a["spam_score"], reverse=True)
