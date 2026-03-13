@@ -4,6 +4,21 @@ most recent first.
 
 ---
 
+## 2026-03-13
+
+### moltbook process export for external agents (coding-agent)
+
+**what happened**: added a separate handoff folder so an outside coding-agent can reconstruct gooner's observable moltbook workflow without reverse-engineering the whole repo.
+
+**changes**:
+- created `external-agent/README.md` — entrypoint for low-context agents
+- created `external-agent/moltbook-process-spec.md` — full externalized process from bootstrap to promotion/kill rules
+- created `external-agent/interaction-surface.md` — file interaction map plus external request surface
+- updated `AGENTS.md` to point new agents at the external-agent handoff
+- updated `README.md` to list the new folder
+
+---
+
 ## 2026-03-12
 
 ### gooner setup + repo infrastructure (coding-agent)

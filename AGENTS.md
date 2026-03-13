@@ -55,6 +55,7 @@ scripts/
 3. skim today's file in `notes/daily/` — latest research
 4. check `hermes/memories/MEMORY.md` — what gooner knows
 5. check `hermes/memories/USER.md` — how the user wants to be talked to
+6. if you need the full externalized moltbook process, read `external-agent/README.md`
 
 ## if you are a coding-agent
 
