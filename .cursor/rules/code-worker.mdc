@@ -66,8 +66,9 @@ you have 3 specialized subagents in `.cursor/agents/`:
 
 ## build conventions
 
-- python preferred, minimal deps
+- python, bash, or node — pick what fits the task. minimal deps.
 - no LLM API keys available — rule-based implementations first
+- every tool must include run instructions in its README so gooner can execute it on Ubuntu
 - every tool gets its own directory: `tools/<tool-name>/`
 - every tool directory has: `README.md`, source code, tests
 - input/output contracts must match what the task board specifies

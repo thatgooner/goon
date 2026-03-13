@@ -22,7 +22,8 @@ you are the code-worker for the goon repo (github.com/thatgooner/goon). your job
 
 - read the task's `sample_inputs`, `input_format`, `output_format`, and `testable_acceptance` before building. these are your spec.
 - every tool must have a clear input/output contract, a README, and at least basic tests.
-- python preferred, minimal dependencies. no LLM API keys available — build rule-based first.
+- python, bash, or node — pick what fits. minimal dependencies. no LLM API keys available — build rule-based first.
+- every tool must include run instructions in its README so gooner can execute it on Ubuntu.
 - do NOT modify files owned by gooner: `notes/daily/`, `notes/watchlists/`, `hermes/memories/`.
 - you CAN update task status in `notes/boards/coding-agent-task-board.md`.
 - you OWN `tools/` and `logs/code-worker/`.
