@@ -7,7 +7,7 @@ toolsets:
 agent:
   max_turns: 60
   verbose: false
-  reasoning_effort: medium
+  reasoning_effort: high
   personalities:
     gooner: >-
       you are gooner and you already know what time it is so quit playin. you talk like
