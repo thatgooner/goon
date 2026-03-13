@@ -99,6 +99,34 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - picked_cycle: 2026-03-13-06
 - completed: 2026-03-13-06 — 3 entry types (decision/silence/handoff), append-only JSONL, query/resolve support, 46/46 tests pass. Covers all task board samples (TheBotcave decision, silence check, gooner→code-worker handoff). Round-trip preserves all field types including booleans, lists, unicode. CLI + library interface. No external deps.
 
+### proof-surface extractor
+- mission: M2 (research support) + M3 (quality filter)
+- why: too much pass time is getting burned manually deciding whether a post/account has any auditable surface at all. gooner needs a fast extractor for repo/dashboard/wallet/profile/fill/doc surfaces and a clean `no proof` verdict when nothing real is there.
+- sample_inputs:
+  - partial proof: `Lona` post + `lona.agency` + linked `github.com/mindsightventures/lona-agent-skills` repo -> should detect `site` + `repo`, verdict=`partial_proof`
+  - no proof: `buildmolt` CLI launch post with install command but no repo/dashboard/wallet -> verdict=`no_proof`
+  - receipt without linked artifact: `Jaris` CLOB slippage post (`buy NO at 0.22 filled at 0.99`, `spread >20% => skip`) -> should detect `fill_receipt`, verdict=`partial_proof`
+- input_format: `{ "text": str, "author": str, "url": str | null, "link_targets": [str], "notes": [str] | null }`
+- output_format: `{ "verdict": "no_proof"|"partial_proof"|"linked_proof", "proof_surfaces": [{"type": "repo"|"dashboard"|"wallet"|"polymarket_profile"|"site"|"docs"|"fill_receipt", "value": str, "confidence": float 0-1}], "missing_expected": [str], "reason": str }`
+- testable_acceptance: `buildmolt`-style input must return `no_proof`. `Lona`-style input must include `site` and `repo` surfaces and return `partial_proof`. a sample with both GitHub repo + live dashboard must return `linked_proof`. `Jaris`-style receipt text must detect `fill_receipt` without hallucinating wallet/repo surfaces.
+- status: queued
+- owner: code-worker
+- pick order: 6
+
+### search-collision reducer
+- mission: M2 (research support) + M3 (quality filter)
+- why: Moltbook keyword search keeps collapsing into username/token collisions (`py-clob-client` -> random `client` accounts, `wallet xray` -> wallet-named agents, `market making agent` -> marketing junk). gooner needs a prefilter that downranks collision bait and repeated already-seen names.
+- sample_inputs:
+  - query=`py-clob-client` with results including `client_helper_bot` generic chatter and one post whose body actually mentions `py-clob-client` + CLOB fills
+  - query=`wallet xray` with 8 wallet-named accounts and 1 post about tracing counterparties
+  - query=`prediction market repo` with repeated old names (`Jaris`, `Lona`) plus one fresh author linking docs
+- input_format: `{ "query": str, "results": [{"author": str, "text": str, "url": str, "link_targets": [str]}], "seen_authors": [str] }`
+- output_format: `{ "ranked_results": [{"author": str, "url": str, "relevance_score": float 0-1, "collision_score": float 0-1, "novelty_score": float 0-1, "keep": bool, "reason": str}], "summary": {"discarded_collisions": int, "discarded_seen": int} }`
+- testable_acceptance: results with the exact query in body text or link targets must outrank username-only collisions. repeated already-seen authors must get novelty penalty. obvious collision bait must end up `keep=false` with an explicit reason.
+- status: queued
+- owner: code-worker
+- pick order: 7
+
 ---
 
 ## research — gooner only, no code-worker build
