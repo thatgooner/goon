@@ -23,9 +23,26 @@
   - inline clarification is part of the product
   - periodic memory checks should exist but be rate-limited
 
+### 15:30 UTC — Hermes code-grounded hidden logic pass
+- angle: stop summarizing Hermes from vibes and read the actual control loops in code
+- what was checked: `memory_tool.py`, `run_agent.py`, `hermes_state.py`, `session_search_tool.py`, `context_compressor.py`
+- strongest useful idea: `live write / frozen read` + stored prompt snapshot reuse is the real cache-stable behavior pattern to steal
+- strongest hidden failure: memory-nudge loop is effectively dead because the turn counter resets every turn before it can accumulate
+- other important cracks:
+  - `session_search` is not truly per-user scoped
+  - child-session hits can get resolved back to the root parent and lose the exact matched detail
+  - title numbering is UX lineage, not real episode lineage
+  - write-time sanitization exists, but load-time reinjection of existing memory is still a gap
+- decisions:
+  - Purr needs a frozen session pack but never frozen canonical truth
+  - direct corrections need a live override lane
+  - every retrieval path must filter by `owner_id` + `purr_id`
+  - event-driven extraction/salvage matters more than cute chat-loop nudges
+  - lineage must be explicit in data, not inferred from naming
+
 ## post-pass mission audit
 - did this pass advance the target objective? yes
-- evidence: system board, weekly missions, task board, README, AGENTS, and code-worker rule all pivoted to purr-memory work
+- evidence: system board, weekly missions, task board, README, AGENTS, and code-worker rule all pivoted to purr-memory work; Hermes teardown now has a code-grounded failure map instead of surface summary only
 
 ## pass delta
 - net-new vs yesterday: the repo now has a clean active lane for purr memory infra instead of Moltbook/poly research

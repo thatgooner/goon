@@ -345,6 +345,24 @@ messages/sessions:
 
 ---
 
+## code-grounded hidden warnings from the deeper pass
+
+new repo note: `ily/07-hermes-memory-code-grounded-hidden-logic.md`
+
+most important additions from reading the actual Hermes code:
+- the `live write / frozen read` split is real and worth stealing, but it causes same-session stale truth unless Purr has a live override lane
+- the periodic memory-nudge loop is effectively broken because `_turns_since_memory` resets at the start of each turn before it can accumulate
+- `session_search` is not truly per-user scoped and can resolve child-session hits back to the root parent, which can miss the exact matched evidence
+- title-based continuation (`foo`, `foo #2`) is useful UX, but not a serious lineage model
+- write-time sanitization exists, but load-time prompt injection of existing memory is still a gap
+
+translation for Purr:
+- steal the session-pack discipline
+- reject flat text truth
+- make retrieval owner-scoped
+- make lineage explicit
+- make extraction/salvage operational instead of relying on chat-loop nudges
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:

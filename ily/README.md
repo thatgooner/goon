@@ -11,6 +11,7 @@ chatten tek tek sormadan bak diye acildi.
 - `04-open-questions.md` — yarin konusalim diye birakilan net sorular
 - `05-hermes-memory-behavioral-teardown.md` — Hermes memory'nin gizli davranis loop'lari, failure mode'lari, neyi calmamiz gerektigi
 - `06-purr-prediction-and-background-memory-ops.md` — pattern tracking, next-move prediction, bg memory ops, review/proactive timing lane'i
+- `07-hermes-memory-code-grounded-hidden-logic.md` — Hermes code'un icindeki gercek control loop'lar, hidden bug'lar, scoping/lineage failure map'i
 
 ## not
 aktif build lane arastirma-first modda.
