@@ -382,6 +382,25 @@ translation for Purr:
 related deeper note:
 - `ily/11-purr-session-scope-and-episode-lineage-contract.md`
 
+## new hard conclusion from the extractor/evidence pass
+Hermes is not only weak on flat truth shape.
+it is also weak on **canonical evidence preservation**.
+
+most important adds from the deeper operational pass:
+- Hermes can preserve richer per-session artifacts than what its main searchable/reload path actually keeps
+- session search and compression are useful for recall, but they are lossy and should not be mistaken for evidence
+- memory flush/salvage is a strong idea, but it is audit-weak when the flush turn is stripped after saving
+- gateway-side transcript rewrite/compression paths can drop tool/provenance richness and leave a thinner historical record behind
+
+translation for Purr:
+- keep exact evidence refs as first-class durable objects
+- keep summary artifacts as navigation aids only
+- make salvage produce explicit memory events, not invisible truth jumps
+- never let the canonical searchable store be thinner than the real event trail that memory depends on
+
+related deeper note:
+- `ily/12-purr-memory-claim-shapes-evidence-and-selection-contract.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:

@@ -180,6 +180,23 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: code-worker
 - pick order: 9
 
+### memory-claim-shapes-and-evidence-selection-contract-note
+- mission: M1 + M4 (Hermes memory teardown + implementation plan)
+- why: the repo now has lifecycle, pack artifacts, and scope/lineage rules, but the shared contract between extractor, ledger, and packer is still too dispersed. parked build slices will stay underspecified until claim shapes, exact evidence refs, and selection read-model rules are locked in one place.
+- sample_inputs:
+  - `ily/06-purr-prediction-and-background-memory-ops.md`
+  - `ily/08-purr-memory-lifecycle-and-feedback-state-machine.md`
+  - `ily/09-purr-retrieval-context-packer-and-pack-lifecycle.md`
+  - `ily/11-purr-session-scope-and-episode-lineage-contract.md`
+  - `ily/12-purr-memory-claim-shapes-evidence-and-selection-contract.md`
+  - `notes/boards/hermes-memory-review.md`
+- input_format: repo docs + latest Hermes evidence-loss findings
+- output_format: cycle-log note covering `v1 memory kinds`, `shared envelope`, `exact evidence contract`, `extractor output schema`, `merge/supersede keys`, `pack-candidate read model`
+- testable_acceptance: must define at least 6 typed v1 memory kinds, preserve exact evidence spans, define `subject_key` + `dedupe_key`, explain when to merge vs supersede vs keep episode-scoped, and describe a packer-facing read model that gates trust before ranking.
+- status: queued
+- owner: code-worker
+- pick order: 10
+
 ---
 
 ## parked — build after research
