@@ -77,6 +77,21 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: code-worker
 - pick order: 4
 
+### prediction-memory-and-proactive-timing-note
+- mission: M1 + M3 (Hermes memory teardown + tool boundary/mobile reality)
+- why: Purr's `feels one step ahead of me` quality depends on structured pattern memory, bounded prediction hints, and invisible background timing ops — not prompt bloat.
+- sample_inputs:
+  - `ily/02-purr-app-memory-architecture.md`
+  - `ily/05-hermes-memory-behavioral-teardown.md`
+  - `ily/06-purr-prediction-and-background-memory-ops.md`
+  - `notes/boards/purr-alignment-brief.md`
+- input_format: repo docs + memory architecture notes
+- output_format: cycle-log note covering `prediction memory kinds`, `horizons`, `retrieval budget`, `background jobs`, `failure modes`
+- testable_acceptance: must explicitly define `pattern_signal`, `open_loop`, and `next_action_candidate`; must separate turn-critical hidden ops vs deferred maintenance vs heartbeat jobs; must keep prediction as backend memory signal, not flashy user-facing feature.
+- status: queued
+- owner: code-worker
+- pick order: 5
+
 ### phase-one-build-order
 - mission: M4 (implementation plan, not implementation)
 - why: after research we need a clean sequence, not random building.
@@ -85,13 +100,14 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
   - Purr alignment brief
   - tool/mobile note
   - Catnet/market note
+  - prediction/timing note
   - parked build candidates below
 - input_format: existing repo docs and parked tasks
 - output_format: ordered plan in cycle log naming the first 3 implementation slices and why
 - testable_acceptance: must choose a first implementation slice and justify why it beats the others. must keep flashy/social features behind core memory work.
 - status: queued
 - owner: code-worker
-- pick order: 5
+- pick order: 6
 
 ---
 
