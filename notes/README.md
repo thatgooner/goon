@@ -9,7 +9,6 @@ start here:
 ## folder meanings
 - `boards/` = canonical shared state
 - `daily/` = raw purr architecture / session notes
-- `watchlists/` = optional side lanes (empty for now)
 
 ## rules for dumb agents
 1. do not create new board files unless clearly necessary

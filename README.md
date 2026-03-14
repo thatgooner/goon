@@ -27,7 +27,6 @@ new lane is `purr`:
 notes/                  mission boards + daily architecture notes
   boards/               canonical state
   daily/                session notes / architecture thinking
-  watchlists/           optional side lanes (empty for now)
 hermes/                 live agent state mirror
 tools/                  code-worker build output for purr infra
 logs/code-worker/       per-cycle build logs

@@ -44,7 +44,6 @@ notes/
   daily/
     purr-memory-YYYY-MM-DD.md
     .template.md
-  watchlists/
 hermes/
 tools/
 logs/
