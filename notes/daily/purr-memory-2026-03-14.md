@@ -57,11 +57,17 @@
 - decide exact Supabase table layout
 - decide whether unresolved uncertainty memories should have a separate pack
 - decide daily cap for memory verification prompts
+- decide free-credit / model-routing stance without breaking memory quality
+- decide Catnet heartbeat and autonomy boundaries
+- decide safe prediction-market event lanes
 
 ## next-pass queue
-- let code-worker start with memory-ledger
-- then ship extractor + packer
-- then tune clarification policy
+- finish research-first phase before build
+- Hermes memory double-dig
+- Purr alignment + copy protection
+- tool boundary + mobile/webview reality
+- Catnet autonomy + market lanes
+- then choose first implementation slice
 
 ## process retro
 - what consumed the most time: clearing old repo shape so the active lane is readable again

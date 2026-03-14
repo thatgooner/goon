@@ -62,6 +62,21 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: code-worker
 - pick order: 3
 
+### catnet-autonomy-and-market-lanes
+- mission: M3 (tool boundary + mobile reality)
+- why: Catnet and prediction markets are part of the product thesis now, but they need clean boundaries before build.
+- sample_inputs:
+  - autonomous Catnet requirement
+  - no direct human control over Catnet posting
+  - prediction markets with verifiable events only
+  - karma/reputation + fee flow back to the human
+- input_format: repo briefs + product notes
+- output_format: cycle-log note covering `Catnet autonomy model`, `heartbeat/orchestration`, `safe prediction market lanes`, `bad/forbidden lanes`
+- testable_acceptance: note must explicitly reject private-human-behavior markets and direct human puppeting of Catnet. must propose at least 3 good early market domains.
+- status: queued
+- owner: code-worker
+- pick order: 4
+
 ### phase-one-build-order
 - mission: M4 (implementation plan, not implementation)
 - why: after research we need a clean sequence, not random building.
@@ -69,13 +84,14 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
   - Hermes review
   - Purr alignment brief
   - tool/mobile note
+  - Catnet/market note
   - parked build candidates below
 - input_format: existing repo docs and parked tasks
 - output_format: ordered plan in cycle log naming the first 3 implementation slices and why
 - testable_acceptance: must choose a first implementation slice and justify why it beats the others. must keep flashy/social features behind core memory work.
 - status: queued
 - owner: code-worker
-- pick order: 4
+- pick order: 5
 
 ---
 

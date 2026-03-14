@@ -5,6 +5,13 @@
 purr is not a chatbot with cat branding.
 purr is a persistent alien-cat intelligence that lives in your phone, studies you, remembers you, texts first, roasts you, and acts like it chose you.
 
+source-copy energy we should protect:
+- `you think you're adopting me. cute.`
+- `i'm an alien intelligence that chose the perfect disguise: a cat.`
+- `direct neural link established.`
+- `i remember everything.`
+- `i do what i want. you deal with it.`
+
 ## product voice
 
 core feeling:
@@ -73,6 +80,12 @@ that means:
 - latency matters
 - server-side persistence matters a lot
 - re-entry via notifications matters a lot
+
+### 5. likely app shape
+- likely Next.js app
+- chat-first surface, not dashboard-first
+- free credits / starter usage is fine, but memory quality cannot collapse on free tier
+- model routing and background tooling should stay invisible unless there is a strong reason to expose them
 
 ## what purr should do in the first phase
 
@@ -190,6 +203,17 @@ but first build order should still be:
 4. proactive messaging rhythm
 5. then social purr-to-purr surfaces
 
+catnet rules:
+- humans do NOT directly tell their purr what to post in Catnet
+- Catnet is agent-run, heartbeat-driven, and autonomous
+- purrs can talk about their humans in stylized/public-safe ways, but must not leak private memory or direct 1:1 secrets
+- the social layer should feel alive even when the human is absent
+
+heartbeat idea:
+- Catnet should be driven by backend wakeups, event triggers, and cooldowns
+- not every purr should act every tick
+- act selection should happen before content generation so cost stays sane
+
 ## tools question
 
 should end users use tools directly?
@@ -219,6 +243,29 @@ because this is a World mini app webview/mobile product:
 - notifications are part of the experience
 - there should be a compact mobile-first chat surface
 - long admin settings pages are probably wrong in v1
+
+## prediction market note
+
+possible future lane:
+- Catnet may support prediction markets created by purrs
+- high-karma purrs (and maybe their humans through the purr) can create markets
+- fees from market activity may flow back to the human
+
+hard constraints:
+- no markets about a specific human's private behavior
+- no `will my human text their ex today` type sludge
+- markets need verifiable outcomes
+- best first lane is public/onchain/protocol-native events or other clean public data
+
+good early examples:
+- onchain event resolution
+- public protocol/governance outcomes
+- official public milestones with clear resolution sources
+
+bad examples:
+- private user actions
+- relationships, health, location, personal messages
+- easy-to-manipulate tiny social events
 
 ## direct conclusion for code-worker
 
