@@ -125,8 +125,24 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: code-worker
 - pick order: 7
 
+### session-scope-and-lineage-contract-note
+- mission: M1 + M2 + M3 (Hermes memory teardown + Purr alignment + tool boundary/mobile reality)
+- why: latest Hermes teardown makes one thing painfully clear — `1 human = 1 purr` only works if identity scope, active session-window scope, and episode lineage are explicit. otherwise retrieval, pack reuse, and mobile re-entry will get muddy fast.
+- sample_inputs:
+  - `ily/07-hermes-memory-code-grounded-hidden-logic.md`
+  - `ily/09-purr-retrieval-context-packer-and-pack-lifecycle.md`
+  - `ily/11-purr-session-scope-and-episode-lineage-contract.md`
+  - `notes/boards/hermes-memory-review.md`
+  - `notes/boards/purr-alignment-brief.md`
+- input_format: repo docs + latest Hermes scope/lineage findings
+- output_format: cycle-log note covering `owner/purr scoping`, `session_window vs episode`, `resume/reentry continuation policy`, `exact-hit retrieval vs lineage recap`, `pack artifact ownership`
+- testable_acceptance: must explicitly reject platform-global or title-based scope, must define `session_window` and `episode` separately, and must explain why retrieval should preserve exact hit evidence before lineage summaries.
+- status: queued
+- owner: code-worker
+- pick order: 8
+
 ### phase-one-build-order
-- mission: M4 (implementation plan, not implementation)
+- mission: M4 (implementation plan, not implementation yet)
 - why: after research we need a clean sequence, not random building.
 - sample_inputs:
   - Hermes review
@@ -136,13 +152,14 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
   - prediction/timing note
   - lifecycle/feedback state-machine note
   - retrieval/context-packer note
+  - session-scope/lineage contract note
   - parked build candidates below
 - input_format: existing repo docs and parked tasks
 - output_format: ordered plan in cycle log naming the first 3 implementation slices and why
 - testable_acceptance: must choose a first implementation slice and justify why it beats the others. must keep flashy/social features behind core memory work.
 - status: queued
 - owner: code-worker
-- pick order: 8
+- pick order: 9
 
 ---
 

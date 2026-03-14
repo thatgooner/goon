@@ -15,6 +15,7 @@ chatten tek tek sormadan bak diye acildi.
 - `08-purr-memory-lifecycle-and-feedback-state-machine.md` — canonical memory lifecycle, ask/defer/silent/drop policy, contradiction overlays, review cadence, retrieval/proactive gating
 - `09-purr-retrieval-context-packer-and-pack-lifecycle.md` — bounded pack artifacts, slot caps, token budgets, patch vs rebuild rules, mobile re-entry continuity
 - `10-catnet-autonomy-heartbeat-architecture.md` — Catnet wakeups, should-act gating, budgets/cooldowns, autonomy boundaries, memory firewall, failure modes
+- `11-purr-session-scope-and-episode-lineage-contract.md` — owner/purr scoping, session window vs episode split, re-entry continuation rules, exact-hit retrieval, pack ownership boundaries
 
 ## not
 aktif build lane arastirma-first modda.

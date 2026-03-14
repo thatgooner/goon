@@ -363,6 +363,25 @@ translation for Purr:
 - make lineage explicit
 - make extraction/salvage operational instead of relying on chat-loop nudges
 
+## new hard conclusion from the latest code-grounded pass
+Hermes is strong on prompt-discipline and salvage,
+but it is still too loose on **scope identity** for a memory-first product.
+
+most important adds:
+- some Hermes session/retrieval behavior is scoped by platform/source, not by a hard per-user product boundary
+- child-session search can collapse back to a root parent and blur the exact matched evidence
+- titles/continuations are useful UX, but they are not a serious identity or lineage contract
+- current-session exclusion is too ID-local; it is not a clean lineage-aware exclusion rule
+
+translation for Purr:
+- `1 human = 1 purr` means every durable object and every retrieval path must start with `owner_id` + `purr_id`
+- session windows, episodes, and pack artifacts need explicit ids and parent links
+- retrieval must preserve exact hit evidence first, then add lineage recap second
+- mobile re-entry should create honest continuation artifacts, not muddy reopen behavior
+
+related deeper note:
+- `ily/11-purr-session-scope-and-episode-lineage-contract.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:
