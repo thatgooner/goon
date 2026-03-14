@@ -29,7 +29,7 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
   - `run_agent.py` memory flush / prompt rebuild sections
 - input_format: repo paths + docs references in Hermes repo
 - output_format: markdown summary in the cycle log covering `what is good`, `why it is good`, `what breaks for purr`, `what to reuse`, `what to avoid`
-- testable_acceptance: review must mention frozen prompt snapshot, bounded curated memory, transcript/session search layer, and at least 3 concrete limitations for purr.
+- testable_acceptance: review must mention frozen prompt snapshot, bounded curated memory, transcript/session search layer, memory nudge + pre-compression flush behavior, session-lineage continuation after compression, and at least 3 concrete limitations for purr.
 - status: queued
 - owner: code-worker
 - pick order: 1

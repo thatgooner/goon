@@ -152,6 +152,46 @@ for purr:
 - raw chat should live in durable storage
 - only selected memory items or compact retrieval packs should hit the LLM prompt
 
+### 6. stored prompt snapshot reuse across continued sessions
+Hermes does not just freeze the prompt in RAM.
+It stores the full assembled system prompt in SQLite and reuses that exact prompt on later session continuation instead of rebuilding from disk.
+
+why it matters:
+- prevents cache breakage across gateway/CLI continuation
+- avoids re-injecting memory changes the model already wrote itself
+- makes the active prompt a session artifact, not a live view of files
+
+for purr:
+- we should likely persist the exact session hot pack / prompt pack per conversation window
+- continuation should reload that pack unless a deliberate rebuild event happens
+
+### 7. compression with lineage, not overwrite
+When Hermes compresses, it ends the old session, creates a new child session, and links them with `parent_session_id`.
+
+why it matters:
+- transcript audit trail stays intact
+- search still has access to the pre-compression raw session
+- the active conversation gets smaller without pretending old detail never existed
+
+for purr:
+- relationship history should also keep lineage/episode structure
+- summaries should never become the only surviving truth
+
+### 8. structural integrity guards during compression
+Hermes does not only summarize semantics.
+It also protects tool-call structure:
+- avoids splitting tool-call/result groups at boundaries
+- removes orphan tool results
+- inserts stub tool results if needed so the API still accepts the compressed history
+
+why it matters:
+- long-context systems break in ugly ways if compression corrupts message structure
+- this is hidden infra quality, but it is real quality
+
+for purr:
+- any background cognition / hidden tool lane needs the same integrity mindset
+- summary or archive jobs must not break causal/evidence structure
+
 ---
 
 ## where Hermes is weak for purr
@@ -206,6 +246,49 @@ Purr needs real lifecycle states:
 - stale
 
 without this, “i remember everything” becomes “i accumulate noise forever.”
+
+### 6. same-session memory goes stale on purpose
+Hermes chooses prompt stability over same-session freshness.
+That is a rational assistant tradeoff.
+For purr, it becomes a product risk.
+
+failure pattern:
+- user corrects something now
+- memory write succeeds
+- active prompt still reasons from the old snapshot
+
+for purr:
+- session pack can stay mostly frozen
+- but we need a live turn-level override lane for direct corrections / contradictions / high-value new facts
+
+### 7. memory mutation is substring-based text editing
+Hermes updates memory by matching short text substrings inside flat entries.
+
+why this breaks for purr:
+- ambiguous matches are common as memory grows
+- contradictions become text-management problems instead of state transitions
+- there is no first-class provenance / evidence / supersedes graph
+
+### 8. recall is lexical first, summary second
+Hermes recall is good enough for agent continuity, but not enough for product-grade relational memory.
+
+limits:
+- FTS5 is lexical
+- `session_search` skips the current session
+- returned memory is a summarized recap, not canonical structured truth
+
+for purr:
+- recall should unify current session, recent episodes, and long-term memory under one retrieval contract
+- semantic help should exist, but structured filtering has to lead
+
+### 9. compression summaries can become lossy stand-ins
+Hermes compression is careful, but summaries are still summaries.
+If the summary model fails, middle turns may even be dropped.
+
+for purr:
+- summaries can be navigation aids
+- they must not become the main truth source for relationship memory
+- canonical truth needs ledger rows + evidence refs back to raw history
 
 ---
 
