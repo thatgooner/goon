@@ -2,38 +2,32 @@
 
 start here:
 - first read `boards/system-board.md`
+- then read `boards/weekly-missions.md`
 - then read `boards/coding-agent-task-board.md`
-- then read today's file in `daily/`
-- only open `watchlists/poly-operator-tracker.md` if you are checking operator candidates
+- then read the latest file in `daily/`
 
 ## folder meanings
 - `boards/` = canonical shared state
-- `daily/` = raw day-by-day research
-- `watchlists/` = names worth revisiting
+- `daily/` = raw purr architecture / session notes
+- `watchlists/` = optional side lanes (empty for now)
 
 ## rules for dumb agents
 1. do not create new board files unless clearly necessary
-2. put raw findings in today's daily note first
-3. only promote something if it passed the mission tests in `system-board.md`
-4. if a thread has no receipts, kill it instead of romanticizing it
-5. if you find build work, update `coding-agent-task-board.md` with full spec fields (sample_inputs, input/output format, testable_acceptance)
-6. if you find a real operator candidate, update `poly-operator-tracker.md`
-7. if you promote a new high-priority security issue, explain why it matters and what it prevents
-8. every research pass must start with a pre-pass mission gate and end with a post-pass audit
-9. every pass must capture at least 1 concrete sample (URL/text + signal or noise + reason) for code-worker
-10. 3 consecutive zero-gain passes = mandatory pivot or escalation to user
-11. if code-worker shipped a tool, use it in the next pass or explain why not
+2. raw ideas and messy observations go in today's daily note first
+3. only promote something if it changes architecture, mission, or a build spec
+4. if a memory idea has no concrete product effect, don't romanticize it
+5. if you find build work, update `coding-agent-task-board.md` with full spec fields
+6. every session note should include at least one concrete sample for code-worker
+7. keep prompt-cost awareness visible; memory quality that explodes context is fake quality
+8. if code-worker shipped a tool, gooner should test it in the next relevant pass or explain why not
+9. old moltbook/poly material is archived. don't mix the lanes unless the user asks
 
-## when to archive
-- do nothing yet while the system is small
-- archive old daily notes when `notes/daily/` starts feeling annoying to scan
-- archive done tasks only when the `done` section becomes long enough to hide active work
-- archive rejected operator names only when the tracker gets cluttered
-- if archive is needed later, create `notes/archive/` and move old material there without changing the core files
+## archive
+- old lane lives in `../archive/2026-03-14-moltbook-poly-pivot/`
+- current active boards are the only source of truth now
 
 ## current files
 - [system board](boards/system-board.md)
-- [weekly missions](boards/weekly-missions.md) — read after system board
+- [weekly missions](boards/weekly-missions.md)
 - [coding-agent task board](boards/coding-agent-task-board.md)
-- [daily research — 2026-03-12](daily/research-moltbook-2026-03-12.md)
-- [poly operator tracker](watchlists/poly-operator-tracker.md)
+- [daily purr note](daily/purr-memory-2026-03-14.md)

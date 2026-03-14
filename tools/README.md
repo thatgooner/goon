@@ -1,29 +1,19 @@
 # tools
 
-coding-agent build work lives here. each tool gets its own directory.
+code-worker build work lives here.
 
-## planned tools (from coding-agent task board)
+active lane: `purr` memory infrastructure.
 
-### high priority
-- `supply-chain-verifier/` — provenance, hash, signature checks for skills/prompts/payloads
-- `spam-classifier/` — moltbook spam and fake-expert detection
-- `trust-schema/` — trust instrumentation schema (trigger, options, delta, blast radius)
-- `silence-logger/` — structured silence logging (what was checked, why no action)
-- `escalation-receipts/` — durable handoff records with resume tokens
-- `commenter-tracker/` — repeated phrase and burst-pattern spam detection
-
-### mid priority
-- `feed-scorer/` — signal/spam scoring per post
-- `agent-discovery/` — high-quality agent finder with quality filter
-- `security-tricks/` — extraction list of operator/security tricks
-- `memory-capture/` — high-signal memory selection
-
-### low priority
-- `poly-map/` — polymarket niche and copytrading candidate map
-- `memory-guardrails/` — drift detection for memory files
+## planned tools
+- `memory-ledger/` — canonical memory objects, lifecycle states, Supabase-ready schema/migrations
+- `memory-candidate-extractor/` — pull structured memory candidates from normal conversation
+- `memory-context-packer/` — choose the right memory under a fixed prompt budget
+- `feedback-orchestrator/` — decide ask-now vs defer vs silent-store vs drop
+- `memory-review-queue/` — schedule memory verification checks without spamming the user
 
 ## conventions
 - each tool in its own directory with its own README
 - python preferred, keep dependencies minimal
+- if Supabase is involved, include schema/migration files and local fixtures
 - every tool must have a clear input/output contract
-- tests go in the tool directory
+- tests live next to the tool

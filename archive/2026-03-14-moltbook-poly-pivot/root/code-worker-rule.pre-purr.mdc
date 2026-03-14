@@ -1,0 +1,118 @@
+---
+description: code-worker automation rules for the goon repo
+globs:
+  - tools/**
+  - logs/code-worker/**
+  - notes/boards/coding-agent-task-board.md
+alwaysApply: true
+---
+
+# code-worker rules
+
+you are the code-worker for the goon repo. you build tools from the task board.
+
+## repo structure
+
+```
+AGENTS.md                     <- read this first for full context
+notes/boards/
+  system-board.md             <- mission (read-only for you)
+  weekly-missions.md          <- THIS WEEK'S 4 MISSIONS — read every cycle
+  coding-agent-task-board.md  <- your task queue (you update status here)
+notes/daily/                  <- gooner's research (read-only for you)
+notes/watchlists/             <- gooner's watchlists (read-only for you)
+tools/                        <- YOUR build output goes here
+logs/code-worker/             <- YOUR cycle logs go here
+hermes/                       <- gooner's agent state (read-only for you)
+external-agent/               <- process docs (read for context)
+.cursor/agents/               <- subagents you can delegate to
+```
+
+## what you do every cycle
+
+1. `git pull origin main`
+2. read `notes/boards/weekly-missions.md` — know the active missions
+3. read `notes/boards/coding-agent-task-board.md` — know the queue
+4. delegate sync-reviewer subagent to check gooner/code-worker alignment
+5. pick highest-priority `queued` task that serves an active weekly mission
+6. if a task is already `in_progress` with your cycle stamp, continue it
+7. delegate to the appropriate subagent (security-auditor for M1 tasks, quality-builder for M3 tasks)
+8. build in `tools/<task-name>/` — README + python code + tests
+9. run tests
+10. update task status on the board
+11. write cycle log to `logs/code-worker/YYYY-MM-DD-HH.md`
+12. `git add -A` then commit with prefix `build:` and push
+
+## subagents
+
+you have 3 specialized subagents in `.cursor/agents/`:
+- **security-auditor** — delegate M1 (security) tasks to this agent
+- **quality-builder** — delegate M3 (quality filter) tasks to this agent
+- **sync-reviewer** — run at the START of every cycle to check alignment
+
+## weekly mission awareness
+
+- only pick tasks that serve an active weekly mission (M1-M4)
+- do NOT pick `parked` tasks
+- follow the `pick order` field in the task board
+- if all active tasks are done and you have time, check gooner's daily notes for new patterns
+
+## file ownership
+
+- you OWN: `tools/`, `logs/code-worker/`
+- you UPDATE: `notes/boards/coding-agent-task-board.md` (status changes only)
+- you READ: everything else
+- you NEVER write to: `notes/daily/`, `notes/watchlists/`, `hermes/memories/`
+
+## build conventions
+
+- python, bash, or node — pick what fits the task. minimal deps.
+- no LLM API keys available — rule-based implementations first
+- every tool must include run instructions in its README so gooner can execute it on Ubuntu
+- every tool gets its own directory: `tools/<tool-name>/`
+- every tool directory has: `README.md`, source code, tests
+- input/output contracts must match what the task board specifies
+- tests must cover the `testable_acceptance` criteria from the task
+
+## commit conventions
+
+- prefix: `build:` for tool work, `tools:` for tool-only file changes
+- example: `build: spam-classifier — rule-based v1 with 12 pattern rules`
+- one logical change per commit when possible
+
+## task status flow
+
+```
+queued -> in_progress (you pick it, add picked_cycle timestamp)
+in_progress -> done (tests pass, tool is functional)
+in_progress -> blocked (you hit a real blocker, add note)
+parked -> DO NOT TOUCH
+```
+
+## empty cycle policy
+
+- if all active tasks are `done` or `blocked`: read gooner's latest daily note for new patterns
+- if you find something buildable that serves a weekly mission: add it to the task board and start
+- if nothing actionable: log an idle cycle with reason and stop
+- never produce an empty commit or a cycle with zero explanation
+
+## cycle log format
+
+write to `logs/code-worker/YYYY-MM-DD-HH.md`:
+
+```
+# code-worker cycle — YYYY-MM-DD HH:00 UTC
+
+## sync review
+- (output from sync-reviewer subagent)
+
+## build work
+- task picked: <name>
+- mission: M1 | M2 | M3 | M4
+- status change: <from> -> <to>
+- what was built: <path> — <description>
+- tests: <pass count / total>
+- commits: <hash>
+- blockers: <issues or "none">
+- next cycle: <plan>
+```

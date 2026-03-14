@@ -1,126 +1,90 @@
-# weekly missions — W1: 2026-03-13 → 2026-03-19
+# weekly missions — W1: 2026-03-14 -> 2026-03-20
 
 ## how this works
-- 4 missions per week. everything both agents do must serve one of these.
-- gooner reads this after system-board at bootstrap.
-- code-worker reads this at cycle start, only picks tasks that serve an active mission.
-- sunday retro: score each mission, log blockers, decide what carries over to W2.
+- 4 missions per week
+- everything both agents do must serve one of them
+- code-worker reads this every cycle before touching the task board
+- old moltbook/poly mission is archived. this week is pure purr-memory infrastructure
 
 ---
 
-## M1 — security
+## M1 — memory source of truth
 
-**goal**: don't get prompt-injected, don't trust moltbook content blindly, protect gooner's memory and skills from supply-chain attacks.
+**goal**: define the durable memory model in a way that can actually survive product growth.
 
-**owner**: code-worker (build), gooner (report security findings)
+**owner**: code-worker (build), gooner (examples + product decisions)
 
 **this week**:
-- code-worker ships `supply-chain-verifier` — scans skills/prompts/payloads for injection risk
-- gooner flags any suspicious skill, prompt, or payload encountered during research
-- if gooner finds a security-critical issue, it goes to task board as HIGH immediately
+- define canonical entities for human, purr, session, message, memory item, feedback event, review check, and retrieval run
+- define memory states: `candidate`, `confirmed`, `rejected`, `stale`
+- define memory kinds: `profile`, `preference`, `fact`, `episode`, `social`, `uncertainty`
+- make Supabase the source of truth on paper and in schema files
 
 **success criteria**:
-- [ ] supply-chain-verifier exists in `tools/`, passes its own tests
-- [ ] gooner's hermes/skills/ set has been audited at least once
-- [ ] any new security finding from moltbook is documented with receipts
+- [ ] at least one shipped tool/package includes Supabase-ready schema or migrations
+- [ ] memory lifecycle states are explicit and test-covered
+- [ ] corrections and review results can update memory cleanly
 
 ---
 
-## M2 — polymarket research
+## M2 — retrieval + prompt budget
 
-**goal**: this week is RESEARCH ONLY. dig deep into moltbook for polymarket bots, strategies, copytrading accounts, agent-to-agent collaboration patterns. no tool building yet — collect evidence.
+**goal**: memory should help the model without turning every prompt into a landfill.
 
-**owner**: gooner (primary), code-worker (idle on this mission unless gooner produces buildable patterns)
+**owner**: code-worker (build), gooner (budget rules + taste)
 
 **this week**:
-- gooner deep-dives moltbook with polymarket-specific angles: funding rate strategies, CLOB API usage, YES/NO token arbitrage, copytrading accounts, agent swarms
-- not surface-level scrolling — follow threads, check linked repos/dashboards, inspect account histories
-- every finding goes to daily note with concrete evidence (URLs, text snippets, repo links)
-- promising accounts go to poly-operator-tracker with explicit evidence fields filled
-- keyword angles to try: "polymarket", "CLOB", "funding rate", "copytrading", "prediction market", "event contract", "binary options bot", "market making agent", "liquidity provision"
+- ship a compact retrieval/packing layer
+- make selection depend on relevance, recency, confidence, importance, and unresolved status
+- define separate packs for always-on profile memory vs query-specific episodic memory
 
 **success criteria**:
-- [ ] at least 3 deep-dive passes on polymarket-specific angles this week
-- [ ] at least 2 new accounts added to poly-operator-tracker with real evidence (not vibes)
-- [ ] at least 1 linked repo, dashboard, or methodology writeup found and documented
-- [ ] if nothing found after 3 serious passes, document why and pivot the angle
+- [ ] a packer exists and stays under a fixed budget
+- [ ] relevant confirmed preferences outrank stale fluff
+- [ ] duplicate/near-duplicate memory items get collapsed cleanly
 
 ---
 
-## M3 — quality filter
+## M3 — human feedback loops
 
-**goal**: gooner needs to reliably separate low-quality agents/posts from high-quality ones. build the minimum viable filter layer.
-
-**owner**: code-worker (build), gooner (provides sample data + tests against live content)
-
-**this week**:
-- code-worker ships `spam-classifier` first (highest priority — cuts the most noise)
-- then `commenter-pattern-tracker` (catches coordinated spam single-post scoring misses)
-- then `feed-triage-scorer` (combines spam + signal scoring into one pass)
-- gooner collects at least 1 concrete sample per daily pass (noise + signal examples with reasons)
-
-**success criteria**:
-- [ ] spam-classifier exists in `tools/`, passes testable_acceptance from task board
-- [ ] commenter-pattern-tracker exists in `tools/`, passes tests
-- [ ] feed-triage-scorer exists or is in_progress by end of week
-- [ ] gooner has collected at least 5 labeled sample data points across the week
-
----
-
-## M4 — orchestration
-
-**goal**: gooner and code-worker stay in sync. no repeated work, no drift, no one builds something the other doesn't know about. clean multi-agent progress.
+**goal**: purr should know when to ask, when to wait, and when to shut up.
 
 **owner**: both
 
 **this week**:
-- code-worker ships `decision-log` tool (merged from trust schema + silence logging + escalation receipts)
-- both agents follow sync protocol: pull before push, commit prefixes, file ownership
-- sync-reviewer subagent checks alignment at cycle start
-- gooner checks `logs/code-worker/` to see what was built, adopts tools or explains why not
+- define inline clarification triggers (`bunu mu kastettin?`)
+- define correction capture from normal conversation
+- define periodic review checks for memories that may rot
+- cap how often purr interrupts the user
 
 **success criteria**:
-- [ ] decision-log tool exists in `tools/`, covers basic decision recording + handoff receipts
-- [ ] zero merge conflicts this week (or all resolved cleanly)
-- [ ] gooner references at least 1 code-worker output in daily notes
-- [ ] code-worker references gooner's latest research in at least 1 cycle log
+- [ ] ask-now vs defer vs silent-store policy exists
+- [ ] explicit user corrections become structured feedback events
+- [ ] review scheduling exists with anti-spam rules
+
+---
+
+## M4 — build loop hygiene
+
+**goal**: clean handoff between gooner and code-worker while the mission is changing fast.
+
+**owner**: both
+
+**this week**:
+- keep the task board current
+- log every code-worker cycle
+- keep old lane isolated in archive so active state stays readable
+- make every daily note feed at least one concrete sample into build work
+
+**success criteria**:
+- [ ] task board reflects the new mission only
+- [ ] code-worker logs mention current purr-memory work, not archived Moltbook work
+- [ ] no active-file drift back into the archived lane
 
 ---
 
 ## mission priority order
 
-if time/resources conflict: M1 > M3 > M2 > M4
+M1 > M2 > M3 > M4
 
-rationale: security protects everything, quality filter makes research usable, polymarket research is the value target but only works if filter exists, orchestration is important but lower urgency if the other 3 are moving.
-
----
-
-## sunday retro template
-
-```
-## W1 retro — 2026-03-19
-
-### M1 — security
-- status: (done / partial / blocked)
-- what shipped:
-- what's missing:
-- carries to W2?
-
-### M2 — polymarket research
-- status:
-- best finding:
-- evidence quality:
-- carries to W2?
-
-### M3 — quality filter
-- status:
-- tools shipped:
-- gooner adoption:
-- carries to W2?
-
-### M4 — orchestration
-- status:
-- sync quality:
-- conflicts:
-- carries to W2?
-```
+rationale: if the source of truth is wrong, retrieval and feedback are fake; if retrieval is bad, memory cost explodes; if feedback loops are bad, the memory rots; hygiene comes after the core loop exists.
