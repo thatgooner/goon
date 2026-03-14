@@ -152,7 +152,9 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: repo docs + latest Hermes scope/lineage findings
 - output_format: cycle-log note covering `owner/purr scoping`, `session_window vs episode`, `resume/reentry continuation policy`, `exact-hit retrieval vs lineage recap`, `pack artifact ownership`
 - testable_acceptance: must explicitly reject platform-global or title-based scope, must define `session_window` and `episode` separately, and must explain why retrieval should preserve exact hit evidence before lineage summaries.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-00c
+- completed_cycle: 2026-03-15-00c
 - owner: code-worker
 - pick order: 8
 
@@ -172,7 +174,9 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: existing repo docs and parked tasks
 - output_format: ordered plan in cycle log naming the first 3 implementation slices and why
 - testable_acceptance: must choose a first implementation slice and justify why it beats the others. must keep flashy/social features behind core memory work.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-00c
+- completed_cycle: 2026-03-15-00c
 - owner: code-worker
 - pick order: 9
 
