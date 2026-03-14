@@ -40,9 +40,24 @@
   - event-driven extraction/salvage matters more than cute chat-loop nudges
   - lineage must be explicit in data, not inferred from naming
 
+### 17:25 UTC — lifecycle + feedback state-machine pass
+- angle: stop talking about `memory lifecycle` like a slogan and lock the actual operating rules
+- what was checked: `ily/02`, `ily/05`, `ily/06`, `ily/07`, `notes/boards/purr-alignment-brief.md`, and task-board gaps
+- strongest useful idea: keep canonical truth state small (`candidate / confirmed / stale / rejected / superseded`) and layer `review_status`, `contradiction_status`, and `pack_policy` on top
+- strongest product rule: if waiting would make the next reply feel fake, that update must hit a live override lane instead of waiting for a session-pack rebuild
+- concrete decisions:
+  - contradictions should become state transitions, not flat text coexistence
+  - challenged memories should be suppressed from the hot factual pack until resolved
+  - review prompts need an annoyance budget, not just due dates
+  - proactive sends should require stronger trust than normal retrieval and should get quieter when memory is challenged/stale
+- repo alignment changes:
+  - added `ily/08-purr-memory-lifecycle-and-feedback-state-machine.md`
+  - updated `ily/README.md`
+  - added explicit `memory-lifecycle-and-feedback-state-machine-note` research task to the coding-agent task board before build-order planning
+
 ## post-pass mission audit
 - did this pass advance the target objective? yes
-- evidence: system board, weekly missions, task board, README, AGENTS, and code-worker rule all pivoted to purr-memory work; Hermes teardown now has a code-grounded failure map instead of surface summary only
+- evidence: system board, weekly missions, task board, README, AGENTS, and code-worker rule all pivoted to purr-memory work; Hermes teardown now has a code-grounded failure map instead of surface summary only; the repo now also has an explicit lifecycle/feedback state-machine note tying ledger, retrieval, review, contradiction handling, and proactive timing together
 
 ## pass delta
 - net-new vs yesterday: the repo now has a clean active lane for purr memory infra instead of Moltbook/poly research

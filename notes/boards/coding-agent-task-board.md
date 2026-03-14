@@ -92,6 +92,22 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: code-worker
 - pick order: 5
 
+### memory-lifecycle-and-feedback-state-machine-note
+- mission: M1 + M2 + M3 (Hermes memory teardown + Purr alignment + tool boundary/mobile reality)
+- why: the repo already knows memory needs lifecycle, correction handling, and review taste, but build order is still too loose until the actual state machine is explicit.
+- sample_inputs:
+  - `ily/02-purr-app-memory-architecture.md`
+  - `ily/05-hermes-memory-behavioral-teardown.md`
+  - `ily/06-purr-prediction-and-background-memory-ops.md`
+  - `ily/07-hermes-memory-code-grounded-hidden-logic.md`
+  - `notes/boards/purr-alignment-brief.md`
+- input_format: repo docs + memory architecture notes
+- output_format: cycle-log note covering `canonical states`, `ask_now/defer/silent_store/drop rules`, `contradiction handling`, `review cadence`, `retrieval/proactive gating`
+- testable_acceptance: must define a small canonical lifecycle, explain how same-session corrections hit a live override lane, define when challenged/stale memories are suppressed from the pack, and give anti-spam review caps.
+- status: queued
+- owner: code-worker
+- pick order: 6
+
 ### phase-one-build-order
 - mission: M4 (implementation plan, not implementation)
 - why: after research we need a clean sequence, not random building.
@@ -101,13 +117,14 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
   - tool/mobile note
   - Catnet/market note
   - prediction/timing note
+  - lifecycle/feedback state-machine note
   - parked build candidates below
 - input_format: existing repo docs and parked tasks
 - output_format: ordered plan in cycle log naming the first 3 implementation slices and why
 - testable_acceptance: must choose a first implementation slice and justify why it beats the others. must keep flashy/social features behind core memory work.
 - status: queued
 - owner: code-worker
-- pick order: 6
+- pick order: 7
 
 ---
 
