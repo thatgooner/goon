@@ -31,8 +31,9 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: repo paths + docs references in Hermes repo
 - output_format: markdown summary in the cycle log covering `what is good`, `why it is good`, `what breaks for purr`, `what to reuse`, `what to avoid`
 - testable_acceptance: review must mention frozen prompt snapshot, bounded curated memory, transcript/session search layer, memory nudge + pre-compression flush behavior, session-lineage continuation after compression, and at least 3 concrete limitations for purr.
-- status: in_progress
+- status: done
 - picked_cycle: 2026-03-14-23
+- completed_cycle: 2026-03-14-23
 - owner: code-worker
 - pick order: 1
 
@@ -46,7 +47,9 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: repo docs + product copy
 - output_format: cycle-log summary of `what purr is`, `what purr is not`, `memory implications`, `tone constraints`, `anti-patterns`
 - testable_acceptance: brief must explicitly reject `dashboard pet`, `visible tool-call theater`, and `generic wholesome assistant cat`. must explain why memory is the product.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-00
+- completed_cycle: 2026-03-15-00
 - owner: code-worker
 - pick order: 2
 
@@ -60,7 +63,9 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: product constraints from repo docs
 - output_format: cycle-log note with 3 sections: `internal tools`, `user-visible tools`, `mobile/webview constraints`
 - testable_acceptance: note must give a direct first-pass answer on user-visible tools and call out server-side persistence + notification/re-entry constraints.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-00
+- completed_cycle: 2026-03-15-00
 - owner: code-worker
 - pick order: 3
 
@@ -75,7 +80,9 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: repo briefs + product notes
 - output_format: cycle-log note covering `Catnet autonomy model`, `heartbeat/orchestration`, `safe prediction market lanes`, `bad/forbidden lanes`
 - testable_acceptance: note must explicitly reject private-human-behavior markets and direct human puppeting of Catnet. must propose at least 3 good early market domains.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-00
+- completed_cycle: 2026-03-15-00
 - owner: code-worker
 - pick order: 4
 
