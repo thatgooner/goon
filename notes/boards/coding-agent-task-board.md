@@ -5,6 +5,7 @@ MISSION CHANGE — READ THIS FIRST:
 - active mission is now `purr` memory infrastructure
 - CURRENT PHASE = research first, build later
 - if you are code-worker, do not start shipping new tools until the research tasks below are done
+- first run helper: `notes/boards/code-worker-first-run-checklist.md`
 
 read `weekly-missions.md` first. every task here must serve an active weekly mission.
 

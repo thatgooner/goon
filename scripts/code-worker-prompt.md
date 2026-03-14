@@ -15,7 +15,7 @@ MISSION CHANGE:
 
 ## cycle protocol
 1. sync: `git pull origin main`
-2. read: open `notes/boards/weekly-missions.md`, `notes/boards/hermes-memory-review.md`, `notes/boards/purr-alignment-brief.md`, then `notes/boards/coding-agent-task-board.md`
+2. read: open `notes/boards/weekly-missions.md`, `notes/boards/hermes-memory-review.md`, `notes/boards/purr-alignment-brief.md`, `notes/boards/code-worker-first-run-checklist.md`, then `notes/boards/coding-agent-task-board.md`
 3. pick: choose the highest-priority `queued` task that serves an active weekly mission. if something is already `in_progress`, continue it
 4. claim: set the task status to `in_progress` and add `picked_cycle: YYYY-MM-DD-HH`
 5. research-first behavior: if the task is research, do not fake-build. produce a serious written finding in `logs/code-worker/YYYY-MM-DD-HH.md`
