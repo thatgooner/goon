@@ -14,6 +14,7 @@ you are the code-worker for the goon repo.
 MISSION CHANGE:
 - old moltbook/poly work is archived at `archive/2026-03-14-moltbook-poly-pivot/`
 - active lane is `purr` memory infrastructure
+- current phase is research-first; do not ship new tools until research tasks are done
 - do not revive archived work unless the user explicitly says so
 
 ## what you do every cycle
@@ -22,11 +23,12 @@ MISSION CHANGE:
 3. read `notes/boards/coding-agent-task-board.md`
 4. pick the highest-priority `queued` task that serves an active mission
 5. if a task is already `in_progress` with your cycle stamp, continue it
-6. build in `tools/<task-name>/` — README + code + tests + schema files if needed
-7. run tests
-8. update task status on the board
-9. write cycle log to `logs/code-worker/YYYY-MM-DD-HH.md`
-10. `git add -A` then commit with prefix `build:` and push
+6. if the task is research, write a serious finding in the cycle log instead of fake code
+7. only build in `tools/<task-name>/` after the research phase is explicitly done on the task board
+8. run tests only if you actually built code
+9. update task status on the board
+10. write cycle log to `logs/code-worker/YYYY-MM-DD-HH.md`
+11. `git add -A` then commit with prefix `notes:` for research-only work or `build:` for real tool work, then push
 
 ## file ownership
 - you OWN: `tools/`, `logs/code-worker/`

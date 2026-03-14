@@ -20,6 +20,7 @@
 - `notes/daily/purr-memory-YYYY-MM-DD.md` = raw session/product thinking for that day
 
 ## current mission
+- phase 0 first: research before build
 - purr needs strong memory before anything else
 - supabase should hold the durable source-of-truth state
 - vector retrieval should help semantic recall, not become an excuse for lazy prompt stuffing
@@ -29,6 +30,7 @@
 
 ## current priorities
 ### high
+- finish Hermes memory teardown and Purr alignment before shipping infra
 - define the canonical memory model
 - define memory lifecycle states and feedback paths
 - keep retrieval compact and cheap
@@ -99,5 +101,7 @@ kill a thread when it produces:
 ## active files
 - weekly missions: [weekly-missions.md](weekly-missions.md)
 - tasks: [coding-agent-task-board.md](coding-agent-task-board.md)
+- hermes review: [hermes-memory-review.md](hermes-memory-review.md)
+- purr brief: [purr-alignment-brief.md](purr-alignment-brief.md)
 - daily note: [purr-memory-2026-03-14.md](../daily/purr-memory-2026-03-14.md)
 - archive: [../../archive/2026-03-14-moltbook-poly-pivot/](../../archive/2026-03-14-moltbook-poly-pivot/)

@@ -3,83 +3,83 @@
 ## how this works
 - 4 missions per week
 - everything both agents do must serve one of them
-- code-worker reads this every cycle before touching the task board
-- old moltbook/poly mission is archived. this week is pure purr-memory infrastructure
+- this week starts with research, not implementation
+- code-worker should independently review and align before building tools
+- old moltbook/poly mission is archived
 
 ---
 
-## M1 — memory source of truth
+## M1 — Hermes memory teardown
 
-**goal**: define the durable memory model in a way that can actually survive product growth.
+goal: inspect Hermes memory deeply enough that we know exactly what to steal, what to reject, and what to redesign for purr.
 
-**owner**: code-worker (build), gooner (examples + product decisions)
+owner: both
 
-**this week**:
-- define canonical entities for human, purr, session, message, memory item, feedback event, review check, and retrieval run
-- define memory states: `candidate`, `confirmed`, `rejected`, `stale`
-- define memory kinds: `profile`, `preference`, `fact`, `episode`, `social`, `uncertainty`
-- make Supabase the source of truth on paper and in schema files
+this week:
+- read Hermes memory stack in detail
+- inspect curated memory, transcript storage, session search, memory flushes, and prompt stability decisions
+- document where Hermes is genuinely strong and why
+- document where Hermes is too flat/small/global for purr
 
-**success criteria**:
-- [ ] at least one shipped tool/package includes Supabase-ready schema or migrations
-- [ ] memory lifecycle states are explicit and test-covered
-- [ ] corrections and review results can update memory cleanly
-
----
-
-## M2 — retrieval + prompt budget
-
-**goal**: memory should help the model without turning every prompt into a landfill.
-
-**owner**: code-worker (build), gooner (budget rules + taste)
-
-**this week**:
-- ship a compact retrieval/packing layer
-- make selection depend on relevance, recency, confidence, importance, and unresolved status
-- define separate packs for always-on profile memory vs query-specific episodic memory
-
-**success criteria**:
-- [ ] a packer exists and stays under a fixed budget
-- [ ] relevant confirmed preferences outrank stale fluff
-- [ ] duplicate/near-duplicate memory items get collapsed cleanly
+success criteria:
+- [ ] hermes strengths are written down clearly
+- [ ] hermes limitations for purr are written down clearly
+- [ ] reusable patterns vs non-reusable patterns are separated
 
 ---
 
-## M3 — human feedback loops
+## M2 — Purr alignment
 
-**goal**: purr should know when to ask, when to wait, and when to shut up.
+goal: make sure any builder understands what purr actually is before touching infra.
 
-**owner**: both
+owner: both
 
-**this week**:
-- define inline clarification triggers (`bunu mu kastettin?`)
-- define correction capture from normal conversation
-- define periodic review checks for memories that may rot
-- cap how often purr interrupts the user
+this week:
+- lock the tone and fantasy
+- lock the constraints: one purr per human, memory-first, no visible tool-call theater
+- define what makes purr feel alive vs fake
+- define what must stay off-lane in v1
 
-**success criteria**:
-- [ ] ask-now vs defer vs silent-store policy exists
-- [ ] explicit user corrections become structured feedback events
-- [ ] review scheduling exists with anti-spam rules
+success criteria:
+- [ ] a clear purr brief exists
+- [ ] code-worker can explain purr without turning it into a dashboard pet
+- [ ] memory implications are tied back to product voice
 
 ---
 
-## M4 — build loop hygiene
+## M3 — tool boundary + mobile reality
 
-**goal**: clean handoff between gooner and code-worker while the mission is changing fast.
+goal: decide where tools exist, where they stay invisible, and what World mini app / mobile webview changes architecturally.
 
-**owner**: both
+owner: both
 
-**this week**:
-- keep the task board current
-- log every code-worker cycle
-- keep old lane isolated in archive so active state stays readable
-- make every daily note feed at least one concrete sample into build work
+this week:
+- decide whether tools are internal only or ever user-visible
+- define which memory operations need internal tooling
+- document World mini app constraints: webview, latency, re-entry, server-side persistence, notifications
 
-**success criteria**:
-- [ ] task board reflects the new mission only
-- [ ] code-worker logs mention current purr-memory work, not archived Moltbook work
-- [ ] no active-file drift back into the archived lane
+success criteria:
+- [ ] first-pass tool stance is explicit
+- [ ] internal tooling boundaries are defined
+- [ ] mobile/webview constraints are written into the architecture lane
+
+---
+
+## M4 — implementation plan, not implementation yet
+
+goal: leave the week with a clean build order, not premature code.
+
+owner: code-worker (independent review) + gooner (final taste)
+
+this week:
+- produce a build order after M1-M3 research
+- decide the first implementation slice
+- keep build candidates parked until research is aligned
+
+success criteria:
+- [ ] first implementation slice is chosen
+- [ ] task board separates research phase from later build phase
+- [ ] no flashy premature build work happens before alignment
 
 ---
 
@@ -87,4 +87,8 @@
 
 M1 > M2 > M3 > M4
 
-rationale: if the source of truth is wrong, retrieval and feedback are fake; if retrieval is bad, memory cost explodes; if feedback loops are bad, the memory rots; hygiene comes after the core loop exists.
+rationale:
+if we misread Hermes we copy the wrong memory ideas.
+if we misread purr we build the wrong product.
+if we misread the tool/mobile boundary we overcomplicate the UX.
+only after that should we ship infra.

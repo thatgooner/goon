@@ -29,4 +29,6 @@ start here:
 - [system board](boards/system-board.md)
 - [weekly missions](boards/weekly-missions.md)
 - [coding-agent task board](boards/coding-agent-task-board.md)
+- [hermes memory review](boards/hermes-memory-review.md)
+- [purr alignment brief](boards/purr-alignment-brief.md)
 - [daily purr note](daily/purr-memory-2026-03-14.md)

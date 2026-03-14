@@ -3,114 +3,120 @@
 MISSION CHANGE — READ THIS FIRST:
 - old moltbook/poly lane is archived under `archive/2026-03-14-moltbook-poly-pivot/`
 - active mission is now `purr` memory infrastructure
-- if you are code-worker, do NOT keep building old classifiers unless the user explicitly reopens that lane
+- CURRENT PHASE = research first, build later
+- if you are code-worker, do not start shipping new tools until the research tasks below are done
 
 read `weekly-missions.md` first. every task here must serve an active weekly mission.
 
 priority model:
-- high = directly serves this week's missions, has full spec, ready to build
+- high = directly serves this week's missions and is ready now
 - parked = valid later work, not for this week
-
-## task spec quality rules
-
-every buildable task must have:
-- `sample_inputs:` at least 2-3 concrete examples
-- `input_format:` what the tool receives
-- `output_format:` what the tool returns
-- `testable_acceptance:` criteria code-worker can verify independently
 
 status values: `queued` | `in_progress` | `done` | `blocked`
 when code-worker picks a task: set status to `in_progress`, add `picked_cycle: YYYY-MM-DD-HH`
 
 ---
 
-## high — build this week
+## high — research first
 
-### memory-ledger
-- mission: M1 (memory source of truth)
-- why: purr needs a canonical memory object with lifecycle state, evidence refs, and review scheduling. this is the spine.
+### hermes-memory-independent-review
+- mission: M1 (Hermes memory teardown)
+- why: code-worker needs its own read on Hermes memory, not just borrowed opinions.
 - sample_inputs:
-  - candidate memory: `{"event_type":"candidate","payload":{"owner_id":"u1","kind":"preference","summary":"user likes colder phrasing","confidence":0.82,"evidence_refs":["session:s1:msg:4"]}}`
-  - correction: `{"event_type":"feedback","payload":{"memory_id":"m1","feedback":"reject","reason":"user said this is wrong"}}`
-  - review result: `{"event_type":"review_result","payload":{"memory_id":"m1","result":"confirmed","checked_at":"2026-03-14T10:00:00Z"}}`
-- input_format: `{ "event_type": "candidate"|"feedback"|"review_result", "payload": dict }`
-- output_format: `{ "memory_id": str, "owner_id": str, "kind": "profile"|"preference"|"fact"|"episode"|"social"|"uncertainty", "state": "candidate"|"confirmed"|"rejected"|"stale", "summary": str, "confidence": float, "evidence_refs": [str], "needs_review_at": str | null }`
-- testable_acceptance: candidate create must work. feedback reject must move state to `rejected`. review confirm must move state to `confirmed` and schedule next review. ship Supabase-ready SQL schema/migrations in the tool directory.
+  - `tools/memory_tool.py`
+  - `tools/session_search_tool.py`
+  - `hermes_state.py`
+  - `run_agent.py` memory flush / prompt rebuild sections
+- input_format: repo paths + docs references in Hermes repo
+- output_format: markdown summary in the cycle log covering `what is good`, `why it is good`, `what breaks for purr`, `what to reuse`, `what to avoid`
+- testable_acceptance: review must mention frozen prompt snapshot, bounded curated memory, transcript/session search layer, and at least 3 concrete limitations for purr.
 - status: queued
 - owner: code-worker
 - pick order: 1
 
-### memory-candidate-extractor
-- mission: M1 + M3
-- why: purr should learn from normal chat, but only structured memory candidates should survive.
+### purr-alignment-independent-brief
+- mission: M2 (Purr alignment)
+- why: builder must understand the creature before touching infra.
 - sample_inputs:
-  - explicit preference: `[{"role":"user","content":"kisa cevap ver"}]`
-  - correction: `[{"role":"user","content":"hayir ben bunu demedim, daha soguk olsun"}]`
-  - fluff: `[{"role":"user","content":"haha iyiymis"}]`
-- input_format: `{ "messages": [{"role": str, "content": str}], "session_id": str }`
-- output_format: `{ "candidates": [{"kind": str, "summary": str, "confidence": float, "reason": str, "needs_confirmation": bool, "evidence_refs": [str]}] }`
-- testable_acceptance: explicit preferences/corrections must produce candidates. generic fluff must produce none. ambiguous statements must set `needs_confirmation=true`.
+  - `notes/boards/purr-alignment-brief.md`
+  - landing copy and product text from user
+  - World mini app / webview constraint
+- input_format: repo docs + product copy
+- output_format: cycle-log summary of `what purr is`, `what purr is not`, `memory implications`, `tone constraints`, `anti-patterns`
+- testable_acceptance: brief must explicitly reject `dashboard pet`, `visible tool-call theater`, and `generic wholesome assistant cat`. must explain why memory is the product.
 - status: queued
 - owner: code-worker
 - pick order: 2
 
-### memory-context-packer
-- mission: M2 (retrieval + prompt budget)
-- why: the model needs the right memory, not all memory.
+### tool-boundary-and-mobile-note
+- mission: M3 (tool boundary + mobile reality)
+- why: before build, we need a clear stance on whether tools are user-visible and what webview/mobile changes.
 - sample_inputs:
-  - query about tone with 20 mixed memory items and budget 700 chars
-  - query about a recent topic with old confirmed profile memories plus fresh episode memories
-  - duplicate preference memories that should collapse into one line
-- input_format: `{ "query": str, "memory_items": [dict], "budget_chars": int, "session_context": {"owner_id": str, "purr_id": str | null} }`
-- output_format: `{ "selected": [dict], "packed_text": str, "used_chars": int, "dropped_ids": [str] }`
-- testable_acceptance: must stay under budget. confirmed relevant preferences must outrank stale episodes. duplicate memories must collapse. output must be deterministic for the same input.
+  - Purr 1:1 chat experience
+  - internal memory maintenance needs
+  - World mini app webview/mobile environment
+- input_format: product constraints from repo docs
+- output_format: cycle-log note with 3 sections: `internal tools`, `user-visible tools`, `mobile/webview constraints`
+- testable_acceptance: note must give a direct first-pass answer on user-visible tools and call out server-side persistence + notification/re-entry constraints.
 - status: queued
 - owner: code-worker
 - pick order: 3
 
-### feedback-orchestrator
-- mission: M3 (human feedback loops)
-- why: purr needs a policy for when to ask `bunu mu kastettin?` and when to chill.
+### phase-one-build-order
+- mission: M4 (implementation plan, not implementation)
+- why: after research we need a clean sequence, not random building.
 - sample_inputs:
-  - high-confidence correction with direct conflict to existing confirmed memory
-  - low-confidence ambiguous candidate during a fast back-and-forth chat
-  - minor preference candidate right after two recent clarification prompts
-- input_format: `{ "candidate": dict, "conversation_state": {"turns_since_last_check": int, "recent_checks": int, "message_velocity": "low"|"mid"|"high"}, "existing_memory": [dict] }`
-- output_format: `{ "action": "ask_now"|"defer"|"store_silent"|"drop", "prompt": str | null, "reason": str }`
-- testable_acceptance: direct contradictions to confirmed memory must prefer `ask_now` or `defer`, not silent-store. low-signal candidates during high-velocity chat must avoid interrupting. repeated recent checks must reduce ask frequency.
+  - Hermes review
+  - Purr alignment brief
+  - tool/mobile note
+  - parked build candidates below
+- input_format: existing repo docs and parked tasks
+- output_format: ordered plan in cycle log naming the first 3 implementation slices and why
+- testable_acceptance: must choose a first implementation slice and justify why it beats the others. must keep flashy/social features behind core memory work.
 - status: queued
 - owner: code-worker
 - pick order: 4
 
-### memory-review-queue
-- mission: M3 + M2
-- why: memory rots unless some of it gets rechecked.
-- sample_inputs:
-  - a confirmed preference last checked 90 days ago
-  - a rejected memory from yesterday
-  - an uncertainty memory never confirmed but referenced often
-- input_format: `{ "memory_items": [dict], "now": str, "daily_check_cap": int }`
-- output_format: `{ "queue": [{"memory_id": str, "priority": float, "reason": str, "suggested_prompt": str}], "skipped": [str] }`
-- testable_acceptance: stale confirmed items and high-use uncertainty items should enter the queue. fresh rejected items should stay out. queue length must respect the cap.
-- status: queued
-- owner: code-worker
-- pick order: 5
-
 ---
 
-## parked — later
+## parked — build after research
+
+### memory-ledger
+- mission: later M1 build
+- why parked: good candidate for first build slice after research lock
+- status: parked
+
+### memory-candidate-extractor
+- mission: later M1/M3 build
+- why parked: depends on final memory model and feedback rules
+- status: parked
+
+### memory-context-packer
+- mission: later M2 build
+- why parked: depends on agreed retrieval budget + ranking logic
+- status: parked
+
+### feedback-orchestrator
+- mission: later M3 build
+- why parked: depends on agreed clarification policy
+- status: parked
+
+### memory-review-queue
+- mission: later M3/M2 build
+- why parked: depends on final state model and anti-spam review rules
+- status: parked
 
 ### social-memory-graph
 - mission: future catnet work
-- why parked: first ship the single-purr memory spine
+- why parked: not before single-purr memory works
 - status: parked
 
 ### multimodal-memory-ingest
 - mission: future
-- why parked: text loop first, images/audio later
+- why parked: text loop first
 - status: parked
 
 ### purr-world-sim
 - mission: future social simulation
-- why parked: do not build the city before memory works
+- why parked: city comes after memory spine
 - status: parked
