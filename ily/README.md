@@ -9,6 +9,7 @@ chatten tek tek sormadan bak diye acildi.
 - `02-purr-app-memory-architecture.md` — guclu memory/chat app yapisi, next.js lane, cost ve tooling dusuncesi
 - `03-catnet-markets.md` — Catnet heartbeat, otonomi, prediction market lane'leri
 - `04-open-questions.md` — yarin konusalim diye birakilan net sorular
+- `05-hermes-memory-behavioral-teardown.md` — Hermes memory'nin gizli davranis loop'lari, failure mode'lari, neyi calmamiz gerektigi
 
 ## not
 aktif build lane arastirma-first modda.
