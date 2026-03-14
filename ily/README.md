@@ -17,6 +17,7 @@ chatten tek tek sormadan bak diye acildi.
 - `10-catnet-autonomy-heartbeat-architecture.md` — Catnet wakeups, should-act gating, budgets/cooldowns, autonomy boundaries, memory firewall, failure modes
 - `11-purr-session-scope-and-episode-lineage-contract.md` — owner/purr scoping, session window vs episode split, re-entry continuation rules, exact-hit retrieval, pack ownership boundaries
 - `12-purr-memory-claim-shapes-evidence-and-selection-contract.md` — extractor -> ledger -> packer shared contract, typed memory kinds, exact evidence refs, merge/supersede rules, pack-candidate read model
+- `13-purr-memory-ledger-schema-mutation-and-invariants-contract.md` — first build-slice schema contract for Supabase/Postgres: durable object families, atomic mutation flows, invariants, RLS/index posture, and acceptance tests
 
 ## not
 aktif build lane arastirma-first modda.

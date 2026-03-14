@@ -193,9 +193,28 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: repo docs + latest Hermes evidence-loss findings
 - output_format: cycle-log note covering `v1 memory kinds`, `shared envelope`, `exact evidence contract`, `extractor output schema`, `merge/supersede keys`, `pack-candidate read model`
 - testable_acceptance: must define at least 6 typed v1 memory kinds, preserve exact evidence spans, define `subject_key` + `dedupe_key`, explain when to merge vs supersede vs keep episode-scoped, and describe a packer-facing read model that gates trust before ranking.
-- status: queued
-- owner: code-worker
+- status: done
+- completion_evidence: `ily/12-purr-memory-claim-shapes-evidence-and-selection-contract.md`
+- owner: both
 - pick order: 10
+
+### memory-ledger-schema-mutation-and-invariants-contract-note
+- mission: M1 + M4 (Hermes memory teardown + implementation plan)
+- why: first build slice is already chosen as `memory-ledger`, but low-context builders still need the exact Supabase/Postgres object boundaries, atomic mutation rules, and invariants before research-first mode can hand off cleanly.
+- sample_inputs:
+  - `ily/08-purr-memory-lifecycle-and-feedback-state-machine.md`
+  - `ily/09-purr-retrieval-context-packer-and-pack-lifecycle.md`
+  - `ily/11-purr-session-scope-and-episode-lineage-contract.md`
+  - `ily/12-purr-memory-claim-shapes-evidence-and-selection-contract.md`
+  - `notes/boards/hermes-memory-review.md`
+  - `logs/code-worker/2026-03-15-00c.md`
+- input_format: repo docs + first-slice build-order conclusion
+- output_format: cycle-log note covering `core tables/views`, `immutable vs mutable objects`, `merge/challenge/supersede transactions`, `RLS/index posture`, `acceptance tests`
+- testable_acceptance: must define at least 7 durable object families, an honest active-truth uniqueness rule, exact evidence backpointer rules, atomic mutation requirements, suppression rules for challenged/superseded truth in the packer-facing view, and an explicit `no vector in v1 ledger slice` stance.
+- status: done
+- completed_cycle: 2026-03-14-22
+- owner: gooner
+- pick order: 11
 
 ---
 
@@ -203,17 +222,17 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 
 ### memory-ledger
 - mission: later M1 build
-- why parked: good candidate for first build slice after research lock
+- why parked: first build slice after research lock; consume `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md` before touching schema/API work
 - status: parked
 
 ### memory-candidate-extractor
 - mission: later M1/M3 build
-- why parked: depends on final memory model and feedback rules
+- why parked: depends on the note-12 candidate/evidence contract and the note-13 ledger mutation boundaries
 - status: parked
 
 ### memory-context-packer
 - mission: later M2 build
-- why parked: depends on agreed retrieval budget + ranking logic
+- why parked: depends on agreed retrieval budget + ranking logic and the note-13 pack-candidate read-model boundary
 - status: parked
 
 ### feedback-orchestrator
