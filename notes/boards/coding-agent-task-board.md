@@ -97,7 +97,9 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: repo docs + memory architecture notes
 - output_format: cycle-log note covering `prediction memory kinds`, `horizons`, `retrieval budget`, `background jobs`, `failure modes`
 - testable_acceptance: must explicitly define `pattern_signal`, `open_loop`, and `next_action_candidate`; must separate turn-critical hidden ops vs deferred maintenance vs heartbeat jobs; must keep prediction as backend memory signal, not flashy user-facing feature.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-00b
+- completed_cycle: 2026-03-15-00b
 - owner: code-worker
 - pick order: 5
 
@@ -113,7 +115,9 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: repo docs + memory architecture notes
 - output_format: cycle-log note covering `canonical states`, `ask_now/defer/silent_store/drop rules`, `contradiction handling`, `review cadence`, `retrieval/proactive gating`
 - testable_acceptance: must define a small canonical lifecycle, explain how same-session corrections hit a live override lane, define when challenged/stale memories are suppressed from the pack, and give anti-spam review caps.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-00b
+- completed_cycle: 2026-03-15-00b
 - owner: code-worker
 - pick order: 6
 
@@ -130,7 +134,9 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: repo docs + Hermes budget discipline read
 - output_format: cycle-log note covering `pack artifacts`, `slot caps`, `budget envelopes`, `patch vs rebuild triggers`, `mobile re-entry behavior`
 - testable_acceptance: must define separate `session_pack`, `turn_delta_pack`, `reentry_pack`, and `proactive_pack`; must give concrete budget/slot rules; must explain why free-tier cuts should hit throughput/model/proactivity before memory integrity.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-00b
+- completed_cycle: 2026-03-15-00b
 - owner: code-worker
 - pick order: 7
 
