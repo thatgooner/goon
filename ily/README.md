@@ -13,6 +13,7 @@ chatten tek tek sormadan bak diye acildi.
 - `06-purr-prediction-and-background-memory-ops.md` — pattern tracking, next-move prediction, bg memory ops, review/proactive timing lane'i
 - `07-hermes-memory-code-grounded-hidden-logic.md` — Hermes code'un icindeki gercek control loop'lar, hidden bug'lar, scoping/lineage failure map'i
 - `08-purr-memory-lifecycle-and-feedback-state-machine.md` — canonical memory lifecycle, ask/defer/silent/drop policy, contradiction overlays, review cadence, retrieval/proactive gating
+- `09-purr-retrieval-context-packer-and-pack-lifecycle.md` — bounded pack artifacts, slot caps, token budgets, patch vs rebuild rules, mobile re-entry continuity
 
 ## not
 aktif build lane arastirma-first modda.

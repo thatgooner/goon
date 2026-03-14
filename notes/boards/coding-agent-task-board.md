@@ -108,6 +108,23 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: code-worker
 - pick order: 6
 
+### retrieval-context-packer-and-pack-lifecycle-note
+- mission: M1 + M3 (Hermes memory teardown + tool boundary/mobile reality)
+- why: the repo now has memory kinds, lifecycle, contradiction handling, and prediction lanes, but the actual bounded pack contract is still the missing bridge between the ledger and the prompt.
+- sample_inputs:
+  - `ily/02-purr-app-memory-architecture.md`
+  - `ily/06-purr-prediction-and-background-memory-ops.md`
+  - `ily/08-purr-memory-lifecycle-and-feedback-state-machine.md`
+  - `ily/09-purr-retrieval-context-packer-and-pack-lifecycle.md`
+  - `notes/boards/hermes-memory-review.md`
+  - `notes/boards/purr-alignment-brief.md`
+- input_format: repo docs + Hermes budget discipline read
+- output_format: cycle-log note covering `pack artifacts`, `slot caps`, `budget envelopes`, `patch vs rebuild triggers`, `mobile re-entry behavior`
+- testable_acceptance: must define separate `session_pack`, `turn_delta_pack`, `reentry_pack`, and `proactive_pack`; must give concrete budget/slot rules; must explain why free-tier cuts should hit throughput/model/proactivity before memory integrity.
+- status: queued
+- owner: code-worker
+- pick order: 7
+
 ### phase-one-build-order
 - mission: M4 (implementation plan, not implementation)
 - why: after research we need a clean sequence, not random building.
@@ -118,13 +135,14 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
   - Catnet/market note
   - prediction/timing note
   - lifecycle/feedback state-machine note
+  - retrieval/context-packer note
   - parked build candidates below
 - input_format: existing repo docs and parked tasks
 - output_format: ordered plan in cycle log naming the first 3 implementation slices and why
 - testable_acceptance: must choose a first implementation slice and justify why it beats the others. must keep flashy/social features behind core memory work.
 - status: queued
 - owner: code-worker
-- pick order: 7
+- pick order: 8
 
 ---
 
