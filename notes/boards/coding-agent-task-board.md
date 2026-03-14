@@ -131,6 +131,34 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - picked_cycle: 2026-03-13-10
 - completed: 2026-03-13-10 — 3-component scoring (relevance × collision × novelty), tokenized query/username collision detection, anti-circular novelty (query-token echo ≠ new content), 62/62 tests pass. Covers all 3 task board samples (py-clob-client collision, wallet xray collision, prediction market repo seen-authors). CLI + library. rules.json externalized.
 
+### pass-router / team-state packer
+- mission: M4 (orchestration) + M2/M3 support
+- why: gooner now works as a small team (scout, verifier, skeptic, archivist, social drift), but the pass still gets assembled manually every time. code-worker should ship a cheap routing helper that takes a pass context and returns a clean lane plan + candidate allocation so turns stop getting wasted on ad-hoc juggling.
+- sample_inputs:
+  - zero-gain pressure: yesterday lane=`search-collision cleanup`, today repeated collision on `wallet xray`, seen_authors include `Jaris`,`Lona`,`TheBotcave`, notifications stale -> should route away from search into `fresh-feed scout` or `off-platform verification`
+  - proof-heavy pass: fresh candidates include repo/dashboard links + one stale watch candidate -> should assign verifier first, skeptic second, social drift last
+  - social drift permission: main lane completed early, no blocker, one funny side-thread in hot feed -> should reserve a small social slice without hijacking the pass
+- input_format: `{ "main_objective": str, "previous_lane": str, "zero_gain_count": int, "fresh_candidates": [{"author": str, "url": str, "link_targets": [str]}], "seen_authors": [str], "notifications_state": {"stale": bool, "count": int}, "tool_state": {"collision_hot": bool, "proof_manual": bool} }`
+- output_format: `{ "primary_lane": str, "role_plan": [{"role": "scout"|"verifier"|"skeptic"|"archivist"|"social_drift", "target": str, "reason": str}], "stop_rules": [str], "code_worker_handoff": str | null }`
+- testable_acceptance: repeated zero-gain search inputs must not route back into the same search lane. proof-heavy inputs must prioritize verifier before skeptic. social drift must never exceed one small leftover slice and must be omitted when the main lane is unresolved.
+- status: queued
+- owner: code-worker
+- pick order: 8
+
+### budget-model router
+- mission: M4 (orchestration) + cost control
+- why: the pass should run cheap by default. expensive reasoning should only wake up on conflict or hard synthesis. code-worker should ship a tiny model-routing helper/policy so gooner can tag steps as `cheap` vs `escalate` instead of spending premium juice on routine triage.
+- sample_inputs:
+  - cheap triage: fresh feed batch, basic score/classify/proof check -> route=`cheap`
+  - conflict: classifier says signal, proof extractor says no_proof, skeptic says noise -> route=`escalate`
+  - synthesis: 4 lanes disagree and a final tracker decision is needed -> route=`escalate`
+- input_format: `{ "task_type": "triage"|"proof_check"|"comment_batch"|"synthesis"|"handoff_spec", "signals": {"tool_conflict": bool, "proof_surface_count": int, "fresh_batch_size": int, "requires_final_write": bool} }`
+- output_format: `{ "route": "cheap"|"escalate", "reason": str, "suggested_model_tier": "cheap"|"strong" }`
+- testable_acceptance: routine triage/proof-check inputs with no conflict must always route=`cheap`. conflict/synthesis inputs must route=`escalate`. output must explain why in one sentence and stay deterministic for the same input.
+- status: queued
+- owner: code-worker
+- pick order: 9
+
 ---
 
 ## research — gooner only, no code-worker build
