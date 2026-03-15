@@ -29,6 +29,7 @@ eger teknik notlar fazla derinse, once buna bak:
 - `19-purr-pattern-rollups-proactive-preflight-and-cost-tier-contract.md` — the missing bridge from raw prediction memory to texting-first behavior: derived pattern/timing/posture artifacts, the private `should_text_first?` gate, tiny `proactive_pack` slots, conservative budgets/cooldowns, and cost-tier rules so proactive stays sharp without spam or prompt bloat
 - `20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md` — the missing trust-update layer for memory quality: feedback surfaces, passive vs explicit review outcomes, no-signal semantics, queue-vs-truth state split, and propagation rules so Purr verifies with taste instead of turning into a needy admin cat
 - `21-purr-research-consolidated-state-and-build-handoff.md` — consolidation pass: what is locked, where agents agree, overlap/gap check, source-of-truth map, first build slice handoff, and the 3 concrete next tasks before build starts
+- `22-hermes-dogfood-memory-backend-evaluation.md` — handoff question for code-worker: should ambiguous memory updates use a judge layer, and should the Purr memory backbone be dogfooded inside Hermes first before direct Purr build
 
 ## not
 aktif build lane arastirma-first modda.

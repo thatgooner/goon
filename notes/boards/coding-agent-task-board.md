@@ -359,6 +359,28 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 18
 
+### hermes-dogfood-memory-judge-and-integration-eval
+- mission: M4 pre-build validation / dogfood strategy
+- why: before committing the Purr memory spine directly into the product, we want one pressure-test on two open strategic questions: should ambiguous memory updates use a narrower reasoning/judge layer on top of the deterministic ledger pipeline, and should the first live dogfood happen inside Hermes (where Ilyas is already talking on Telegram) before direct Purr integration.
+- sample_inputs:
+  - `ily/21-purr-research-consolidated-state-and-build-handoff.md`
+  - `ily/22-hermes-dogfood-memory-backend-evaluation.md`
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+  - `ily/15-purr-private-chat-move-planner-and-prediction-calibration-contract.md`
+  - `ily/18-purr-hidden-cognition-runtime-and-background-job-graph.md`
+  - `ily/20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md`
+  - `vendor/hermes-agent/run_agent.py`
+  - `vendor/hermes-agent/hermes_state.py`
+  - `vendor/hermes-agent/tools/memory_tool.py`
+  - `vendor/hermes-agent/tools/session_search_tool.py`
+- input_format: existing Purr memory contracts + Hermes memory runtime surface + explicit user context that Ilyas is actively talking to Hermes on Telegram now
+- output_format: cycle-log note covering `deterministic backbone vs judge layer`, `where agentic judgment can/cannot sit`, `Hermes-first dogfood verdict`, `phased rollout inside Hermes`, `instrumentation/debug posture`, `success signals`, and `kill signals`
+- testable_acceptance: must explicitly keep source-event append / evidence refs / mutation transactions / hard pack budgets deterministic; must give a direct yes/no/partial on Hermes-first dogfood; if yes, must define at least 4 phases (shadow ledger, read-only pack compare, correction override, later review/proactive); must clearly say Hermes dogfood is backend-memory validation, not "turn Hermes into Purr"; must state whether this changes build order or only test order.
+- status: queued
+- owner: code-worker
+- pick order: 19
+
 ---
 
 ## parked — build after research
