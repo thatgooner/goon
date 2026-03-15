@@ -377,7 +377,10 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: existing Purr memory contracts + Hermes memory runtime surface + explicit user context that Ilyas is actively talking to Hermes on Telegram now
 - output_format: cycle-log note covering `deterministic backbone vs judge layer`, `where agentic judgment can/cannot sit`, `Hermes-first dogfood verdict`, `phased rollout inside Hermes`, `instrumentation/debug posture`, `success signals`, and `kill signals`
 - testable_acceptance: must explicitly keep source-event append / evidence refs / mutation transactions / hard pack budgets deterministic; must give a direct yes/no/partial on Hermes-first dogfood; if yes, must define at least 4 phases (shadow ledger, read-only pack compare, correction override, later review/proactive); must clearly say Hermes dogfood is backend-memory validation, not "turn Hermes into Purr"; must state whether this changes build order or only test order.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-18
+- completed_cycle: 2026-03-15-18
+- completion_evidence: `ily/23-hermes-dogfood-judge-layer-and-integration-verdict.md`
 - owner: code-worker
 - pick order: 19
 
