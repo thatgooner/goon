@@ -116,6 +116,7 @@ it SHOULD mean:
 - purr extracts memory candidates from it
 - purr confirms / rejects / revisits memories
 - purr retrieves the right details when they matter
+- purr uses prediction mostly to steer hidden move selection and timing, not to flex explicit mind-reading
 - purr can weaponize continuity for humor, intimacy, and timing
 
 ## memory categories purr probably needs

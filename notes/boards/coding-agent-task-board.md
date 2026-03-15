@@ -234,6 +234,27 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 12
 
+### private-chat-move-planner-and-prediction-calibration-contract-note
+- mission: M1 + M2 + M3 + M4 (Hermes memory teardown + Purr alignment + tool boundary/mobile reality + implementation plan)
+- why: the repo now has prediction memory kinds, pack artifacts, ledger schema, and runtime write safety, but it still lacked the hidden 1:1 decision layer that turns those signals into better replies instead of prompt sludge. without this, `feels one step ahead of me` stays vibes instead of a bounded contract.
+- sample_inputs:
+  - `ily/06-purr-prediction-and-background-memory-ops.md`
+  - `ily/09-purr-retrieval-context-packer-and-pack-lifecycle.md`
+  - `ily/10-catnet-autonomy-heartbeat-architecture.md`
+  - `ily/12-purr-memory-claim-shapes-evidence-and-selection-contract.md`
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+  - `notes/boards/purr-alignment-brief.md`
+  - `notes/boards/hermes-memory-review.md`
+- input_format: repo docs + latest Hermes runtime findings + prediction/timing notes
+- output_format: note covering `should_reply_how gate`, `reply move classes`, `planner artifact`, `prediction visibility tiers`, `hit/miss/null semantics`, `planner feedback loop`
+- testable_acceptance: must define a hidden private-chat move planner distinct from Catnet `should_act?`, force one primary move per reply, keep most prediction backend-only, define explicit hit/miss/null outcomes per horizon, and separate signal-quality feedback from move-quality feedback.
+- status: done
+- completed_cycle: 2026-03-15-01b
+- completion_evidence: `ily/15-purr-private-chat-move-planner-and-prediction-calibration-contract.md`
+- owner: gooner
+- pick order: 13
+
 ---
 
 ## parked — build after research

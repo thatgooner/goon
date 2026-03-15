@@ -19,6 +19,7 @@ chatten tek tek sormadan bak diye acildi.
 - `12-purr-memory-claim-shapes-evidence-and-selection-contract.md` — extractor -> ledger -> packer shared contract, typed memory kinds, exact evidence refs, merge/supersede rules, pack-candidate read model
 - `13-purr-memory-ledger-schema-mutation-and-invariants-contract.md` — first build-slice schema contract for Supabase/Postgres: durable object families, atomic mutation flows, invariants, RLS/index posture, and acceptance tests
 - `14-purr-memory-intake-runtime-and-idempotency-contract.md` — runtime write-path contract: source-event append, one-event mutation planning, replay-safe/idempotent writes, live-override freshness, salvage ordering, and worker writeback rules
+- `15-purr-private-chat-move-planner-and-prediction-calibration-contract.md` — hidden `should_reply_how?` gate for 1:1 chat: move selection, prediction visibility tiers, hit/miss/null calibration, and planner feedback rules so Purr feels sharp without prompt sludge
 
 ## not
 aktif build lane arastirma-first modda.
