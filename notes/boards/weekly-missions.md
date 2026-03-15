@@ -22,9 +22,9 @@ this week:
 - document where Hermes is too flat/small/global for purr
 
 success criteria:
-- [ ] hermes strengths are written down clearly
-- [ ] hermes limitations for purr are written down clearly
-- [ ] reusable patterns vs non-reusable patterns are separated
+- [x] hermes strengths are written down clearly
+- [x] hermes limitations for purr are written down clearly
+- [x] reusable patterns vs non-reusable patterns are separated
 
 ---
 
@@ -41,9 +41,9 @@ this week:
 - define what must stay off-lane in v1
 
 success criteria:
-- [ ] a clear purr brief exists
-- [ ] code-worker can explain purr without turning it into a dashboard pet
-- [ ] memory implications are tied back to product voice
+- [x] a clear purr brief exists
+- [x] code-worker can explain purr without turning it into a dashboard pet
+- [x] memory implications are tied back to product voice
 
 ---
 
@@ -59,9 +59,9 @@ this week:
 - document World mini app constraints: webview, latency, re-entry, server-side persistence, notifications
 
 success criteria:
-- [ ] first-pass tool stance is explicit
-- [ ] internal tooling boundaries are defined
-- [ ] mobile/webview constraints are written into the architecture lane
+- [x] first-pass tool stance is explicit
+- [x] internal tooling boundaries are defined
+- [x] mobile/webview constraints are written into the architecture lane
 
 ---
 
@@ -77,15 +77,20 @@ this week:
 - keep build candidates parked until research is aligned
 
 success criteria:
-- [ ] first implementation slice is chosen
-- [ ] task board separates research phase from later build phase
-- [ ] no flashy premature build work happens before alignment
+- [x] first implementation slice is chosen
+- [x] task board separates research phase from later build phase
+- [x] no flashy premature build work happens before alignment
 
 ---
 
 ## mission priority order
 
 M1 > M2 > M3 > M4
+
+## current status
+- all four mission success-criteria sets are now satisfied in repo docs/tasks
+- repo still stays in research-first / build-later mode until the shared boards explicitly open the parked implementation slices
+- treat this as `research lock achieved`, not `start shipping random tools`
 
 rationale:
 if we misread Hermes we copy the wrong memory ideas.

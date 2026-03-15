@@ -269,9 +269,35 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: repo docs + latest Hermes artifact-hygiene findings
 - output_format: cycle-log note covering `artifact planes`, `reuse vs patch vs rebuild`, `typed maintenance artifacts`, `exact-hit recall`, `atomic continuation handoff`, `prompt-material trust gates`
 - testable_acceptance: must separate immutable session snapshot from turn overlay; must forbid fake user/Purr maintenance records; must require exact-hit evidence before lineage recap; must forbid compaction-without-preservation; and must define one canonical active leaf for append/resume/re-entry.
-- status: queued
+- status: done
+- completed_cycle: 2026-03-15-03
+- completion_evidence: `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
 - owner: both
 - pick order: 14
+
+### hermes-memory-failure-matrix-prompt-recall-and-sinks-note
+- mission: M1 (Hermes memory teardown)
+- why: latest code pass made the cross-lane problem explicit — Hermes is strongest when prompt state is frozen as an artifact, but weaker where prompt-bound sinks, recall evidence, compression survival artifacts, and runtime scope rules do not share one trust/evidence contract. code-worker needs this map so future build work does not copy the seams by accident.
+- sample_inputs:
+  - `vendor/hermes-agent/run_agent.py`
+  - `vendor/hermes-agent/agent/context_compressor.py`
+  - `vendor/hermes-agent/tools/memory_tool.py`
+  - `vendor/hermes-agent/hermes_state.py`
+  - `vendor/hermes-agent/tools/session_search_tool.py`
+  - `vendor/hermes-agent/agent/prompt_builder.py`
+  - `vendor/hermes-agent/gateway/session.py`
+  - `vendor/hermes-agent/gateway/run.py`
+  - `ily/05-hermes-memory-behavioral-teardown.md`
+  - `ily/07-hermes-memory-code-grounded-hidden-logic.md`
+  - `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
+- input_format: repo docs + direct Hermes code inspection
+- output_format: note covering `prompt artifact lane`, `live memory sink lane`, `recall/search lane`, `compression/survival lane`, `scope lane`, plus a `steal vs reject` split
+- testable_acceptance: must explicitly separate snapshotted prompt material from API-only prompt additions; must call out summary-only recall + child-hit/root-collapse risk; must call out summary-failure truth loss and synthetic transcript artifacts; must call out sink-parity trust gaps; and must translate all of that into Purr rules instead of just criticism.
+- status: done
+- completed_cycle: 2026-03-15-03
+- completion_evidence: `ily/17-hermes-memory-failure-matrix-prompt-recall-and-sinks.md`
+- owner: gooner
+- pick order: 15
 
 ---
 

@@ -444,6 +444,31 @@ translation for Purr:
 related deeper note:
 - `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
 
+## new hard conclusion from the failure-matrix pass
+Hermes is not only a warning about flat truth shape, scope drift, freshness, and artifact hygiene.
+it is also a warning about **cross-lane alignment**:
+prompt artifacts,
+recall outputs,
+compression survival artifacts,
+and mutable memory sinks do not all follow the same scope/trust/evidence rules.
+
+most important adds from the latest pass:
+- exact cached system-prompt reuse is one of Hermes' strongest ideas, but not all prompt-bound inputs are snapshotted equally
+- the raw FTS/session store is better than the public recall surface; `session_search` can throw away exact-hit evidence by collapsing to root-session summaries
+- compression has strong salvage intent, but summary failure can still drop middle turns and structural repair can create fake transcript-shaped artifacts
+- context files, local memory files, and Honcho-derived recall do not share one unified admission/safety policy before they touch the model
+- gateway/session convenience keys are stronger in the runtime than hard per-user memory identity, which is acceptable for an agent and unacceptable for Purr
+
+translation for Purr:
+- every prompt-bound lane must share one admission and authority-label contract
+- exact-hit evidence has to survive before recap or lineage summary
+- maintenance artifacts must stay typed and filterable, never disguised as normal chat
+- owner_id + purr_id must dominate every recall/resume/pack lookup path
+- summary failure must fail closed on truth preservation, not silently thin the usable record
+
+related deeper note:
+- `ily/17-hermes-memory-failure-matrix-prompt-recall-and-sinks.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:
