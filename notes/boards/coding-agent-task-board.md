@@ -582,9 +582,29 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: existing planner/runtime/eval notes
 - output_format: note covering `reply-time outcome artifacts`, `signal vs move vs pack outcome split`, `horizon-closure ownership`, `writeback semantics for response_value/timing_value`, and `private reply-planner golden scenarios`
 - testable_acceptance: must explicitly freeze whether reply-time calibration lives in `memory_events`, typed maintenance artifacts, or a hybrid; must preserve separate `prediction_outcome`, `move_outcome`, and `pack_outcome` planes; must define at least 5 private reply-planner goldens; and must keep the whole seam backend-only rather than prompt-visible theater.
-- status: queued
+- status: done
+- completed_cycle: 2026-03-15-18c
+- completion_evidence: `ily/34-purr-private-reply-move-outcome-writeback-and-goldens.md`
 - owner: gooner
 - pick order: 29
+
+### reply-repair-boundary-and-outcome-hygiene-note
+- mission: M1 + M4 (Hermes memory teardown + implementation plan / eval discipline)
+- why: `ily/33` makes one thing obvious right after note 34: Hermes gets real continuity mileage from continuation repair, truncation recovery, and artifact-level handoff, but none of that automatically tells us how repaired/partial/private-chat turns should count in outcome calibration. without one explicit contract here, future builders can accidentally count repaired or synthetic control text as real move success, or let transcript rewrite/compression muddy reply-eval evidence.
+- sample_inputs:
+  - `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
+  - `ily/18-purr-hidden-cognition-runtime-and-background-job-graph.md`
+  - `ily/33-hermes-memory-runtime-quality-boosters-prefetch-repair-and-artifact-separation.md`
+  - `ily/34-purr-private-reply-move-outcome-writeback-and-goldens.md`
+  - `vendor/hermes-agent/run_agent.py`
+  - `vendor/hermes-agent/agent/context_compressor.py`
+  - `vendor/hermes-agent/hermes_state.py`
+- input_format: latest Purr runtime/eval notes + Hermes repair/compression code
+- output_format: note covering `repair artifact plane`, `partial turn states`, `move-outcome closure under truncation/retry`, `repair vs transcript truth`, and `repair-focused goldens`
+- testable_acceptance: must explicitly separate `repair_outcome` from `move_outcome`; must forbid synthetic repair/control text from counting as raw chat evidence or prompt-selection proof; must define how truncated/continued turns stay attached to one `plan_id`; and must give at least 4 goldens around truncation, retry, rollback, and compression handoff.
+- status: queued
+- owner: gooner
+- pick order: 30
 
 ---
 
