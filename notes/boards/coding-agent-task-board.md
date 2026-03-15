@@ -602,9 +602,28 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: latest Purr runtime/eval notes + Hermes repair/compression code
 - output_format: note covering `repair artifact plane`, `partial turn states`, `move-outcome closure under truncation/retry`, `repair vs transcript truth`, and `repair-focused goldens`
 - testable_acceptance: must explicitly separate `repair_outcome` from `move_outcome`; must forbid synthetic repair/control text from counting as raw chat evidence or prompt-selection proof; must define how truncated/continued turns stay attached to one `plan_id`; and must give at least 4 goldens around truncation, retry, rollback, and compression handoff.
-- status: queued
+- status: done
+- completed_cycle: 2026-03-15-20
+- completion_evidence: `ily/35-purr-reply-repair-boundary-and-outcome-hygiene.md`
 - owner: gooner
 - pick order: 30
+
+### reply-execution-attempts-and-transcript-normalization-contract-note
+- mission: M1 + M4 (Hermes memory teardown + implementation plan / eval discipline)
+- why: `ily/35` now cleanly separates repair hygiene from move quality, but the repo still does not have the exact durable contract for how one logical private reply becomes canonical transcript truth across streaming, tool loops, retries, and provider-specific multi-call behavior. without that note, low-context builders can still duplicate assistant turns, confuse stream/control artifacts for evidence, or lose idempotent finalization under retry/resume.
+- sample_inputs:
+  - `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
+  - `ily/18-purr-hidden-cognition-runtime-and-background-job-graph.md`
+  - `ily/34-purr-private-reply-move-outcome-writeback-and-goldens.md`
+  - `ily/35-purr-reply-repair-boundary-and-outcome-hygiene.md`
+  - `vendor/hermes-agent/run_agent.py`
+  - `vendor/hermes-agent/hermes_state.py`
+- input_format: latest Purr runtime/eval notes + Hermes reply persistence/restore code
+- output_format: note covering `reply_execution_attempt vs assistant_message_event`, `stream/delivery artifacts vs transcript truth`, `idempotent finalization`, `tool/result retry boundaries`, and `transcript-normalization goldens`
+- testable_acceptance: must explicitly define the durable difference between execution attempts and final transcript events; must forbid stream chunks and synthetic continuation prompts from counting as evidence; must define how one `plan_id` finalizes into at most one canonical assistant message under retry/resume; and must give at least 4 goldens covering duplicate finalization, streaming interruption, tool-call retry, and restore/resume normalization.
+- status: queued
+- owner: gooner
+- pick order: 31
 
 ---
 

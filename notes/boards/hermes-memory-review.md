@@ -513,6 +513,25 @@ translation for Purr:
 related deeper note:
 - `ily/33-hermes-memory-runtime-quality-boosters-prefetch-repair-and-artifact-separation.md`
 
+## new hard conclusion from the repair / outcome hygiene pass
+Hermes is not only a lesson in runtime choreography.
+it is also a warning about **repaired-turn contamination**.
+
+most important adds from the latest pass:
+- Hermes repair loops can preserve continuity by continuing truncated or ack-style bad replies, but the synthetic continuation/control text can persist as normal conversation-shaped history
+- one logical answer can splinter across multiple assistant/runtime turns without a strong durable `one plan -> many attempts -> one final reply` contract
+- compression can later summarize repair/control artifacts, which turns runtime scaffolding into fake relationship history
+- restored history can keep the repair-shaped text while losing the metadata that said `this was incomplete/repair-only`
+
+translation for Purr:
+- keep `repair_outcome` separate from `move_outcome`, `prediction_outcome`, and `pack_outcome`
+- store generation attempts and repair/control artifacts in typed runtime lanes, not transcript truth
+- allow one logical reply to span many attempts under one plan id, but finalize into at most one canonical assistant message
+- never let synthetic continuation prompts, retry nudges, or partial control text become evidence, recall proof, or pack-worthy memory
+
+related deeper note:
+- `ily/35-purr-reply-repair-boundary-and-outcome-hygiene.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:
