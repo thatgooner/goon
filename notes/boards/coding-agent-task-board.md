@@ -299,6 +299,27 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 15
 
+### hidden-cognition-runtime-and-background-job-graph-note
+- mission: M1 + M3 + M4 (Hermes memory teardown + tool boundary/mobile reality + implementation plan)
+- why: latest Hermes trigger-map pass plus the newer Purr contracts still left one missing handoff for builders — which invisible jobs are truly turn-critical, which are boundary-critical, which are deferred maintenance, and which belong in proactive heartbeat only. without this split, people will either rebuild too much on the hot path or smuggle memory tooling into visible chat theater.
+- sample_inputs:
+  - `vendor/hermes-agent/run_agent.py`
+  - `vendor/hermes-agent/gateway/run.py`
+  - `vendor/hermes-agent/gateway/session.py`
+  - `vendor/hermes-agent/tools/session_search_tool.py`
+  - `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+  - `ily/15-purr-private-chat-move-planner-and-prediction-calibration-contract.md`
+  - `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
+  - `ily/17-hermes-memory-failure-matrix-prompt-recall-and-sinks.md`
+- input_format: Hermes trigger/control findings + latest Purr runtime contracts
+- output_format: note covering `turn-critical lane`, `boundary-critical lane`, `deferred maintenance lane`, `proactive heartbeat lane`, and `internal tool boundary`
+- testable_acceptance: must explicitly require source-event append before hot-path extraction, keep same-turn freshness in a tiny committed overlay instead of full rebuild, define salvage/handoff ordering for compaction or mobile re-entry, set stricter rules for proactive jobs than normal replies, and keep these jobs backend-only rather than user-facing tool ceremony.
+- status: done
+- completed_cycle: 2026-03-15-04
+- completion_evidence: `ily/18-purr-hidden-cognition-runtime-and-background-job-graph.md`
+- owner: gooner
+- pick order: 16
+
 ---
 
 ## parked — build after research

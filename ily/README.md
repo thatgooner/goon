@@ -22,6 +22,7 @@ chatten tek tek sormadan bak diye acildi.
 - `15-purr-private-chat-move-planner-and-prediction-calibration-contract.md` — hidden `should_reply_how?` gate for 1:1 chat: move selection, prediction visibility tiers, hit/miss/null calibration, and planner feedback rules so Purr feels sharp without prompt sludge
 - `16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md` — session-epoch contract for what the model actually reads: immutable snapshot packs, tiny overlays, typed maintenance artifacts, exact-hit recall, atomic continuation handoff, and dual-gated prompt-material safety
 - `17-hermes-memory-failure-matrix-prompt-recall-and-sinks.md` — cross-lane Hermes teardown: where prompt artifacts, recall evidence, compression survival artifacts, and memory sinks stay aligned vs quietly diverge; locks the Purr rule that every prompt-bound lane must share one scope/trust/evidence contract
+- `18-purr-hidden-cognition-runtime-and-background-job-graph.md` — runtime map for invisible Purr cognition: turn-critical ops, salvage/handoff boundaries, deferred maintenance, proactive heartbeat jobs, and the hard rule that this all stays backend-only instead of turning into tool theater
 
 ## not
 aktif build lane arastirma-first modda.

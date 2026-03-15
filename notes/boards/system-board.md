@@ -75,6 +75,7 @@ kill a thread when it produces:
 - confirmation and correction are part of the product, not edge cases
 - silent accumulation without verification will rot
 - full memory dumps into the prompt will get too expensive too fast
+- internal cognition should stay split into 4 invisible lanes: turn-critical reply ops, boundary-critical salvage/handoff, deferred maintenance, and proactive heartbeat
 
 ## operational rules
 ### mission gates
