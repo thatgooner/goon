@@ -399,7 +399,10 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: prior judge-layer verdict + explicit follow-up question about a slower higher-level referee layer sitting above, not inside, the deterministic memory pipeline
 - output_format: cycle-log note covering `is referee layer useful`, `offline auditor vs escalation path vs repair worker`, `what it must never do`, `what should trigger it`, `runtime form`, `does it help Hermes dogfood`, and `build-order impact`
 - testable_acceptance: must give a direct yes/no/partial; must explicitly preserve deterministic ownership of source-event append / evidence refs / mutation contracts / hard budgets; must compare no-referee vs offline auditor vs escalation path vs repair worker; must say whether a true subagent is useful or overkill here; must clearly state whether this should exist before dogfood, during dogfood, or only much later.
-- status: queued
+- status: done
+- picked_cycle: 2026-03-15-19
+- completed_cycle: 2026-03-15-19
+- completion_evidence: `ily/25-memory-health-auditor-verdict.md`
 - owner: code-worker
 - pick order: 20
 
