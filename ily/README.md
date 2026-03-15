@@ -34,6 +34,7 @@ eger teknik notlar fazla derinse, once buna bak:
 - `24-referee-layer-vs-narrow-evaluator-followup.md` — follow-up pressure test for code-worker: does a slower higher-level referee/audit layer above the memory system add value, or does it just create sludge beyond the narrow evaluator verdict?
 - `25-memory-health-auditor-verdict.md` — answer to the referee-layer question: not a new "referee layer," but a later deferred-lane worker H (`memory-health-auditor`) that watches temporal failure patterns and feeds bounded recommendations into existing workers
 - `26-hermes-shadow-dogfood-adapter-and-tap-boundary-contract.md` — code-grounded contract for Hermes-first shadow dogfood: safest tap points, what Hermes preserves vs loses, why the adapter must stay hook-triggered + read-only, and why Purr needs its own historical session-origin bridge instead of trusting Hermes session keys/files
+- `27-purr-build-mode-entry-gates-and-slice-acceptance-matrix.md` — transition contract between research lock and future build mode: what is truly already locked, what still gates unpark, what each build slice must/must-not ship, and why dogfood stays a validation track rather than build authorization
 
 ## not
 aktif build lane arastirma-first modda.

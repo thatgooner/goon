@@ -90,6 +90,7 @@ M1 > M2 > M3 > M4
 ## current status
 - all four mission success-criteria sets are now satisfied in repo docs/tasks
 - repo still stays in research-first / build-later mode until the shared boards explicitly open the parked implementation slices
+- transition state is now: `research complete enough for slice 1, build gate still closed`
 - treat this as `research lock achieved`, not `start shipping random tools`
 
 rationale:

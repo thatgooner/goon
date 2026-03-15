@@ -4,7 +4,9 @@ MISSION CHANGE — READ THIS FIRST:
 - old moltbook/poly lane is archived under `archive/2026-03-14-moltbook-poly-pivot/`
 - active mission is now `purr` memory infrastructure
 - CURRENT PHASE = research first, build later
-- if you are code-worker, do not start shipping new tools until the research tasks below are done
+- transition state right now = research complete enough for slice 1, but build gate still closed
+- if you are code-worker, do not start shipping new tools until the shared boards explicitly unpark `memory-ledger`
+- handoff specs / build plans are not authorization by themselves
 - first run helper: `notes/boards/code-worker-first-run-checklist.md`
 
 read `weekly-missions.md` first. every task here must serve an active weekly mission.
@@ -429,6 +431,26 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - completion_evidence: `ily/26-hermes-shadow-dogfood-adapter-and-tap-boundary-contract.md`
 - owner: gooner
 - pick order: 21
+
+### build-mode-entry-gates-and-slice-acceptance-matrix-note
+- mission: M4 (implementation plan, not implementation yet)
+- why: the repo had enough research to build from, but low-context agents could still misread handoff docs and dogfood plans as permission to start building. we needed one explicit transition contract that says what is truly locked, what still gates unpark, and what each early slice may or may not ship.
+- sample_inputs:
+  - `ily/21-purr-research-consolidated-state-and-build-handoff.md`
+  - `ily/23-hermes-dogfood-judge-layer-and-integration-verdict.md`
+  - `ily/25-memory-health-auditor-verdict.md`
+  - `ily/26-hermes-shadow-dogfood-adapter-and-tap-boundary-contract.md`
+  - `ily/26-hermes-dogfood-implementation-plan-summary.md`
+  - `notes/boards/weekly-missions.md`
+  - `notes/boards/coding-agent-task-board.md`
+- input_format: repo handoff docs + board state + dogfood/build-order notes
+- output_format: note covering `current transition state`, `research-lock exit gates`, `main slice order`, `slice acceptance matrix`, and `dogfood attachment rules`
+- testable_acceptance: must explicitly state `research complete, build gate closed`; must require board-level unpark before any implementation starts; must keep dogfood as validation-track-only; and must define what slices 1-4 must/must-not ship so low-context builders do not drift.
+- status: done
+- completed_cycle: 2026-03-15-09
+- completion_evidence: `ily/27-purr-build-mode-entry-gates-and-slice-acceptance-matrix.md`
+- owner: gooner
+- pick order: 22
 
 ---
 
