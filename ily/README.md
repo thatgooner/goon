@@ -20,6 +20,7 @@ chatten tek tek sormadan bak diye acildi.
 - `13-purr-memory-ledger-schema-mutation-and-invariants-contract.md` — first build-slice schema contract for Supabase/Postgres: durable object families, atomic mutation flows, invariants, RLS/index posture, and acceptance tests
 - `14-purr-memory-intake-runtime-and-idempotency-contract.md` — runtime write-path contract: source-event append, one-event mutation planning, replay-safe/idempotent writes, live-override freshness, salvage ordering, and worker writeback rules
 - `15-purr-private-chat-move-planner-and-prediction-calibration-contract.md` — hidden `should_reply_how?` gate for 1:1 chat: move selection, prediction visibility tiers, hit/miss/null calibration, and planner feedback rules so Purr feels sharp without prompt sludge
+- `16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md` — session-epoch contract for what the model actually reads: immutable snapshot packs, tiny overlays, typed maintenance artifacts, exact-hit recall, atomic continuation handoff, and dual-gated prompt-material safety
 
 ## not
 aktif build lane arastirma-first modda.

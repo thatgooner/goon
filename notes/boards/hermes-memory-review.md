@@ -420,6 +420,30 @@ translation for Purr:
 related deeper note:
 - `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
 
+## new hard conclusion from the prompt-artifact + trust-boundary pass
+Hermes is not only a warning about flat truth shape, scope, and freshness.
+it is also a warning about **artifact hygiene**:
+what the model reads,
+what recall treats as evidence,
+and what maintenance jobs are allowed to masquerade as normal conversation.
+
+most important adds from the latest pass:
+- exact prompt snapshot reuse is one of Hermes' best ideas and should survive as Purr session-epoch artifacts
+- compression/working-state helpers can create synthetic conversation-shaped artifacts, which is operationally useful but dangerous if search/recall starts treating them like real chat
+- session search can lose the exact child hit by collapsing back to a root parent summary
+- load-time prompt material is a trust boundary too; write-time scanning alone is not enough
+- continuation only works cleanly if every append/resume/re-entry pointer agrees on the same active lineage leaf
+
+translation for Purr:
+- make `session_snapshot`, `turn_overlay`, `evidence_recall`, and `maintenance_artifact` separate typed planes
+- never let compaction/salvage summaries pretend to be user or Purr speech
+- preserve exact-hit evidence first, then optional lineage recap
+- dual-gate prompt-bound material on both write and promotion into packs
+- make continuation handoff atomic across pack lookup, transcript append, resume, and recall exclusion
+
+related deeper note:
+- `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:

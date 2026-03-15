@@ -255,6 +255,24 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 13
 
+### session-epoch-prompt-artifacts-and-trust-boundary-contract-note
+- mission: M1 + M3 + M4 (Hermes memory teardown + tool boundary/mobile reality + implementation plan)
+- why: latest Hermes teardown made one seam impossible to ignore — the repo still needed an explicit contract for what the model actually reads, what counts as maintenance-only state, and how compaction/re-entry handoff stays honest. without this, pack reuse can drift, synthetic maintenance artifacts can contaminate recall, and continuation pointers can split across stores.
+- sample_inputs:
+  - `ily/07-hermes-memory-code-grounded-hidden-logic.md`
+  - `ily/09-purr-retrieval-context-packer-and-pack-lifecycle.md`
+  - `ily/11-purr-session-scope-and-episode-lineage-contract.md`
+  - `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+  - `ily/15-purr-private-chat-move-planner-and-prediction-calibration-contract.md`
+  - `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
+  - `notes/boards/hermes-memory-review.md`
+- input_format: repo docs + latest Hermes artifact-hygiene findings
+- output_format: cycle-log note covering `artifact planes`, `reuse vs patch vs rebuild`, `typed maintenance artifacts`, `exact-hit recall`, `atomic continuation handoff`, `prompt-material trust gates`
+- testable_acceptance: must separate immutable session snapshot from turn overlay; must forbid fake user/Purr maintenance records; must require exact-hit evidence before lineage recap; must forbid compaction-without-preservation; and must define one canonical active leaf for append/resume/re-entry.
+- status: queued
+- owner: both
+- pick order: 14
+
 ---
 
 ## parked — build after research
