@@ -529,6 +529,26 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 26
 
+### owner-auth-and-origin-binding-contract-note
+- mission: M2 + M3 + M4 (Purr alignment + tool/mobile reality + implementation plan)
+- why: the internal memory spine was already locked, but the repo still had one implied seam at the front door: how World/mobile auth, notification re-entry, proactive wakeups, and Hermes shadow origins bind into the right `owner_id`, `purr_id`, and active continuity leaf without turning convenience ids into product identity. low-context builders could otherwise confuse `owner_surface`, `entry_surface`, and live routing metadata.
+- sample_inputs:
+  - `ily/11-purr-session-scope-and-episode-lineage-contract.md`
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
+  - `ily/26-hermes-shadow-dogfood-adapter-and-tap-boundary-contract.md`
+  - `ily/27-purr-build-mode-entry-gates-and-slice-acceptance-matrix.md`
+  - `ily/28-hermes-shadow-dogfood-scorecard-and-observability-contract.md`
+  - `notes/boards/purr-alignment-brief.md`
+- input_format: existing Purr scope/lineage contracts + Hermes shadow-origin findings + current build-gate rules
+- output_format: note covering `auth_principal -> owner/purr binding`, `origin_channel vs surface_family`, `server-owned binding rules`, `continuation/re-entry matrix`, `shadow-vs-mainline separation`, and `build-order impact`
+- testable_acceptance: must give a direct answer on whether this blocks slice 1; must freeze the meaning of `owner_surface`; must define `owner_auth_binding` and `origin_bridge`; must require server-owned active-leaf resolution; must state that app-open alone is not a conversation event; and must explicitly reject raw webview session ids or Hermes `session_key` as durable identity truth.
+- status: done
+- completed_cycle: 2026-03-15-15
+- completion_evidence: `ily/32-purr-owner-auth-and-origin-binding-contract.md`
+- owner: gooner
+- pick order: 27
+
 ---
 
 ## parked — build after research
