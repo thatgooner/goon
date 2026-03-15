@@ -23,6 +23,7 @@ chatten tek tek sormadan bak diye acildi.
 - `16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md` — session-epoch contract for what the model actually reads: immutable snapshot packs, tiny overlays, typed maintenance artifacts, exact-hit recall, atomic continuation handoff, and dual-gated prompt-material safety
 - `17-hermes-memory-failure-matrix-prompt-recall-and-sinks.md` — cross-lane Hermes teardown: where prompt artifacts, recall evidence, compression survival artifacts, and memory sinks stay aligned vs quietly diverge; locks the Purr rule that every prompt-bound lane must share one scope/trust/evidence contract
 - `18-purr-hidden-cognition-runtime-and-background-job-graph.md` — runtime map for invisible Purr cognition: turn-critical ops, salvage/handoff boundaries, deferred maintenance, proactive heartbeat jobs, and the hard rule that this all stays backend-only instead of turning into tool theater
+- `19-purr-pattern-rollups-proactive-preflight-and-cost-tier-contract.md` — the missing bridge from raw prediction memory to texting-first behavior: derived pattern/timing/posture artifacts, the private `should_text_first?` gate, tiny `proactive_pack` slots, conservative budgets/cooldowns, and cost-tier rules so proactive stays sharp without spam or prompt bloat
 
 ## not
 aktif build lane arastirma-first modda.

@@ -320,6 +320,26 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 16
 
+### pattern-rollups-proactive-preflight-and-cost-tier-contract-note
+- mission: M1 + M3 + M4 (Hermes memory teardown + tool boundary/mobile reality + implementation plan)
+- why: the repo already had predictive memory kinds, reply-time planning, pack budgets, and heartbeat lanes, but it still lacked the cheap/private read-model between raw prediction memory and actual texting-first behavior. without this note, builders can still either rescan too much ledger state per wakeup or let vague pattern vibes drive creepy/spammy pings.
+- sample_inputs:
+  - `ily/06-purr-prediction-and-background-memory-ops.md`
+  - `ily/09-purr-retrieval-context-packer-and-pack-lifecycle.md`
+  - `ily/10-catnet-autonomy-heartbeat-architecture.md`
+  - `ily/15-purr-private-chat-move-planner-and-prediction-calibration-contract.md`
+  - `ily/18-purr-hidden-cognition-runtime-and-background-job-graph.md`
+  - `notes/boards/hermes-memory-review.md`
+  - `notes/boards/purr-alignment-brief.md`
+- input_format: repo docs + latest Hermes timing/discipline lessons
+- output_format: note covering `derived proactive artifacts`, `pattern/timing/posture rollups`, `should_text_first? gate`, `proactive_pack slots`, `cooldowns/budgets`, and `cost-tier degradation`
+- testable_acceptance: must define at least 4 proactive-facing derived artifacts, force heartbeat to read derived state instead of raw ledger fanout, define hard vetoes + smallest valid move order for texting-first decisions, lock concrete `proactive_pack` slot caps, and explicitly cut proactive frequency/model arbitration before weakening memory integrity.
+- status: done
+- completed_cycle: 2026-03-15-06
+- completion_evidence: `ily/19-purr-pattern-rollups-proactive-preflight-and-cost-tier-contract.md`
+- owner: gooner
+- pick order: 17
+
 ---
 
 ## parked — build after research
