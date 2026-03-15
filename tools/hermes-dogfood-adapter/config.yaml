@@ -1,0 +1,21 @@
+# Replace these IDs and the Hermes SQLite path with your dogfood instance values.
+owner_id: "00000000-0000-0000-0000-000000000001"
+purr_id: "00000000-0000-0000-0000-0000000000a1"
+hermes_db_path: ../../vendor/hermes-agent/hermes.db
+checkpoint_path: state/checkpoint.json
+poll_interval: 30
+log_dir: logs/dogfood
+
+supabase:
+  required_env:
+    - SUPABASE_URL
+    - SUPABASE_SERVICE_ROLE_KEY
+
+writer:
+  timeout_seconds: 20
+  batch_size: 200
+
+mapper:
+  pack_version: phase0
+  default_source_provider: hermes
+  default_surface: other
