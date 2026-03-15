@@ -3,6 +3,9 @@
 burasi senin hizli bakis klasorun.
 chatten tek tek sormadan bak diye acildi.
 
+eger teknik notlar fazla derinse, once buna bak:
+- `../docs/pre-build/purr-memory-chat-system-explained.md`
+
 ## dosyalar
 - `00-project-brief.md` — purr ne, ne degil, su an ne arastiriyoruz
 - `01-hermes-memory-double-dig.md` — Hermes memory teardown + neden 6/10 kaldigi

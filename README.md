@@ -21,6 +21,9 @@ new lane is `purr`:
 3. `memory ledger` with states like candidate / confirmed / rejected / stale
 4. `human feedback loops` so the thing can ask `bunu mu kastettin?` when needed and re-check old memory later
 
+if you want the plain-English pre-build explainer first, read:
+- `docs/pre-build/purr-memory-chat-system-explained.md`
+
 ## repo layout
 
 ```text
