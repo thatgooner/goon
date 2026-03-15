@@ -549,6 +549,43 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 27
 
+### hermes-memory-runtime-quality-boosters-note
+- mission: M1 (Hermes memory teardown)
+- why: prior teardown notes locked truth-shape, scope, evidence, and boundary failures, but still under-explained why Hermes often *feels* sharper than its flat memory deserves. low-context builders could otherwise copy the wrong lesson — either `flat memory is enough` or `runtime choreography does not matter`.
+- sample_inputs:
+  - `vendor/hermes-agent/run_agent.py`
+  - `vendor/hermes-agent/hermes_state.py`
+  - `vendor/hermes-agent/agent/context_compressor.py`
+  - `vendor/hermes-agent/gateway/run.py`
+  - `vendor/hermes-agent/gateway/session.py`
+  - `ily/17-hermes-memory-failure-matrix-prompt-recall-and-sinks.md`
+  - `ily/18-purr-hidden-cognition-runtime-and-background-job-graph.md`
+- input_format: direct Hermes runtime code + existing teardown notes
+- output_format: note covering `next-turn recall prefetch`, `continuation repair`, `working-state survival across compression`, `prompt-vs-transcript plane separation`, `boundary-critical background hygiene`, and `resume-by-artifact behavior`
+- testable_acceptance: must explicitly explain why these tricks improve perceived memory without fixing Hermes' flat truth model; must separate what Purr should steal vs reject; and must state that this sharpens runtime quality requirements without changing slice order.
+- status: done
+- completed_cycle: 2026-03-15-16
+- completion_evidence: `ily/33-hermes-memory-runtime-quality-boosters-prefetch-repair-and-artifact-separation.md`
+- owner: gooner
+- pick order: 28
+
+### private-reply-move-outcome-writeback-and-goldens-note
+- mission: M1 + M4 (Hermes memory teardown + implementation plan / eval discipline)
+- why: `ily/15` locks the hidden private-chat move planner, but the actual durable writeback contract for reply-time prediction/move outcomes is still too implied. `ily/31` also freezes golden scenarios for ledger/runtime/feedback/proactive seams without yet covering private reply-planner outcome seams directly. this is the cleanest remaining research gap around `feels one step ahead` without prompt bloat.
+- sample_inputs:
+  - `ily/15-purr-private-chat-move-planner-and-prediction-calibration-contract.md`
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `ily/18-purr-hidden-cognition-runtime-and-background-job-graph.md`
+  - `ily/19-purr-pattern-rollups-proactive-preflight-and-cost-tier-contract.md`
+  - `ily/20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md`
+  - `ily/31-purr-memory-golden-scenarios-and-eval-fixture-contract.md`
+- input_format: existing planner/runtime/eval notes
+- output_format: note covering `reply-time outcome artifacts`, `signal vs move vs pack outcome split`, `horizon-closure ownership`, `writeback semantics for response_value/timing_value`, and `private reply-planner golden scenarios`
+- testable_acceptance: must explicitly freeze whether reply-time calibration lives in `memory_events`, typed maintenance artifacts, or a hybrid; must preserve separate `prediction_outcome`, `move_outcome`, and `pack_outcome` planes; must define at least 5 private reply-planner goldens; and must keep the whole seam backend-only rather than prompt-visible theater.
+- status: queued
+- owner: gooner
+- pick order: 29
+
 ---
 
 ## parked — build after research

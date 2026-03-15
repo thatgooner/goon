@@ -40,6 +40,7 @@ eger teknik notlar fazla derinse, once buna bak:
 - `30-purr-supabase-local-dev-operational-gate-clarification.md` — locks the boring-but-critical operational stance before build: local-first Supabase dev, repo-root as the future canonical scaffold/migration home, backend/service-role write posture, and the hard split between setup clarity vs actual board authorization
 - `31-purr-memory-golden-scenarios-and-eval-fixture-contract.md` — freezes the first serious memory eval contract before build: 10 seam-focused golden scenarios, minimal adversarial fixture bundles, and direct mapping from slice-1/4 behavior to the Hermes shadow-dogfood scorecard so nobody mistakes vague vibes for memory quality
 - `32-purr-owner-auth-and-origin-binding-contract.md` — locks the front-door identity/origin contract the earlier notes only implied: canonical auth principal -> owner/purr binding, `origin_channel` vs `surface_family`, server-owned continuity binding, notification/webview re-entry rules, and why this matters before real multi-surface ingress but does not block slice-1 ledger work
+- `33-hermes-memory-runtime-quality-boosters-prefetch-repair-and-artifact-separation.md` — explains why Hermes often feels sharper than its flat memory deserves: next-turn recall prefetch, continuation repair, working-state survival across compression, prompt-vs-transcript plane separation, background boundary hygiene, and exact resume-by-artifact behavior; freezes what Purr should steal vs reject from those runtime tricks
 
 ## not
 aktif build lane arastirma-first modda.

@@ -488,6 +488,31 @@ translation for Purr:
 related deeper note:
 - `ily/20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md`
 
+## new hard conclusion from the runtime-quality-booster pass
+Hermes is not only a lesson in prompt discipline, trust gaps, and truth-shape limits.
+it is also a lesson in **runtime choreography**:
+how recall arrives,
+how damaged replies get repaired,
+how working state survives compression,
+and how continuity is preserved at boundaries.
+
+most important adds from the latest pass:
+- Hermes often feels sharper because recall can be prefetched for the next turn instead of fetched only after the user is waiting
+- continuation repair hides truncation and intermediate-ack failures that would otherwise feel like lost context
+- compression preserves more than semantic recap; it also carries todo/working-state artifacts so long tasks keep momentum
+- prompt-visible overlays and durable transcript history are already semi-separated, even if the contract is still messy
+- background expiry/hygiene jobs do real continuity work before the next visible turn suffers
+- resume quality comes from restoring the same stored artifact set, not from flat memory becoming magically better
+
+translation for Purr:
+- steal next-turn prefetch, boundary-critical hygiene, working-state survival, and resume-by-artifact-pointer behavior
+- make overlay/maintenance artifacts typed instead of chat-shaped hacks
+- keep repair logic as runtime control events, not fake conversation truth
+- never let convenience routing keys or title lineage outrank canonical owner/purr continuity
+
+related deeper note:
+- `ily/33-hermes-memory-runtime-quality-boosters-prefetch-repair-and-artifact-separation.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:
