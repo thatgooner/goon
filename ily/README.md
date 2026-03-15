@@ -25,6 +25,7 @@ chatten tek tek sormadan bak diye acildi.
 - `18-purr-hidden-cognition-runtime-and-background-job-graph.md` — runtime map for invisible Purr cognition: turn-critical ops, salvage/handoff boundaries, deferred maintenance, proactive heartbeat jobs, and the hard rule that this all stays backend-only instead of turning into tool theater
 - `19-purr-pattern-rollups-proactive-preflight-and-cost-tier-contract.md` — the missing bridge from raw prediction memory to texting-first behavior: derived pattern/timing/posture artifacts, the private `should_text_first?` gate, tiny `proactive_pack` slots, conservative budgets/cooldowns, and cost-tier rules so proactive stays sharp without spam or prompt bloat
 - `20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md` — the missing trust-update layer for memory quality: feedback surfaces, passive vs explicit review outcomes, no-signal semantics, queue-vs-truth state split, and propagation rules so Purr verifies with taste instead of turning into a needy admin cat
+- `21-purr-research-consolidated-state-and-build-handoff.md` — consolidation pass: what is locked, where agents agree, overlap/gap check, source-of-truth map, first build slice handoff, and the 3 concrete next tasks before build starts
 
 ## not
 aktif build lane arastirma-first modda.
