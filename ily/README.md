@@ -38,6 +38,7 @@ eger teknik notlar fazla derinse, once buna bak:
 - `28-hermes-shadow-dogfood-scorecard-and-observability-contract.md` — evaluation contract for future Hermes shadow dogfood: what Hermes surfaces are truly scoreable vs lossy, why stored `sessions.system_prompt` is only a baseline compare surface, and the hard scorecard/kill signals for deciding whether shadow dogfood is proving anything or just producing plumbing noise
 - `29-purr-memory-intake-extractor-routing-and-evaluator-trigger-contract.md` — closes the open intake-routing seam: deterministic prefilters first, cheap structured extractor for bounded candidate generation, narrow evaluator only for approved ambiguity points, and a hard split between extractor proposals vs deterministic truth commits
 - `30-purr-supabase-local-dev-operational-gate-clarification.md` — locks the boring-but-critical operational stance before build: local-first Supabase dev, repo-root as the future canonical scaffold/migration home, backend/service-role write posture, and the hard split between setup clarity vs actual board authorization
+- `31-purr-memory-golden-scenarios-and-eval-fixture-contract.md` — freezes the first serious memory eval contract before build: 10 seam-focused golden scenarios, minimal adversarial fixture bundles, and direct mapping from slice-1/4 behavior to the Hermes shadow-dogfood scorecard so nobody mistakes vague vibes for memory quality
 
 ## not
 aktif build lane arastirma-first modda.

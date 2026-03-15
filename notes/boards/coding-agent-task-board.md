@@ -510,6 +510,25 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 25
 
+### memory-golden-scenarios-and-eval-fixture-contract-note
+- mission: M1 + M4 (Hermes memory teardown + implementation plan / pre-build validation)
+- why: the repo already had slice acceptance prose and a Hermes shadow-dogfood scorecard, but it still lacked one frozen set of seam-focused golden scenarios tying together ledger, runtime, packer, feedback, and proactive restraint. without this, future builders could ship migrations/tests that pass locally while still missing the exact Hermes-derived failures we care about.
+- sample_inputs:
+  - `ily/21-purr-research-consolidated-state-and-build-handoff.md`
+  - `ily/28-hermes-shadow-dogfood-scorecard-and-observability-contract.md`
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+  - `ily/20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md`
+  - `notes/boards/hermes-memory-review.md`
+- input_format: existing Purr contracts + Hermes failure findings + current dogfood score dimensions
+- output_format: note covering `canonical golden scenarios`, `minimum adversarial fixture bundles`, `slice mapping`, `scorecard mapping`, and `what this closes vs what remains build-time`
+- testable_acceptance: must define at least 8 seam-focused golden scenarios; must include correction freshness, owner isolation, contradiction suppression, salvage-before-close, exact evidence vs summary, and silence!=contradiction; must map scenarios to both early build slices and Hermes shadow-dogfood score dimensions; and must explicitly say this closes the eval contract, not the runnable fixture/harness work.
+- status: done
+- completed_cycle: 2026-03-15-14
+- completion_evidence: `ily/31-purr-memory-golden-scenarios-and-eval-fixture-contract.md`
+- owner: gooner
+- pick order: 26
+
 ---
 
 ## parked — build after research
