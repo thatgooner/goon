@@ -452,6 +452,26 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 22
 
+### hermes-shadow-dogfood-scorecard-and-observability-contract-note
+- mission: M1 + M4 pre-build validation / dogfood strategy
+- why: ily/23 approved shadow dogfood and ily/26 locked the tap boundary, but the repo still lacked the honest evaluation contract for what Hermes actually lets us measure, what is only a lossy baseline, and what counts as real validation instead of plumbing vibes.
+- sample_inputs:
+  - `vendor/hermes-agent/gateway/run.py`
+  - `vendor/hermes-agent/gateway/session.py`
+  - `vendor/hermes-agent/hermes_state.py`
+  - `vendor/hermes-agent/run_agent.py`
+  - `ily/23-hermes-dogfood-judge-layer-and-integration-verdict.md`
+  - `ily/26-hermes-shadow-dogfood-adapter-and-tap-boundary-contract.md`
+  - `ily/27-purr-build-mode-entry-gates-and-slice-acceptance-matrix.md`
+- input_format: direct Hermes code inspection + existing dogfood/runtime contracts
+- output_format: note covering `observable surfaces`, `lossy/blind surfaces`, `shadow-dogfood scorecard`, `pass/fail verdict logic`, and `kill signals`
+- testable_acceptance: must explicitly state that stored `sessions.system_prompt` is only a baseline compare surface rather than guaranteed full provider-facing prompt on gateway turns; must separate reliable observability bundle vs fake-confidence surfaces; must define concrete score dimensions for ingestion fidelity, correction freshness, pack quality, recall evidence quality, and review/proactive safety; and must say what outputs are allowed (`validated_plumbing`, `useful_plumbing_signal`, `insufficient_data`, `failed_boundary`).
+- status: done
+- completed_cycle: 2026-03-15-10
+- completion_evidence: `ily/28-hermes-shadow-dogfood-scorecard-and-observability-contract.md`
+- owner: gooner
+- pick order: 23
+
 ---
 
 ## parked — build after research

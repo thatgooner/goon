@@ -237,8 +237,16 @@ instead:
 
 ## 4. Hermes prompt material is useful for compare, dangerous for evidence
 
-Hermes stores the actual `system_prompt` used for the session.
-this is valuable for phase-1 pack compare.
+Hermes stores the cached base `system_prompt` snapshot for the session.
+this is still valuable for phase-1 pack compare.
+
+but the deeper code pass adds one important caveat:
+- gateway `context_prompt` and gateway `ephemeral_system_prompt` are injected at API-call time only
+- so Hermes' stored `system_prompt` is **not always the full effective provider-facing prompt** on a normal gateway turn
+
+translation:
+- stored prompt material is a **baseline compare surface**, not perfect full-prompt truth
+- exact provider-facing compare would need request dumps or a dedicated hook/log sink
 
 it is **not** valuable as user evidence.
 
@@ -249,7 +257,8 @@ why:
 
 ### consequence
 allowed:
-- compare Purr `session_pack` vs Hermes stored `system_prompt`
+- compare Purr `session_pack` vs Hermes stored cached `system_prompt` as a baseline
+- use stronger request-level capture later if exact full-prompt parity matters
 
 forbidden:
 - create `memory_evidence_refs` from Hermes prompt text

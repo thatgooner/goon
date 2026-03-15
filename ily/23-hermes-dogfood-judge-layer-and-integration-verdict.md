@@ -333,9 +333,10 @@ this boundary must be stated once and enforced always.
 
 ### how to compare old vs new
 
-- Hermes' actual prompt injection is already stored per session in `sessions.system_prompt`
+- Hermes' stored `sessions.system_prompt` is a useful baseline, but later code-grounding showed it is the cached base prompt snapshot, not always the full effective provider-facing prompt on gateway turns
 - Purr's generated pack is stored in `pack_artifacts`
-- diff is: extract memory section from Hermes' system prompt, compare to Purr's session_pack content
+- baseline diff is: extract the memory-relevant section from Hermes' stored prompt snapshot, compare to Purr's `session_pack` content
+- if exact full-prompt parity matters later, use request dumps or a dedicated hook/log sink instead of pretending `sessions.system_prompt` is complete
 - log: what Purr added that Hermes missed, what Hermes had that Purr suppressed, what both included
 
 ### how to inspect errors safely
