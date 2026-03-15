@@ -37,6 +37,7 @@ eger teknik notlar fazla derinse, once buna bak:
 - `27-purr-build-mode-entry-gates-and-slice-acceptance-matrix.md` — transition contract between research lock and future build mode: what is truly already locked, what still gates unpark, what each build slice must/must-not ship, and why dogfood stays a validation track rather than build authorization
 - `28-hermes-shadow-dogfood-scorecard-and-observability-contract.md` — evaluation contract for future Hermes shadow dogfood: what Hermes surfaces are truly scoreable vs lossy, why stored `sessions.system_prompt` is only a baseline compare surface, and the hard scorecard/kill signals for deciding whether shadow dogfood is proving anything or just producing plumbing noise
 - `29-purr-memory-intake-extractor-routing-and-evaluator-trigger-contract.md` — closes the open intake-routing seam: deterministic prefilters first, cheap structured extractor for bounded candidate generation, narrow evaluator only for approved ambiguity points, and a hard split between extractor proposals vs deterministic truth commits
+- `30-purr-supabase-local-dev-operational-gate-clarification.md` — locks the boring-but-critical operational stance before build: local-first Supabase dev, repo-root as the future canonical scaffold/migration home, backend/service-role write posture, and the hard split between setup clarity vs actual board authorization
 
 ## not
 aktif build lane arastirma-first modda.

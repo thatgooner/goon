@@ -491,13 +491,33 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 24
 
+### supabase-local-dev-operational-gate-clarification-note
+- mission: M4 (implementation plan, not implementation yet)
+- why: the repo had already identified Supabase setup as the only honest blocker before build, but the actual local-dev path lived inside parked dogfood docs, which made it too easy for low-context builders to confuse `setup exists` with `build is authorized` or to shrink slice 1 down to dogfood phase-0 scope.
+- sample_inputs:
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `ily/21-purr-research-consolidated-state-and-build-handoff.md`
+  - `ily/27-purr-build-mode-entry-gates-and-slice-acceptance-matrix.md`
+  - `ily/29-purr-memory-intake-extractor-routing-and-evaluator-trigger-contract.md`
+  - `tools/hermes-dogfood-adapter/README.md`
+  - `docs/plans/2026-03-15-hermes-purr-memory-dogfood-implementation-plan.md`
+- input_format: build-gate docs + existing Supabase setup references already present in repo
+- output_format: note covering `local-first Supabase stance`, `repo-root vs tool-local canonical home`, `default migration runner posture`, `env/write-security stance`, `dogfood-vs-mainline scope boundary`, and `authorization rule`
+- testable_acceptance: must explicitly prefer local Supabase CLI before hosted deployment; must keep build authorization board-gated; must state that dogfood phase-0 schema is not the full `memory-ledger` slice; must preserve backend/service-role write posture; and must name repo root as the future canonical home for mainline Supabase scaffold/migrations.
+- status: done
+- completed_cycle: 2026-03-15-13
+- completion_evidence: `ily/30-purr-supabase-local-dev-operational-gate-clarification.md`
+- owner: gooner
+- pick order: 25
+
 ---
 
 ## parked — build after research
 
 ### memory-ledger
 - mission: later M1 build
-- why parked: first build slice after research lock; consume `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md` and `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md` before touching schema/API work
+- why parked: first build slice after research lock; consume `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`, `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`, and `ily/30-purr-supabase-local-dev-operational-gate-clarification.md` before touching schema/API work
+- clarification: do **not** treat `tools/hermes-dogfood-adapter/` setup/migrations as build authorization or as the full slice-1 scope.
 - status: parked
 
 ### memory-candidate-extractor
