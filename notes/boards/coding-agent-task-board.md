@@ -384,6 +384,25 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: code-worker
 - pick order: 19
 
+### referee-layer-vs-narrow-evaluator-followup
+- mission: M4 pre-build validation / dogfood strategy follow-up
+- why: ily/23 correctly rejected subagents inside the memory loop and preferred a narrow typed evaluator. but there is still one higher-level question worth pressure-testing before implementation planning: whether a slower referee/audit layer above the deterministic system could add value for quality-control on churny or suspicious memory clusters without contaminating the truth spine.
+- sample_inputs:
+  - `ily/23-hermes-dogfood-judge-layer-and-integration-verdict.md`
+  - `ily/24-referee-layer-vs-narrow-evaluator-followup.md`
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+  - `ily/18-purr-hidden-cognition-runtime-and-background-job-graph.md`
+  - `ily/20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md`
+  - `vendor/hermes-agent/run_agent.py`
+  - `vendor/hermes-agent/hermes_state.py`
+- input_format: prior judge-layer verdict + explicit follow-up question about a slower higher-level referee layer sitting above, not inside, the deterministic memory pipeline
+- output_format: cycle-log note covering `is referee layer useful`, `offline auditor vs escalation path vs repair worker`, `what it must never do`, `what should trigger it`, `runtime form`, `does it help Hermes dogfood`, and `build-order impact`
+- testable_acceptance: must give a direct yes/no/partial; must explicitly preserve deterministic ownership of source-event append / evidence refs / mutation contracts / hard budgets; must compare no-referee vs offline auditor vs escalation path vs repair worker; must say whether a true subagent is useful or overkill here; must clearly state whether this should exist before dogfood, during dogfood, or only much later.
+- status: queued
+- owner: code-worker
+- pick order: 20
+
 ---
 
 ## parked — build after research

@@ -30,6 +30,8 @@ eger teknik notlar fazla derinse, once buna bak:
 - `20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md` — the missing trust-update layer for memory quality: feedback surfaces, passive vs explicit review outcomes, no-signal semantics, queue-vs-truth state split, and propagation rules so Purr verifies with taste instead of turning into a needy admin cat
 - `21-purr-research-consolidated-state-and-build-handoff.md` — consolidation pass: what is locked, where agents agree, overlap/gap check, source-of-truth map, first build slice handoff, and the 3 concrete next tasks before build starts
 - `22-hermes-dogfood-memory-backend-evaluation.md` — handoff question for code-worker: should ambiguous memory updates use a judge layer, and should the Purr memory backbone be dogfooded inside Hermes first before direct Purr build
+- `23-hermes-dogfood-judge-layer-and-integration-verdict.md` — code-worker verdict: deterministic backbone stays hard deterministic, ambiguous decisions use a narrow typed evaluator (not subagent), and Hermes-first dogfood is partial yes for backend validation only
+- `24-referee-layer-vs-narrow-evaluator-followup.md` — follow-up pressure test for code-worker: does a slower higher-level referee/audit layer above the memory system add value, or does it just create sludge beyond the narrow evaluator verdict?
 
 ## not
 aktif build lane arastirma-first modda.
