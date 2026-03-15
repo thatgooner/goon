@@ -36,6 +36,7 @@ eger teknik notlar fazla derinse, once buna bak:
 - `26-hermes-shadow-dogfood-adapter-and-tap-boundary-contract.md` — code-grounded contract for Hermes-first shadow dogfood: safest tap points, what Hermes preserves vs loses, why the adapter must stay hook-triggered + read-only, and why Purr needs its own historical session-origin bridge instead of trusting Hermes session keys/files
 - `27-purr-build-mode-entry-gates-and-slice-acceptance-matrix.md` — transition contract between research lock and future build mode: what is truly already locked, what still gates unpark, what each build slice must/must-not ship, and why dogfood stays a validation track rather than build authorization
 - `28-hermes-shadow-dogfood-scorecard-and-observability-contract.md` — evaluation contract for future Hermes shadow dogfood: what Hermes surfaces are truly scoreable vs lossy, why stored `sessions.system_prompt` is only a baseline compare surface, and the hard scorecard/kill signals for deciding whether shadow dogfood is proving anything or just producing plumbing noise
+- `29-purr-memory-intake-extractor-routing-and-evaluator-trigger-contract.md` — closes the open intake-routing seam: deterministic prefilters first, cheap structured extractor for bounded candidate generation, narrow evaluator only for approved ambiguity points, and a hard split between extractor proposals vs deterministic truth commits
 
 ## not
 aktif build lane arastirma-first modda.

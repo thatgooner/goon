@@ -472,6 +472,25 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 23
 
+### memory-intake-extractor-routing-and-evaluator-trigger-contract-note
+- mission: M1 + M4 (Hermes memory teardown + implementation plan)
+- why: the repo had already locked runtime ordering, typed claim shapes, and the narrow evaluator verdict, but the actual `memory-candidate-extractor` lane still had one open seam: whether intake should stay rules-only, use a cheap structured model, or blur into a second reasoning brain. low-context builders needed one explicit routing contract before slice 2 eventually opens.
+- sample_inputs:
+  - `ily/12-purr-memory-claim-shapes-evidence-and-selection-contract.md`
+  - `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+  - `ily/23-hermes-dogfood-judge-layer-and-integration-verdict.md`
+  - `ily/25-memory-health-auditor-verdict.md`
+  - `ily/27-purr-build-mode-entry-gates-and-slice-acceptance-matrix.md`
+  - `ily/28-hermes-shadow-dogfood-scorecard-and-observability-contract.md`
+- input_format: existing Purr runtime/evaluator contracts + latest build-gate discipline
+- output_format: note covering `deterministic prefilters`, `inline vs deferred extractor`, `extractor vs evaluator ownership`, `routing matrix`, `cost-tier degradation order`, and `slice-2 acceptance posture`
+- testable_acceptance: must give a direct answer on `rule-only vs cheap-model vs hybrid`; must keep truth commits deterministic; must reserve evaluator usage for the already-approved narrow ambiguity points; must explicitly forbid turning the main reply model into the normal intake truth engine; and must keep the auditor out of the hot loop.
+- status: done
+- completed_cycle: 2026-03-15-11
+- completion_evidence: `ily/29-purr-memory-intake-extractor-routing-and-evaluator-trigger-contract.md`
+- owner: gooner
+- pick order: 24
+
 ---
 
 ## parked — build after research
@@ -483,7 +502,7 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 
 ### memory-candidate-extractor
 - mission: later M1/M3 build
-- why parked: depends on the note-12 candidate/evidence contract, the note-13 ledger mutation boundaries, and the note-14 runtime/idempotency ordering
+- why parked: depends on the note-12 candidate/evidence contract, the note-13 ledger mutation boundaries, the note-14 runtime/idempotency ordering, and the note-29 intake-routing contract that freezes `rules vs cheap structured extractor vs narrow evaluator` boundaries before slice 2 opens
 - status: parked
 
 ### memory-context-packer
