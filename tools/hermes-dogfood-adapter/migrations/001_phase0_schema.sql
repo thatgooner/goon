@@ -405,4 +405,359 @@ deferrable initially deferred
 for each row
 execute function public.ensure_memory_item_has_evidence();
 
+create or replace function public.sync_memory_bundle_phase0(
+  memory_item jsonb,
+  memory_events jsonb default '[]'::jsonb,
+  evidence_refs jsonb default '[]'::jsonb
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  resolved_memory_id uuid;
+  rows_affected integer := 0;
+  inserted_memory_item boolean := false;
+  inserted_memory_events integer := 0;
+  inserted_evidence_refs integer := 0;
+  violated_constraint text;
+  event_row jsonb;
+  evidence_row jsonb;
+begin
+  if jsonb_typeof(memory_item) <> 'object' then
+    raise exception 'memory_item must be a JSON object'
+      using errcode = '22023';
+  end if;
+
+  if jsonb_typeof(memory_events) <> 'array' then
+    raise exception 'memory_events must be a JSON array'
+      using errcode = '22023';
+  end if;
+
+  if jsonb_typeof(evidence_refs) <> 'array' then
+    raise exception 'evidence_refs must be a JSON array'
+      using errcode = '22023';
+  end if;
+
+  if jsonb_array_length(evidence_refs) = 0 then
+    raise exception 'memory bundles require at least one evidence ref'
+      using errcode = '23514';
+  end if;
+
+  if coalesce((memory_item->>'is_exclusive')::boolean, true) is not true then
+    raise exception 'phase 0 writer only supports exclusive memory_items'
+      using errcode = '22023';
+  end if;
+
+  if coalesce(memory_item->>'state', 'candidate') not in ('candidate', 'confirmed') then
+    raise exception 'phase 0 writer only supports candidate/confirmed memory_items'
+      using errcode = '22023';
+  end if;
+
+  if coalesce(memory_item->>'memory_lane', 'private_1_1') <> 'private_1_1' then
+    raise exception 'phase 0 writer only supports memory_lane=''private_1_1'''
+      using errcode = '22023';
+  end if;
+
+  select mi.memory_id into resolved_memory_id
+  from public.memory_items mi
+  where mi.owner_id = (memory_item->>'owner_id')::uuid
+    and mi.purr_id = (memory_item->>'purr_id')::uuid
+    and mi.memory_lane::text = coalesce(memory_item->>'memory_lane', 'private_1_1')
+    and mi.dedupe_key = memory_item->>'dedupe_key'
+    and mi.durability_scope::text = memory_item->>'durability_scope'
+    and mi.is_exclusive = true
+    and mi.state in ('candidate', 'confirmed')
+    and (
+      (mi.scope_ref is null and nullif(memory_item->>'scope_ref', '') is null)
+      or mi.scope_ref = nullif(memory_item->>'scope_ref', '')::uuid
+    )
+  limit 1;
+
+  if resolved_memory_id is null then
+    begin
+      insert into public.memory_items (
+        memory_id,
+        owner_id,
+        purr_id,
+        memory_lane,
+        kind,
+        state,
+        review_status,
+        contradiction_status,
+        pack_policy,
+        durability_scope,
+        is_exclusive,
+        subject_key,
+        dedupe_key,
+        scope_ref,
+        episode_id,
+        origin_window_id,
+        owner_surface,
+        confidence,
+        salience,
+        volatility,
+        freshness_score,
+        last_confirmed_at,
+        last_hit_at,
+        last_miss_at,
+        needs_review_at,
+        cooldown_until,
+        attempt_count,
+        expires_at,
+        supersedes_memory_id,
+        payload_json,
+        created_at
+      )
+      values (
+        coalesce(nullif(memory_item->>'memory_id', '')::uuid, gen_random_uuid()),
+        (memory_item->>'owner_id')::uuid,
+        (memory_item->>'purr_id')::uuid,
+        coalesce(memory_item->>'memory_lane', 'private_1_1')::memory_lane_enum,
+        memory_item->>'kind',
+        coalesce(memory_item->>'state', 'candidate')::memory_state_enum,
+        coalesce(memory_item->>'review_status', 'none')::review_status_enum,
+        coalesce(memory_item->>'contradiction_status', 'clean')::contradiction_status_enum,
+        coalesce(memory_item->>'pack_policy', 'shadow')::pack_policy_enum,
+        (memory_item->>'durability_scope')::durability_scope_enum,
+        coalesce((memory_item->>'is_exclusive')::boolean, true),
+        memory_item->>'subject_key',
+        memory_item->>'dedupe_key',
+        nullif(memory_item->>'scope_ref', '')::uuid,
+        nullif(memory_item->>'episode_id', '')::uuid,
+        nullif(memory_item->>'origin_window_id', '')::uuid,
+        coalesce(memory_item->>'owner_surface', 'world_chat')::entry_surface_enum,
+        coalesce((memory_item->>'confidence')::numeric, 0.5000),
+        coalesce((memory_item->>'salience')::numeric, 0.5000),
+        coalesce((memory_item->>'volatility')::numeric, 0.5000),
+        coalesce((memory_item->>'freshness_score')::numeric, 0.5000),
+        nullif(memory_item->>'last_confirmed_at', '')::timestamptz,
+        nullif(memory_item->>'last_hit_at', '')::timestamptz,
+        nullif(memory_item->>'last_miss_at', '')::timestamptz,
+        nullif(memory_item->>'needs_review_at', '')::timestamptz,
+        nullif(memory_item->>'cooldown_until', '')::timestamptz,
+        coalesce((memory_item->>'attempt_count')::integer, 0),
+        nullif(memory_item->>'expires_at', '')::timestamptz,
+        nullif(memory_item->>'supersedes_memory_id', '')::uuid,
+        coalesce(memory_item->'payload_json', '{}'::jsonb),
+        coalesce(nullif(memory_item->>'created_at', '')::timestamptz, now())
+      )
+      returning memory_id into resolved_memory_id;
+
+      inserted_memory_item := true;
+    exception when unique_violation then
+      select mi.memory_id into resolved_memory_id
+      from public.memory_items mi
+      where mi.owner_id = (memory_item->>'owner_id')::uuid
+        and mi.purr_id = (memory_item->>'purr_id')::uuid
+        and mi.memory_lane::text = coalesce(memory_item->>'memory_lane', 'private_1_1')
+        and mi.dedupe_key = memory_item->>'dedupe_key'
+        and mi.durability_scope::text = memory_item->>'durability_scope'
+        and mi.is_exclusive = true
+        and mi.state in ('candidate', 'confirmed')
+        and (
+          (mi.scope_ref is null and nullif(memory_item->>'scope_ref', '') is null)
+          or mi.scope_ref = nullif(memory_item->>'scope_ref', '')::uuid
+        )
+      limit 1;
+
+      if resolved_memory_id is null then
+        raise;
+      end if;
+    end;
+  end if;
+
+  for event_row in select value from jsonb_array_elements(memory_events)
+  loop
+    if coalesce(trim(event_row->>'intake_batch_key'), '') = '' then
+      raise exception 'memory_event intake_batch_key is required for retry-safe writes'
+        using errcode = '22023';
+    end if;
+
+    begin
+      insert into public.memory_events (
+        memory_event_id,
+        memory_id,
+        owner_id,
+        purr_id,
+        event_type,
+        event_reason,
+        actor_type,
+        from_state,
+        to_state,
+        intake_batch_key,
+        delta_json,
+        created_at
+      )
+      values (
+        coalesce(nullif(event_row->>'memory_event_id', '')::uuid, gen_random_uuid()),
+        resolved_memory_id,
+        coalesce(nullif(event_row->>'owner_id', '')::uuid, (memory_item->>'owner_id')::uuid),
+        coalesce(nullif(event_row->>'purr_id', '')::uuid, (memory_item->>'purr_id')::uuid),
+        (event_row->>'event_type')::memory_event_type_enum,
+        nullif(event_row->>'event_reason', ''),
+        event_row->>'actor_type',
+        nullif(event_row->>'from_state', '')::memory_state_enum,
+        nullif(event_row->>'to_state', '')::memory_state_enum,
+        event_row->>'intake_batch_key',
+        coalesce(event_row->'delta_json', '{}'::jsonb),
+        coalesce(nullif(event_row->>'created_at', '')::timestamptz, now())
+      );
+
+      get diagnostics rows_affected = row_count;
+    exception when unique_violation then
+      get stacked diagnostics violated_constraint = CONSTRAINT_NAME;
+      if violated_constraint is distinct from 'memory_events_intake_batch_dedupe_idx' then
+        raise;
+      end if;
+      rows_affected := 0;
+    end;
+
+    inserted_memory_events := inserted_memory_events + rows_affected;
+  end loop;
+
+  for evidence_row in select value from jsonb_array_elements(evidence_refs)
+  loop
+    insert into public.memory_evidence_refs (
+      evidence_id,
+      memory_id,
+      owner_id,
+      purr_id,
+      episode_id,
+      window_id,
+      message_id,
+      span_start,
+      span_end,
+      source_type,
+      excerpt_text,
+      excerpt_hash,
+      evidence_weight,
+      explicitness,
+      speaker_role,
+      derived_from_evidence_id,
+      captured_at
+    )
+    values (
+      coalesce(nullif(evidence_row->>'evidence_id', '')::uuid, gen_random_uuid()),
+      resolved_memory_id,
+      coalesce(nullif(evidence_row->>'owner_id', '')::uuid, (memory_item->>'owner_id')::uuid),
+      coalesce(nullif(evidence_row->>'purr_id', '')::uuid, (memory_item->>'purr_id')::uuid),
+      (evidence_row->>'episode_id')::uuid,
+      (evidence_row->>'window_id')::uuid,
+      (evidence_row->>'message_id')::uuid,
+      (evidence_row->>'span_start')::integer,
+      (evidence_row->>'span_end')::integer,
+      coalesce(nullif(evidence_row->>'source_type', ''), 'chat')::evidence_source_type_enum,
+      evidence_row->>'excerpt_text',
+      evidence_row->>'excerpt_hash',
+      coalesce((evidence_row->>'evidence_weight')::numeric, 1.0000),
+      coalesce(nullif(evidence_row->>'explicitness', ''), 'explicit'),
+      (evidence_row->>'speaker_role')::message_role_enum,
+      nullif(evidence_row->>'derived_from_evidence_id', '')::uuid,
+      coalesce(nullif(evidence_row->>'captured_at', '')::timestamptz, now())
+    )
+    on conflict (memory_id, message_id, span_start, span_end) do nothing;
+
+    get diagnostics rows_affected = row_count;
+    inserted_evidence_refs := inserted_evidence_refs + rows_affected;
+  end loop;
+
+  return jsonb_build_object(
+    'memory_id', resolved_memory_id,
+    'inserted_memory_item', inserted_memory_item,
+    'inserted_memory_events', inserted_memory_events,
+    'inserted_evidence_refs', inserted_evidence_refs
+  );
+end;
+$$;
+
+create or replace function public.sync_memory_events_phase0(
+  memory_events jsonb
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  inserted_memory_events integer := 0;
+  rows_affected integer := 0;
+  violated_constraint text;
+  event_row jsonb;
+begin
+  if jsonb_typeof(memory_events) <> 'array' then
+    raise exception 'memory_events must be a JSON array'
+      using errcode = '22023';
+  end if;
+
+  for event_row in select value from jsonb_array_elements(memory_events)
+  loop
+    if coalesce(trim(event_row->>'intake_batch_key'), '') = '' then
+      raise exception 'memory_event intake_batch_key is required for retry-safe writes'
+        using errcode = '22023';
+    end if;
+
+    begin
+      insert into public.memory_events (
+        memory_event_id,
+        memory_id,
+        owner_id,
+        purr_id,
+        event_type,
+        event_reason,
+        actor_type,
+        from_state,
+        to_state,
+        intake_batch_key,
+        delta_json,
+        created_at
+      )
+      values (
+        coalesce(nullif(event_row->>'memory_event_id', '')::uuid, gen_random_uuid()),
+        (event_row->>'memory_id')::uuid,
+        (event_row->>'owner_id')::uuid,
+        (event_row->>'purr_id')::uuid,
+        (event_row->>'event_type')::memory_event_type_enum,
+        nullif(event_row->>'event_reason', ''),
+        event_row->>'actor_type',
+        nullif(event_row->>'from_state', '')::memory_state_enum,
+        nullif(event_row->>'to_state', '')::memory_state_enum,
+        event_row->>'intake_batch_key',
+        coalesce(event_row->'delta_json', '{}'::jsonb),
+        coalesce(nullif(event_row->>'created_at', '')::timestamptz, now())
+      );
+
+      get diagnostics rows_affected = row_count;
+    exception when unique_violation then
+      get stacked diagnostics violated_constraint = CONSTRAINT_NAME;
+      if violated_constraint is distinct from 'memory_events_intake_batch_dedupe_idx' then
+        raise;
+      end if;
+      rows_affected := 0;
+    end;
+
+    inserted_memory_events := inserted_memory_events + rows_affected;
+  end loop;
+
+  return jsonb_build_object(
+    'inserted_memory_events', inserted_memory_events
+  );
+end;
+$$;
+
+revoke all on function public.sync_memory_bundle_phase0(jsonb, jsonb, jsonb) from public;
+revoke all on function public.sync_memory_events_phase0(jsonb) from public;
+grant execute on function public.sync_memory_bundle_phase0(jsonb, jsonb, jsonb) to postgres;
+grant execute on function public.sync_memory_events_phase0(jsonb) to postgres;
+
+do $$
+begin
+  if exists (select 1 from pg_roles where rolname = 'service_role') then
+    execute 'grant execute on function public.sync_memory_bundle_phase0(jsonb, jsonb, jsonb) to service_role';
+    execute 'grant execute on function public.sync_memory_events_phase0(jsonb) to service_role';
+  end if;
+end;
+$$;
+
 commit;
