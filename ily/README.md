@@ -32,6 +32,8 @@ eger teknik notlar fazla derinse, once buna bak:
 - `22-hermes-dogfood-memory-backend-evaluation.md` — handoff question for code-worker: should ambiguous memory updates use a judge layer, and should the Purr memory backbone be dogfooded inside Hermes first before direct Purr build
 - `23-hermes-dogfood-judge-layer-and-integration-verdict.md` — code-worker verdict: deterministic backbone stays hard deterministic, ambiguous decisions use a narrow typed evaluator (not subagent), and Hermes-first dogfood is partial yes for backend validation only
 - `24-referee-layer-vs-narrow-evaluator-followup.md` — follow-up pressure test for code-worker: does a slower higher-level referee/audit layer above the memory system add value, or does it just create sludge beyond the narrow evaluator verdict?
+- `25-memory-health-auditor-verdict.md` — answer to the referee-layer question: not a new "referee layer," but a later deferred-lane worker H (`memory-health-auditor`) that watches temporal failure patterns and feeds bounded recommendations into existing workers
+- `26-hermes-shadow-dogfood-adapter-and-tap-boundary-contract.md` — code-grounded contract for Hermes-first shadow dogfood: safest tap points, what Hermes preserves vs loses, why the adapter must stay hook-triggered + read-only, and why Purr needs its own historical session-origin bridge instead of trusting Hermes session keys/files
 
 ## not
 aktif build lane arastirma-first modda.

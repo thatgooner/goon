@@ -406,6 +406,30 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: code-worker
 - pick order: 20
 
+### hermes-shadow-dogfood-adapter-and-tap-boundary-contract-note
+- mission: M1 + M4 pre-build validation / dogfood strategy
+- why: ily/23 approved Hermes-first dogfood as a shadow-only backend validation path, but the repo still lacked the code-grounded contract for where to tap Hermes safely, what data Hermes actually preserves, and how to avoid entangling the adapter with Hermes behavior or muddy routing/provenance during resets and compression.
+- sample_inputs:
+  - `vendor/hermes-agent/gateway/hooks.py`
+  - `vendor/hermes-agent/gateway/session.py`
+  - `vendor/hermes-agent/gateway/run.py`
+  - `vendor/hermes-agent/hermes_state.py`
+  - `vendor/hermes-agent/gateway/platforms/base.py`
+  - `vendor/hermes-agent/gateway/platforms/telegram.py`
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+  - `ily/16-purr-session-epoch-prompt-artifacts-and-trust-boundary-contract.md`
+  - `ily/23-hermes-dogfood-judge-layer-and-integration-verdict.md`
+  - `ily/25-memory-health-auditor-verdict.md`
+- input_format: direct Hermes code inspection + existing Purr dogfood/runtime contracts
+- output_format: note covering `best tap points`, `what Hermes preserves vs loses`, `phase 0-2 adapter responsibilities`, `bridge/invariants`, `failure modes`, and `kill signals`
+- testable_acceptance: must explicitly prefer hook-triggered read-only snapshots from `state.db` over an embedded adapter; must call out that SQLite lacks durable chat/thread/provider-message ids; must reject naive row-tail ingestion because resets/compression can rewrite or fork transcript continuity; and must require a separate Purr-owned historical session-origin bridge instead of trusting Hermes `session_key` or current `sessions.json` as durable identity.
+- status: done
+- completed_cycle: 2026-03-15-08
+- completion_evidence: `ily/26-hermes-shadow-dogfood-adapter-and-tap-boundary-contract.md`
+- owner: gooner
+- pick order: 21
+
 ---
 
 ## parked — build after research
@@ -423,6 +447,11 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 ### memory-context-packer
 - mission: later M2 build
 - why parked: depends on agreed retrieval budget + ranking logic and the note-13 pack-candidate read-model boundary
+- status: parked
+
+### hermes-shadow-dogfood-adapter-phase-0-2
+- mission: later M4 pre-build validation / dogfood
+- why parked: depends on `memory-ledger`, `memory-candidate-extractor`, and `memory-context-packer`; consume `ily/23-hermes-dogfood-judge-layer-and-integration-verdict.md` plus `ily/26-hermes-shadow-dogfood-adapter-and-tap-boundary-contract.md`; must stay a hook-triggered, read-only external observer that mirrors Hermes turns into the Purr ledger and runs pack compare without changing Hermes behavior.
 - status: parked
 
 ### feedback-orchestrator
