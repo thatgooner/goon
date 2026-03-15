@@ -532,6 +532,31 @@ translation for Purr:
 related deeper note:
 - `ily/35-purr-reply-repair-boundary-and-outcome-hygiene.md`
 
+## new hard conclusion from the transcript-normalization pass
+Hermes is not only a lesson in runtime choreography and repair hygiene.
+it is also a warning about **publication truth drift**:
+what the user actually sees,
+what the runtime retries,
+what the transcript stores,
+and what restore/resume later reloads can quietly diverge.
+
+most important adds from the latest pass:
+- one logical Hermes reply can persist as multiple assistant attempts plus synthetic continuation/control prompts
+- returned final reply text can diverge from the persisted transcript because truncation/fallback paths assemble a visible answer without one matching canonical assistant row
+- prior assistant content can get rewritten into synthetic tool filler like `Calling the tool...`
+- SQLite restore keeps a thinner normalized conversation than JSON/raw session logs, so cold resume fidelity depends on which store got read
+- rewrite/undo/compress paths can permanently normalize history down to the thinner store and erase richer runtime provenance
+
+translation for Purr:
+- split `reply_execution_attempt`, `delivery_artifact`, and canonical `assistant_message_event` into different durable planes
+- one `plan_id` may span many attempts, but it finalizes into at most one canonical assistant transcript event
+- transport wrappers, stream chunks, synthetic continuation prompts, and tool scaffolding must never become relationship evidence
+- restore must read canonical transcript truth plus pending attempt state plus snapshot pointers, not guess from whichever raw log kept the most sludge
+- finalization has to be idempotent so retry/resume never duplicate assistant truth
+
+related deeper note:
+- `ily/36-purr-reply-execution-attempts-and-transcript-normalization-contract.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:
@@ -543,5 +568,6 @@ it is:
 - move the real store to structured per-user data
 - generate compact memory packs on demand
 - make correction and verification first-class
+- keep reply execution traces, delivery traces, and transcript truth in separate planes
 
 that is the lane.

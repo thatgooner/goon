@@ -621,9 +621,28 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: latest Purr runtime/eval notes + Hermes reply persistence/restore code
 - output_format: note covering `reply_execution_attempt vs assistant_message_event`, `stream/delivery artifacts vs transcript truth`, `idempotent finalization`, `tool/result retry boundaries`, and `transcript-normalization goldens`
 - testable_acceptance: must explicitly define the durable difference between execution attempts and final transcript events; must forbid stream chunks and synthetic continuation prompts from counting as evidence; must define how one `plan_id` finalizes into at most one canonical assistant message under retry/resume; and must give at least 4 goldens covering duplicate finalization, streaming interruption, tool-call retry, and restore/resume normalization.
-- status: queued
+- status: done
+- completed_cycle: 2026-03-15-20b
+- completion_evidence: `ily/36-purr-reply-execution-attempts-and-transcript-normalization-contract.md`
 - owner: gooner
 - pick order: 31
+
+### assistant-message-publication-and-surface-binding-contract-note
+- mission: M3 + M4 (tool boundary/mobile reality + implementation plan / transcript honesty)
+- why: `ily/36` cleanly splits attempt, delivery, and transcript truth, but the repo still does not have the exact contract for how a canonical `assistant_message_event` binds to surface message ids, edits/replacements, media wrappers, notifications, and cross-surface delivery provenance without letting transport ids become memory identity or recall truth.
+- sample_inputs:
+  - `ily/32-purr-owner-auth-and-origin-binding-contract.md`
+  - `ily/35-purr-reply-repair-boundary-and-outcome-hygiene.md`
+  - `ily/36-purr-reply-execution-attempts-and-transcript-normalization-contract.md`
+  - `notes/boards/purr-alignment-brief.md`
+  - `vendor/hermes-agent/gateway/run.py`
+  - `vendor/hermes-agent/gateway/session.py`
+- input_format: latest Purr transcript/runtime contracts + Hermes delivery/session restore behavior
+- output_format: note covering `publication object`, `surface message binding`, `edit/replace vs resend policy`, `media/voice wrapper handling`, `notification/reentry linkage`, and `cross-surface goldens`
+- testable_acceptance: must explicitly define the durable difference between canonical assistant publication and surface-specific delivery rows; must forbid platform message ids from acting as owner/session identity; must define how edit/retry/replace flows update delivery provenance without creating new transcript truth; and must give at least 4 goldens covering edit-after-send, duplicate send suppression, notification reentry binding, and media-wrapper normalization.
+- status: queued
+- owner: gooner
+- pick order: 32
 
 ---
 
