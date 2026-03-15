@@ -216,18 +216,36 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 11
 
+### memory-intake-runtime-and-idempotency-contract-note
+- mission: M1 + M4 (Hermes memory teardown + implementation plan)
+- why: note-13 locks the ledger shape, but builders still need the runtime write-path contract for how one raw event turns into replay-safe truth without ghost overrides, duplicate candidates, or lost salvage during compression/re-entry.
+- sample_inputs:
+  - `ily/06-purr-prediction-and-background-memory-ops.md`
+  - `ily/08-purr-memory-lifecycle-and-feedback-state-machine.md`
+  - `ily/12-purr-memory-claim-shapes-evidence-and-selection-contract.md`
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `notes/boards/hermes-memory-review.md`
+- input_format: repo docs + latest Hermes runtime/freshness lessons
+- output_format: note covering `source-event append`, `one-event mutation planning`, `inline vs deferred jobs`, `idempotency keys`, `live-override freshness`, `salvage ordering`, `worker writeback`
+- testable_acceptance: must require source-event append before extraction, define replay-safe keys for source/evidence/mutation/override flows, separate turn-critical from deferred/boundary jobs, and force worker/background cognition through the same provenance-backed mutation path.
+- status: done
+- completed_cycle: 2026-03-15-01
+- completion_evidence: `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+- owner: gooner
+- pick order: 12
+
 ---
 
 ## parked — build after research
 
 ### memory-ledger
 - mission: later M1 build
-- why parked: first build slice after research lock; consume `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md` before touching schema/API work
+- why parked: first build slice after research lock; consume `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md` and `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md` before touching schema/API work
 - status: parked
 
 ### memory-candidate-extractor
 - mission: later M1/M3 build
-- why parked: depends on the note-12 candidate/evidence contract and the note-13 ledger mutation boundaries
+- why parked: depends on the note-12 candidate/evidence contract, the note-13 ledger mutation boundaries, and the note-14 runtime/idempotency ordering
 - status: parked
 
 ### memory-context-packer
@@ -237,7 +255,7 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 
 ### feedback-orchestrator
 - mission: later M3 build
-- why parked: depends on agreed clarification policy
+- why parked: depends on agreed clarification policy and the note-14 turn-critical/deferred runtime contract
 - status: parked
 
 ### memory-review-queue

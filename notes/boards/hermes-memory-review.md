@@ -401,6 +401,25 @@ translation for Purr:
 related deeper note:
 - `ily/12-purr-memory-claim-shapes-evidence-and-selection-contract.md`
 
+## new hard conclusion from the runtime-boundary pass
+Hermes is not only a warning about flat truth shape.
+it is also a warning about **freshness and writeback boundaries**.
+
+most important adds from the latest pass:
+- saved memory and model-visible memory diverge because the active prompt/session artifact stays frozen for stability
+- pre-loss flush/salvage is necessary, but best-effort flush paths are still a real failure surface
+- replaying only visible user/assistant text can miss hidden/tool-side learnings
+- transcript/session recall is useful, but it is not a real worker writeback contract
+
+translation for Purr:
+- the next reply may use committed ledger truth plus a tiny committed live override, not uncommitted inference
+- salvage before compression/re-entry/idle close has to be first-class and retry-safe
+- hidden/internal evidence can exist, but only with exact provenance and lane policy
+- background/worker cognition must write back through the same mutation/evidence contract as normal intake
+
+related deeper note:
+- `ily/14-purr-memory-intake-runtime-and-idempotency-contract.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:
