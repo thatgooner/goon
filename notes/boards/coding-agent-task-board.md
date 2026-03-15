@@ -640,9 +640,28 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - input_format: latest Purr transcript/runtime contracts + Hermes delivery/session restore behavior
 - output_format: note covering `publication object`, `surface message binding`, `edit/replace vs resend policy`, `media/voice wrapper handling`, `notification/reentry linkage`, and `cross-surface goldens`
 - testable_acceptance: must explicitly define the durable difference between canonical assistant publication and surface-specific delivery rows; must forbid platform message ids from acting as owner/session identity; must define how edit/retry/replace flows update delivery provenance without creating new transcript truth; and must give at least 4 goldens covering edit-after-send, duplicate send suppression, notification reentry binding, and media-wrapper normalization.
-- status: queued
+- status: done
+- completed_cycle: 2026-03-15-21
+- completion_evidence: `ily/37-purr-assistant-message-publication-and-surface-binding-contract.md`
 - owner: gooner
 - pick order: 32
+
+### inbound-message-ingress-receipts-and-thread-binding-contract-note
+- mission: M3 + M4 (tool boundary/mobile reality + implementation plan / transcript honesty)
+- why: `ily/37` now locks outbound publication and surface delivery, but the repo still lacks the exact contract for how inbound user messages, reply-to references, edits, duplicate ingress, and read/open receipts attach to canonical `user_message_event`s without letting client/runtime ids or receipt noise contaminate memory truth.
+- sample_inputs:
+  - `ily/32-purr-owner-auth-and-origin-binding-contract.md`
+  - `ily/36-purr-reply-execution-attempts-and-transcript-normalization-contract.md`
+  - `ily/37-purr-assistant-message-publication-and-surface-binding-contract.md`
+  - `vendor/hermes-agent/gateway/session.py`
+  - `vendor/hermes-agent/gateway/platforms/base.py`
+  - `vendor/hermes-agent/gateway/platforms/telegram.py`
+- input_format: latest Purr origin/publication contracts + Hermes ingress/platform adapter behavior
+- output_format: note covering `user_message_event vs ingress artifact`, `reply-to/publication linkage`, `message-edit policy`, `receipt/open semantics`, `duplicate ingress suppression`, and `cross-surface goldens`
+- testable_acceptance: must explicitly separate canonical user speech from ingress/runtime artifacts; must forbid app-open/read/open receipts from counting as user speech or memory evidence by themselves; must define reply-to linkage through canonical publication/event ids rather than raw platform ids alone; and must give at least 4 goldens covering reply-to binding, edited-user-message handling, duplicate ingress suppression, and receipt-without-speech behavior.
+- status: queued
+- owner: gooner
+- pick order: 33
 
 ---
 

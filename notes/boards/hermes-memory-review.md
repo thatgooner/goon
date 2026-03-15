@@ -557,6 +557,32 @@ translation for Purr:
 related deeper note:
 - `ily/36-purr-reply-execution-attempts-and-transcript-normalization-contract.md`
 
+## new hard conclusion from the publication / surface-binding pass
+Hermes is not only a lesson in transcript normalization.
+it is also a warning about **surface identity drift**:
+what the transcript stores,
+what the user actually receives,
+what platform ids point at,
+and what resume/re-entry later targets
+can all diverge if delivery provenance has no durable binding layer.
+
+most important adds from the latest pass:
+- Hermes keeps useful delivery/runtime behavior (`edit_message`, media sends, voice sends, progress sends), but it does not preserve one durable `publication -> surface delivery` contract
+- platform `message_id`s are useful handles for delivery/edit/reply, but they are not safe owner/session/memory identity
+- multi-send bundles (text + media + voice + push-like updates) can all represent one logical answer without a stored parent publication object
+- retries, edit fallback, and re-entry can create extra sends or lose thread/message linkage without changing transcript truth
+- gateway/session convenience ids are stronger in Hermes runtime than a product-grade server-owned surface binding model
+
+translation for Purr:
+- keep canonical transcript truth separate from `assistant_publication`, `surface_binding`, and `surface_delivery`
+- make surface routing server-owned and auth-bound; never let raw transport ids or client runtime ids become continuity truth
+- let edit/replace/resend churn stay inside delivery provenance under one publication lineage
+- normalize media/voice/push wrappers into render bundles before send, not into transcript truth or memory evidence
+- treat notification open and mobile/webview re-entry as routing events, not assistant or user speech
+
+related deeper note:
+- `ily/37-purr-assistant-message-publication-and-surface-binding-contract.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:
