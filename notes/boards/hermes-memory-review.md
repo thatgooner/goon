@@ -469,6 +469,25 @@ translation for Purr:
 related deeper note:
 - `ily/17-hermes-memory-failure-matrix-prompt-recall-and-sinks.md`
 
+## new hard conclusion from the feedback-orchestrator pass
+Hermes is not only a warning about flat truth shape, freshness, scope drift, and cross-lane trust gaps.
+it is also a warning about **missing revalidation semantics**.
+
+most important adds from the latest pass:
+- Hermes memory is mostly write-oriented; it has no serious first-class loop for `still true`, `drifted`, `user ignored this`, or `quietly reconfirmed by behavior`
+- silence has no durable semantics because there is no typed feedback-orchestration layer separating `no_signal` from contradiction
+- there is no product-grade split between truth state, queue execution state, and review outcome artifacts
+- passive reconfirmation and trust decay are not first-class mutation paths, so old truths either stay flat text or get replaced by ad hoc edits
+
+translation for Purr:
+- verification must be an explicit hidden orchestration layer, not just a due date
+- silence should usually mean `no_signal`, not `false`
+- passive reconfirmation needs typed writeback just like explicit correction does
+- review outcomes must propagate into pack policy and proactive eligibility, not only the memory row itself
+
+related deeper note:
+- `ily/20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md`
+
 ## direct conclusion
 
 Hermes already teaches the main lesson:

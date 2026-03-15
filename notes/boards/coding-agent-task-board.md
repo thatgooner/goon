@@ -340,6 +340,25 @@ when code-worker picks a task: set status to `in_progress`, add `picked_cycle: Y
 - owner: gooner
 - pick order: 17
 
+### feedback-orchestrator-review-outcomes-and-trust-decay-contract-note
+- mission: M1 + M3 + M4 (Hermes memory teardown + tool boundary/mobile reality + implementation plan)
+- why: the repo now has lifecycle, queue fields, runtime lanes, and proactive review pings, but the missing product-grade seam was still how memory verification actually gets selected, interpreted, and written back. without this note, builders can still turn review into needy admin sludge or let stale truth rot because silence/contradiction/passive reconfirmation are not separated cleanly.
+- sample_inputs:
+  - `ily/08-purr-memory-lifecycle-and-feedback-state-machine.md`
+  - `ily/13-purr-memory-ledger-schema-mutation-and-invariants-contract.md`
+  - `ily/18-purr-hidden-cognition-runtime-and-background-job-graph.md`
+  - `ily/19-purr-pattern-rollups-proactive-preflight-and-cost-tier-contract.md`
+  - `notes/boards/hermes-memory-review.md`
+  - `notes/boards/purr-alignment-brief.md`
+- input_format: repo docs + latest Hermes review/decay gap findings
+- output_format: note covering `feedback surfaces`, `review queue vs truth-state split`, `explicit/passive outcome taxonomy`, `no_signal semantics`, `trust-decay propagation`, and `proactive review gating`
+- testable_acceptance: must define at least 5 feedback surfaces, explicitly separate `confirmed_explicit` / `confirmed_passive` / `contradicted_explicit` / `contradicted_passive` / `no_signal` / `not_now`, state that silence is usually `no_signal` rather than contradiction, split `memory_item.review_status` from queue-item execution status, and explain how review outcomes propagate into pack policy plus proactive artifacts.
+- status: done
+- completed_cycle: 2026-03-15-07
+- completion_evidence: `ily/20-purr-feedback-orchestrator-review-outcomes-and-trust-decay-contract.md`
+- owner: gooner
+- pick order: 18
+
 ---
 
 ## parked — build after research
